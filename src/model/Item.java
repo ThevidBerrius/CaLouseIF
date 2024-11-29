@@ -1,15 +1,19 @@
 package model;
 
 public class Item {
-	private String itemId, itemName, itemSize, itemPrice, itemCategory;
+	private String itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWhislist, itemOfferStatus;
 
-	public Item(String itemId, String itemName, String itemSize, String itemPrice, String itemCategory) {
+	public Item(String itemId, String itemName, String itemSize, String itemPrice, String itemCategory,
+			String itemStatus, String itemWhislist, String itemOfferStatus) {
 		super();
 		this.itemId = itemId;
 		this.itemName = itemName;
 		this.itemSize = itemSize;
 		this.itemPrice = itemPrice;
 		this.itemCategory = itemCategory;
+		this.itemStatus = itemStatus;
+		this.itemWhislist = itemWhislist;
+		this.itemOfferStatus = itemOfferStatus;
 	}
 
 	public String getItemId() {
@@ -51,6 +55,29 @@ public class Item {
 	public void setItemCategory(String itemCategory) {
 		this.itemCategory = itemCategory;
 	}
-	
+
+	public String getItemStatus() {
+		return itemStatus;
+	}
+
+	public void setItemStatus(String itemStatus) {
+		this.itemStatus = itemStatus;
+	}
+
+	public String getItemWhislist() {
+		return itemWhislist;
+	}
+
+	public void setItemWhislist(String itemWhislist) {
+		this.itemWhislist = itemWhislist;
+	}
+
+	public String getItemOfferStatus() {
+		return itemOfferStatus;
+	}
+
+	public void setItemOfferStatus(String itemOfferStatus) {
+		this.itemOfferStatus = itemOfferStatus;
+	}
 	
 }
