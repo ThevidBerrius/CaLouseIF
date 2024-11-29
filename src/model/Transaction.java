@@ -33,5 +33,5 @@ public class Transaction {
 	public void setItemId(String itemId) {
 		this.itemId = itemId;
 	}
-	
+
 }
