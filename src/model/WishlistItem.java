@@ -88,5 +88,4 @@ public class WishlistItem {
 	public void setItemOfferStatus(String itemOfferStatus) {
 		this.itemOfferStatus = itemOfferStatus;
 	}
-	
 }
