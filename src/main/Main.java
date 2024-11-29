@@ -1,20 +1,18 @@
 package main;
 
 import javafx.application.Application;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application{
-
+	private static SceneManager sceneManager;
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		launch(args);
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-		
+		primaryStage.setTitle("CaLouseIF");
+		primaryStage.show();
 	}
 
 }
