@@ -1,5 +1,7 @@
 package model;
 
 public class Item {
-	private String name;
+	private String itemId, itemName, itemSize, itemPrice, itemCategory;
+	
+	
 }
