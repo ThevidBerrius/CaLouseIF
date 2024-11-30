@@ -52,5 +52,5 @@ public class TransactionHistory {
 	public void setItemPrice(String itemPrice) {
 		this.itemPrice = itemPrice;
 	}
-	
+
 }

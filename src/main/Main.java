@@ -12,6 +12,8 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		sceneManager = new SceneManager(primaryStage);
+		
 		primaryStage.setTitle("CaLouseIF");
 		primaryStage.show();
 	}

@@ -79,5 +79,5 @@ public class Item {
 	public void setItemOfferStatus(String itemOfferStatus) {
 		this.itemOfferStatus = itemOfferStatus;
 	}
-	
+
 }

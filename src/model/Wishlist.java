@@ -33,5 +33,5 @@ public class Wishlist {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	
+
 }
