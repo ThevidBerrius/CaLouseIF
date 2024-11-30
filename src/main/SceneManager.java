@@ -19,6 +19,7 @@ public class SceneManager {
 		switch (pageName) {
 		case "register":
 			RegisterPage register = new RegisterPage(primaryStage);
+			break;
 		}
 	}
 

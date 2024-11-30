@@ -59,11 +59,40 @@ public class RegisterPage extends Page{
 		registerNav = new MenuItem("Register");
 		navbar.getMenus().add(menu);
 		menu.getItems().addAll(loginNav, registerNav);
+		
+		titleLbl = new Label("Register");
+		usernameLbl = new Label("Username");
+		passwordLbl = new Label("Password");
+		phoneNumberLbl = new Label("Phone Number");
+		addressLbl = new Label("Address");
+		roleLbl = new Label("Role");
+		
+		usernameField = new TextField();
+		passwordField = new PasswordField();
+		phoneNumberField = new TextField();
+		addressField = new TextField();
+		
+		role = new ToggleGroup();
+		sellerRadio = new RadioButton("Seller");
+		sellerRadio.setToggleGroup(role);
+		
+		buyerRadio = new RadioButton("Buyer");
+		buyerRadio.setToggleGroup(role);
+		
+		registerBtn = new Button("Register");
+		
 	}
 
 	@Override
 	public void setAlignment() {
-		// TODO Auto-generated method stub
+		navBP.setTop(navbar);
+		layoutBP.setTop(navBP);
+		
+		layoutBP.setCenter(sp);
+		sp.setContent(gp);
+		
+		gp.add(usernameLbl, 0, 0);
+		
 		
 	}
 
@@ -81,7 +110,6 @@ public class RegisterPage extends Page{
 
 	@Override
 	public Scene createScene() {
-		// TODO Auto-generated method stub
-		return null;
+		return new Scene(layoutBP);
 	}
 }

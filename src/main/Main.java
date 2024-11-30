@@ -13,6 +13,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		sceneManager = new SceneManager(primaryStage);
+		sceneManager.switchPage("register");
 		
 		primaryStage.setTitle("CaLouseIF");
 		primaryStage.show();
