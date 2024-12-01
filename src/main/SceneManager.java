@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import view.guest.LoginPage;
 import view.guest.RegisterPage;
+import view.seller.EditItemPage;
 import view.seller.SellerHomePage;
 import view.seller.UploadItemPage;
 
@@ -29,7 +30,7 @@ public class SceneManager {
             	setScene(login.createScene());
             	break;
             case "seller":
-            	UploadItemPage seller = new UploadItemPage(primaryStage);
+            	EditItemPage seller = new EditItemPage(primaryStage);
             	setScene(seller.createScene());
             	break;
             default:
