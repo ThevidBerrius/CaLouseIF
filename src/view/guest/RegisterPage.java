@@ -1,6 +1,7 @@
 package view.guest;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.HPos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,7 +23,7 @@ import model.Page;
 public class RegisterPage extends Page{
 	private SceneManager sceneManager;
 	
-	private BorderPane layoutBP, navBP;
+	private BorderPane layoutBP, navBP, registerBP;
 	private GridPane gp;
 	private ScrollPane sp;
 	
@@ -49,12 +50,13 @@ public class RegisterPage extends Page{
 	public void initPage() {
 		layoutBP = new BorderPane();
 		navBP = new BorderPane();
+		registerBP = new BorderPane();
 		
 		gp =  new GridPane();
 		sp = new ScrollPane();
 		
 		navbar = new MenuBar();
-		menu = new Menu("Tes");
+		menu = new Menu("Menu");
 		loginNav = new MenuItem("Login");
 		registerNav = new MenuItem("Register");
 		navbar.getMenus().add(menu);
@@ -86,12 +88,31 @@ public class RegisterPage extends Page{
 	@Override
 	public void setAlignment() {
 		navBP.setTop(navbar);
-		layoutBP.setTop(navBP);
+		navBP.setCenter(registerBP);
 		
+		registerBP.setCenter(titleLbl);
+		
+		layoutBP.setTop(navBP);
 		layoutBP.setCenter(sp);
+		
 		sp.setContent(gp);
 		
 		gp.add(usernameLbl, 0, 0);
+		gp.add(usernameField, 1, 0);
+		gp.add(passwordLbl, 0, 1);
+		gp.add(passwordField, 1, 1);
+		gp.add(phoneNumberLbl, 0, 2);
+		gp.add(phoneNumberField, 1, 2);
+		gp.add(addressLbl, 0, 3);
+		gp.add(addressField, 1, 3);
+		gp.add(roleLbl, 0, 4);
+		gp.add(buyerRadio, 1, 4);
+		gp.add(sellerRadio, 1, 5);
+		
+		gp.add(registerBtn, 0, 7, 2, 1);
+		GridPane.setHalignment(registerBtn, HPos.CENTER);
+		
+		buyerRadio.setSelected(true);
 		
 		
 	}
