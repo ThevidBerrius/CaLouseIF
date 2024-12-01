@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import view.guest.LoginPage;
 import view.guest.RegisterPage;
+import view.seller.SellerHomePage;
 
 public class SceneManager {
     private Stage primaryStage;
@@ -25,6 +26,10 @@ public class SceneManager {
             case "login":
             	LoginPage login = new LoginPage(primaryStage);
             	setScene(login.createScene());
+            	break;
+            case "seller":
+            	SellerHomePage seller = new SellerHomePage(primaryStage);
+            	setScene(seller.createScene());
             	break;
             default:
                 throw new IllegalArgumentException("Page not found: " + pageName);

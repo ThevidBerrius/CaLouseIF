@@ -13,7 +13,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		sceneManager = new SceneManager(primaryStage);
-		sceneManager.switchPage("login");
+		sceneManager.switchPage("seller");
 		
 		primaryStage.setTitle("CaLouseIF");
 		primaryStage.show();
