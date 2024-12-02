@@ -2,6 +2,7 @@ package main;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import view.admin.AdminHomePage;
 import view.guest.LoginPage;
 import view.guest.RegisterPage;
 import view.seller.EditItemPage;
@@ -29,8 +30,8 @@ public class SceneManager {
             	LoginPage login = new LoginPage(primaryStage);
             	setScene(login.createScene());
             	break;
-            case "seller":
-            	EditItemPage seller = new EditItemPage(primaryStage);
+            case "admin":
+            	AdminHomePage seller = new AdminHomePage(primaryStage);
             	setScene(seller.createScene());
             	break;
             default:
