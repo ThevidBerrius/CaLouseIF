@@ -36,6 +36,7 @@ public class SellerHomePage extends Page{
 	public SellerHomePage(Stage primaryStage) {
 		sceneManager = new SceneManager(primaryStage);
 		initPage();
+		initializeTable();
 		setAlignment();
 		setHandler();
 	}
@@ -62,7 +63,6 @@ public class SellerHomePage extends Page{
 		
 		itemTable = new TableView<Item>();
 		
-		initializeTable();
 	}
 	
 	public void initializeTable() {

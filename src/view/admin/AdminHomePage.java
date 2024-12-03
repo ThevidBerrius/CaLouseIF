@@ -36,6 +36,7 @@ public class AdminHomePage extends Page {
 	public AdminHomePage(Stage primaryStage) {
 		sceneManager = new SceneManager(primaryStage);
 		initPage();
+		initializeTable();
 		setAlignment();
 		setHandler();
 	}
@@ -61,7 +62,6 @@ public class AdminHomePage extends Page {
 		
 		itemTable = new TableView<Item>();
 		
-		initializeTable();
 	}
 	
 	public void initializeTable() {
