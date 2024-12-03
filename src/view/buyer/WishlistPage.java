@@ -15,14 +15,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import main.SceneManager;
-import model.Item;
 import model.Page;
+import model.WishlistItem;
 
-public class BuyerHomePage extends Page {
+public class WishlistPage extends Page {
     private SceneManager sceneManager;
 
-    private BorderPane layoutBP, navBP, buyerBP;
-
+    private BorderPane layoutBP, navBP, wishlistBP;
     private GridPane gp;
     private ScrollPane sp;
 
@@ -30,13 +29,12 @@ public class BuyerHomePage extends Page {
     private Menu menu;
     private MenuItem homeNav, wishlistNav, historyNav;
 
+    private TableView<WishlistItem> wishlistTable;
+
     private Label titleLbl;
+    private Button removeBtn;
 
-    private Button offerBtn, wishlistBtn, buyBtn;
-
-    private TableView<Item> itemTable;
-
-    public BuyerHomePage(Stage primaryStage) {
+    public WishlistPage(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
         initPage();
         initializeTable();
@@ -48,7 +46,7 @@ public class BuyerHomePage extends Page {
     public void initPage() {
         layoutBP = new BorderPane();
         navBP = new BorderPane();
-        buyerBP = new BorderPane();
+        wishlistBP = new BorderPane();
 
         gp = new GridPane();
         sp = new ScrollPane();
@@ -61,47 +59,41 @@ public class BuyerHomePage extends Page {
         navbar.getMenus().add(menu);
         menu.getItems().addAll(homeNav, wishlistNav, historyNav);
 
-        titleLbl = new Label("Home");
+        titleLbl = new Label("Wishlist");
+        removeBtn = new Button("Remove Item");
 
-        offerBtn = new Button("Offer Item");
-        wishlistBtn = new Button("Add Wishlist");
-        buyBtn = new Button("Buy");
-
-        itemTable = new TableView<Item>();
+        wishlistTable = new TableView<WishlistItem>();
     }
 
     public void initializeTable() {
-        TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
-        nameCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemName"));
+        TableColumn<WishlistItem, String> nameCol = new TableColumn<WishlistItem, String>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<WishlistItem, String>("itemName"));
 
-        TableColumn<Item, String> categoryCol = new TableColumn<Item, String>("Category");
-        categoryCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemCategory"));
+        TableColumn<WishlistItem, String> categoryCol = new TableColumn<WishlistItem, String>("Category");
+        categoryCol.setCellValueFactory(new PropertyValueFactory<WishlistItem, String>("itemCategory"));
 
-        TableColumn<Item, String> sizeCol = new TableColumn<Item, String>("Size");
-        sizeCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemSize"));
+        TableColumn<WishlistItem, String> sizeCol = new TableColumn<WishlistItem, String>("Size");
+        sizeCol.setCellValueFactory(new PropertyValueFactory<WishlistItem, String>("itemSize"));
 
-        TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
-        priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
+        TableColumn<WishlistItem, String> priceCol = new TableColumn<WishlistItem, String>("Price");
+        priceCol.setCellValueFactory(new PropertyValueFactory<WishlistItem, String>("itemPrice"));
 
-        itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
+        wishlistTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
     }
 
     @Override
     public void setAlignment() {
         navBP.setTop(navbar);
-        navBP.setCenter(buyerBP);
+        navBP.setCenter(wishlistBP);
 
-        buyerBP.setTop(titleLbl);
+        wishlistBP.setTop(titleLbl);
 
         layoutBP.setTop(navBP);
-        layoutBP.setCenter(itemTable);
+        layoutBP.setCenter(wishlistTable);
 
         GridPane buttonPane = new GridPane();
         buttonPane.setHgap(10); 
-        buttonPane.setVgap(10);
-        buttonPane.add(offerBtn, 0, 0);
-        buttonPane.add(wishlistBtn, 1, 0);
-        buttonPane.add(buyBtn, 2, 0);
+        buttonPane.add(removeBtn, 0, 0); 
 
         layoutBP.setBottom(buttonPane);
 
@@ -110,17 +102,17 @@ public class BuyerHomePage extends Page {
 
     @Override
     public void setHandler() {
-        // TODO Auto-generated method stub
+        // TODO: Add handler for remove button and other actions
     }
 
     @Override
     public void handlePage(ActionEvent e) {
-        // TODO Auto-generated method stub
+        // TODO: Handle page events
     }
 
     @Override
     public Scene createScene() {
-        // Create and return the Scene with the layout
+        // Create and return the Scene
         return new Scene(layoutBP); 
     }
 }
