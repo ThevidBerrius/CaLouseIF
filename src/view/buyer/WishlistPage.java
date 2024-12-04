@@ -86,7 +86,7 @@ public class WishlistPage extends Page {
         navBP.setTop(navbar);
         navBP.setCenter(wishlistBP);
 
-        wishlistBP.setTop(titleLbl);
+        wishlistBP.setCenter(titleLbl);
 
         layoutBP.setTop(navBP);
         layoutBP.setCenter(wishlistTable);

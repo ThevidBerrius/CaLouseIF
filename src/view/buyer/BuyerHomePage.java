@@ -91,7 +91,7 @@ public class BuyerHomePage extends Page {
         navBP.setTop(navbar);
         navBP.setCenter(buyerBP);
 
-        buyerBP.setTop(titleLbl);
+        buyerBP.setCenter(titleLbl);
 
         layoutBP.setTop(navBP);
         layoutBP.setCenter(itemTable);
