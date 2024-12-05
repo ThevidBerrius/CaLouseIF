@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Item;
 import view.admin.AdminHomePage;
+import view.admin.RequestedPage;
 import view.buyer.BuyerHomePage;
 import view.buyer.HistoryPage;
 import view.buyer.WishlistPage;
@@ -36,7 +37,7 @@ public class SceneManager {
             	setScene(login.createScene());
             	break;
             case "admin":
-            	ItemPage seller = new ItemPage(primaryStage);
+            	RequestedPage seller = new RequestedPage(primaryStage);
             	setScene(seller.createScene());
             	break;
             default:
