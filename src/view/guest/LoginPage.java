@@ -92,8 +92,8 @@ public class LoginPage extends Page {
 
 	@Override
 	public void setHandler() {
-		// TODO Auto-generated method stub
-
+		loginNav.setOnAction(e -> sceneManager.switchPage("login"));
+		registerNav.setOnAction(e -> sceneManager.switchPage("register"));
 	}
 
 	@Override

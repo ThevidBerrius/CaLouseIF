@@ -36,9 +36,13 @@ public class SceneManager {
             	LoginPage login = new LoginPage(primaryStage);
             	setScene(login.createScene());
             	break;
-            case "admin":
-            	RequestedPage seller = new RequestedPage(primaryStage);
-            	setScene(seller.createScene());
+            case "adminhome":
+            	AdminHomePage adminHome = new AdminHomePage(primaryStage);
+            	setScene(adminHome.createScene());
+            	break;
+            case "adminrequested":
+            	RequestedPage requestPage = new RequestedPage(primaryStage);
+            	setScene(requestPage.createScene());
             	break;
             default:
                 throw new IllegalArgumentException("Page not found: " + pageName);
