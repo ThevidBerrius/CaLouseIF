@@ -10,46 +10,55 @@ public class Connect {
 	public final String CONNECTION = String.format("jdbc:mysql://%s/%s", HOST, DATABASE);
 
 	public Connection con;
-	public Statement st;
+	public PreparedStatement ps;
 	private static Connect connect;
 
 	private ResultSet rs;
 	private ResultSetMetaData rsm;
 
-	public static Connect getiInstance() {
+	public static Connect getInstance() {
 		if (connect == null)
-			return new Connect();
-		else
-			return connect;
+			connect = new Connect();
+		return connect;
 	}
 
 	private Connect() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection(CONNECTION, USERNAME, PASSWORD);
-			st = con.createStatement();
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
-
 	}
 
-	private ResultSet execQuery(String query) {
+	public ResultSet execQuery(String query, Object[] params) {
 		try {
-			rs = st.executeQuery(query);
-			rsm = rs.getMetaData();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return rs;
+            PreparedStatement ps = con.prepareStatement(query);
+
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
+            }
+
+            rs = ps.executeQuery();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
 	}
 
-	public void execUpdate(String query) {
-		try {
-			st.execute(query);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	public boolean execUpdate(String query, Object[] params) {
+        try {
+            PreparedStatement ps = con.prepareStatement(query);
+
+            for (int i = 0; i < params.length; i++) {
+                ps.setObject(i + 1, params[i]);
+            }
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return false;
+    }
 }

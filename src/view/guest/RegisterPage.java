@@ -1,5 +1,6 @@
 package view.guest;
 
+import controller.AuthController;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Rectangle2D;
@@ -34,7 +35,7 @@ public class RegisterPage extends Page{
 	private Label usernameLbl, passwordLbl, phoneNumberLbl, addressLbl, roleLbl, titleLbl;
 	private TextField usernameField, phoneNumberField, addressField;
 	private PasswordField passwordField;
-	private ToggleGroup role;
+	private ToggleGroup roleToggle;
 	private RadioButton sellerRadio, buyerRadio;
 	private Button registerBtn;
 	
@@ -74,12 +75,12 @@ public class RegisterPage extends Page{
 		phoneNumberField = new TextField();
 		addressField = new TextField();
 		
-		role = new ToggleGroup();
+		roleToggle = new ToggleGroup();
 		sellerRadio = new RadioButton("Seller");
-		sellerRadio.setToggleGroup(role);
+		sellerRadio.setToggleGroup(roleToggle);
 		
 		buyerRadio = new RadioButton("Buyer");
-		buyerRadio.setToggleGroup(role);
+		buyerRadio.setToggleGroup(roleToggle);
 		
 		registerBtn = new Button("Register");
 		
@@ -112,15 +113,14 @@ public class RegisterPage extends Page{
 		gp.add(registerBtn, 0, 7, 2, 1);
 		GridPane.setHalignment(registerBtn, HPos.CENTER);
 		
-		buyerRadio.setSelected(true);
-		
-		
+//		buyerRadio.setSelected(true);
 	}
 
 	@Override
 	public void setHandler() {
 		loginNav.setOnAction(e -> sceneManager.switchPage("login"));
 		registerNav.setOnAction(e -> sceneManager.switchPage("register"));
+		registerBtn.setOnAction(e -> register());
 	}
 
 	@Override
@@ -132,5 +132,18 @@ public class RegisterPage extends Page{
 	@Override
 	public Scene createScene() {
 		return new Scene(layoutBP);
+	}
+	
+	private void register() {
+		String username = usernameField.getText();
+		String password = passwordField.getText();
+		String phone_number = phoneNumberField.getText();
+		String address = addressField.getText();
+		String role = ((RadioButton) roleToggle.getSelectedToggle()).getText();
+		AuthController authController = new AuthController();
+		
+		if(authController.register(username, password, phone_number, address, role)) {
+			System.out.println("Berhasil Input database");
+		} 
 	}
 }

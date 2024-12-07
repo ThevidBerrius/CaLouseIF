@@ -1,5 +1,6 @@
 package view.guest;
 
+import controller.AuthController;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
@@ -65,7 +66,6 @@ public class LoginPage extends Page {
 		passwordField = new PasswordField();
 		
 		loginBtn = new Button("Login");
-
 	}
 
 	@Override
@@ -94,6 +94,7 @@ public class LoginPage extends Page {
 	public void setHandler() {
 		loginNav.setOnAction(e -> sceneManager.switchPage("login"));
 		registerNav.setOnAction(e -> sceneManager.switchPage("register"));
+		loginBtn.setOnAction(e -> login());
 	}
 
 	@Override
@@ -107,4 +108,15 @@ public class LoginPage extends Page {
 		return new Scene(layoutBP);
 	}
 
+	private void login() {
+		String username = usernameField.getText();
+		String password = passwordField.getText();
+		AuthController authController = new AuthController();
+		
+		if(authController.login(username, password)) {
+			System.out.println("Direct Home Page");
+		} else {
+			System.out.println("Gagal");
+		}
+	}
 }
