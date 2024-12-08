@@ -30,7 +30,7 @@ public class LoginPage extends Page {
 	private Menu menu;
 	private MenuItem loginNav, registerNav;
 	
-	private Label usernameLbl, passwordLbl, titleLbl;
+	private Label usernameLbl, passwordLbl, titleLbl, errorLbl;
 	private TextField usernameField;
 	private PasswordField passwordField;
 	private Button loginBtn;
@@ -61,6 +61,7 @@ public class LoginPage extends Page {
 		titleLbl = new Label("Login");
 		usernameLbl = new Label("Username");
 		passwordLbl = new Label("Password");
+		errorLbl = new Label("");
 		
 		usernameField = new TextField();
 		passwordField = new PasswordField();
@@ -84,6 +85,7 @@ public class LoginPage extends Page {
 		gp.add(usernameField, 1, 0);
 		gp.add(passwordLbl, 0, 1);
 		gp.add(passwordField, 1, 1);
+		gp.add(errorLbl, 1, 2);
 		
 		gp.add(loginBtn, 0, 3, 2, 1);
 		GridPane.setHalignment(loginBtn, HPos.CENTER);
@@ -113,7 +115,7 @@ public class LoginPage extends Page {
 		String password = passwordField.getText();
 		UserController authController = new UserController();
 		
-		if(username.equals("admin") && password.equals("admin")) System.out.println("Direct Admin Page"); // Direct admin page
+		if(username.equals("admin") && password.equals("admin")) sceneManager.switchPage("adminhome");; // Direct admin page
 		
 		if(authController.login(username, password)) System.out.println("Direct User Page"); // Direct user page		
 	}
