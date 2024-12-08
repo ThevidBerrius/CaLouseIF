@@ -96,13 +96,18 @@ public class LoginPage extends Page {
 	public void setHandler() {
 		loginNav.setOnAction(e -> sceneManager.switchPage("login"));
 		registerNav.setOnAction(e -> sceneManager.switchPage("register"));
-		loginBtn.setOnAction(e -> login());
+		loginBtn.setOnAction(this::handlePage);
 	}
 
 	@Override
 	public void handlePage(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		String username = usernameField.getText();
+		String password = passwordField.getText();
+		UserController authController = new UserController();
+		
+		if(username.equals("admin") && password.equals("admin")) sceneManager.switchPage("adminhome");
+		
+		if(authController.login(username, password)) System.out.println("Direct User Page");
 	}
 
 	@Override
@@ -110,13 +115,4 @@ public class LoginPage extends Page {
 		return new Scene(layoutBP);
 	}
 
-	private void login() {
-		String username = usernameField.getText();
-		String password = passwordField.getText();
-		UserController authController = new UserController();
-		
-		if(username.equals("admin") && password.equals("admin")) sceneManager.switchPage("adminhome");; // Direct admin page
-		
-		if(authController.login(username, password)) System.out.println("Direct User Page"); // Direct user page		
-	}
 }

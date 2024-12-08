@@ -95,8 +95,7 @@ public class AdminHomePage extends Page {
 
 	@Override
 	public void setHandler() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
