@@ -1,6 +1,6 @@
 package view.guest;
 
-import controller.AuthController;
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.scene.Scene;
@@ -111,12 +111,10 @@ public class LoginPage extends Page {
 	private void login() {
 		String username = usernameField.getText();
 		String password = passwordField.getText();
-		AuthController authController = new AuthController();
+		UserController authController = new UserController();
 		
-		if(authController.login(username, password)) {
-			System.out.println("Direct Home Page");
-		} else {
-			System.out.println("Gagal");
-		}
+		if(username.equals("admin") && password.equals("admin")) System.out.println("Direct Admin Page"); // Direct admin page
+		
+		if(authController.login(username, password)) System.out.println("Direct User Page"); // Direct user page		
 	}
 }

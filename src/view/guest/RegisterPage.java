@@ -1,6 +1,6 @@
 package view.guest;
 
-import controller.AuthController;
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Rectangle2D;
@@ -14,6 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -139,8 +140,10 @@ public class RegisterPage extends Page{
 		String password = passwordField.getText();
 		String phone_number = phoneNumberField.getText();
 		String address = addressField.getText();
-		String role = ((RadioButton) roleToggle.getSelectedToggle()).getText();
-		AuthController authController = new AuthController();
+		String role = "";
+		Toggle selectedToggle = roleToggle.getSelectedToggle();
+		if(selectedToggle != null) role = ((RadioButton) selectedToggle).getText();
+		UserController authController = new UserController();
 		
 		if(authController.register(username, password, phone_number, address, role)) {
 			System.out.println("Berhasil Input database");
