@@ -16,36 +16,78 @@ import view.seller.SellerHomePage;
 import view.seller.UploadItemPage;
 
 public class SceneManager {
-    private Stage primaryStage;
+	private Stage primaryStage;
 
-    public SceneManager(Stage primaryStage) {
-        this.primaryStage = primaryStage;
-    }
+	public SceneManager(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+	}
 
-    private void setScene(Scene scene) {
-        primaryStage.setScene(scene);
-    }
-    
-    public void switchPage(String pageName) {
-        switch (pageName.toLowerCase()) { 
-            case "register":
-                RegisterPage register = new RegisterPage(primaryStage);
-                setScene(register.createScene()); 
-                break;
-            case "login":
-            	LoginPage login = new LoginPage(primaryStage);
-            	setScene(login.createScene());
-            	break;
-            case "adminhome":
-            	AdminHomePage adminHome = new AdminHomePage(primaryStage);
-            	setScene(adminHome.createScene());
-            	break;
-            case "adminrequested":
-            	RequestedPage requestPage = new RequestedPage(primaryStage);
-            	setScene(requestPage.createScene());
-            	break;
-            default:
-                throw new IllegalArgumentException("Page not found: " + pageName);
-        }
-    }
+	private void setScene(Scene scene) {
+		primaryStage.setScene(scene);
+	}
+
+	public void switchPage(String pageName) {
+		switch (pageName.toLowerCase()) {
+		case "register":
+			RegisterPage register = new RegisterPage(primaryStage);
+			setScene(register.createScene());
+			break;
+		case "login":
+			LoginPage login = new LoginPage(primaryStage);
+			setScene(login.createScene());
+			break;
+		case "adminhome":
+			AdminHomePage adminHome = new AdminHomePage(primaryStage);
+			setScene(adminHome.createScene());
+			break;
+		case "adminrequested":
+			RequestedPage requestPage = new RequestedPage(primaryStage);
+			setScene(requestPage.createScene());
+			break;
+		default:
+			throw new IllegalArgumentException("Page not found: " + pageName);
+		}
+	}
+
+	public void switchBuyerPage(String pageName) {
+		switch (pageName.toLowerCase()) {
+		case "buyerhome":
+			BuyerHomePage buyerHome = new BuyerHomePage(primaryStage);
+			setScene(buyerHome.createScene());
+			break;
+		case "history":
+			HistoryPage history = new HistoryPage(primaryStage);
+			setScene(history.createScene());
+			break;
+		case "wishlist":
+			WishlistPage wishlist = new WishlistPage(primaryStage);
+			setScene(wishlist.createScene());
+			break;
+		default:
+			throw new IllegalArgumentException("Page not found: " + pageName);
+		}
+	}
+
+	public void switchSellerPage(String pageName) {
+		switch (pageName.toLowerCase()) {
+		case "sellerhome":
+			SellerHomePage sellerHome = new SellerHomePage(primaryStage);
+			setScene(sellerHome.createScene());
+			break;
+		case "selleritem":
+			ItemPage sellerItem = new ItemPage(primaryStage);
+			setScene(sellerItem.createScene());
+			break;
+		case "upload":
+			UploadItemPage uploadItem = new UploadItemPage(primaryStage);
+			setScene(uploadItem.createScene());
+			break;
+		case "edititem":
+			EditItemPage editItem = new EditItemPage(primaryStage);
+			setScene(editItem.createScene());
+			break;
+		default:
+			throw new IllegalArgumentException("Page not found: " + pageName);
+		}
+	}
 }

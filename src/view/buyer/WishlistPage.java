@@ -102,7 +102,9 @@ public class WishlistPage extends Page {
 
     @Override
     public void setHandler() {
-        // TODO: Add handler for remove button and other actions
+    	homeNav.setOnAction(e->sceneManager.switchBuyerPage("buyerhome"));
+    	historyNav.setOnAction(e->sceneManager.switchBuyerPage("history"));
+    	wishlistNav.setOnAction(e->sceneManager.switchBuyerPage("wishlist"));
     }
 
     @Override

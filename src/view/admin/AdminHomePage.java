@@ -95,7 +95,8 @@ public class AdminHomePage extends Page {
 
 	@Override
 	public void setHandler() {
-		
+		homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
+		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
 	}
 
 	@Override
