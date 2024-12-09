@@ -70,7 +70,7 @@ public class RequestedPage extends Page {
         declineBtn = new Button("Decline");
         reasonArea = new TextArea();
         reasonLbl = new Label("Reason for Declining:");
-        titleLbl = new Label("Requested Item");
+        titleLbl = new Label("Admin Requested Item");
 
         actionBox = new VBox(10);
     }

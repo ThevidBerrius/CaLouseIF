@@ -61,7 +61,7 @@ public class BuyerHomePage extends Page {
         navbar.getMenus().add(menu);
         menu.getItems().addAll(homeNav, wishlistNav, historyNav);
 
-        titleLbl = new Label("Home");
+        titleLbl = new Label("Buyer Home");
 
         offerBtn = new Button("Offer Item");
         wishlistBtn = new Button("Add Wishlist");

@@ -33,7 +33,7 @@ public class RegisterPage extends Page{
 	private Menu menu;
 	private MenuItem loginNav, registerNav;
 	
-	private Label usernameLbl, passwordLbl, phoneNumberLbl, addressLbl, roleLbl, titleLbl;
+	private Label usernameLbl, passwordLbl, phoneNumberLbl, addressLbl, roleLbl, titleLbl, messageLbl;
 	private TextField usernameField, phoneNumberField, addressField;
 	private PasswordField passwordField;
 	private ToggleGroup roleToggle;
@@ -69,6 +69,7 @@ public class RegisterPage extends Page{
 		phoneNumberLbl = new Label("Phone Number");
 		addressLbl = new Label("Address");
 		roleLbl = new Label("Role");
+		messageLbl = new Label("");
 		
 		usernameField = new TextField();
 		passwordField = new PasswordField();
@@ -108,11 +109,10 @@ public class RegisterPage extends Page{
 		gp.add(roleLbl, 0, 4);
 		gp.add(buyerRadio, 1, 4);
 		gp.add(sellerRadio, 1, 5);
+		gp.add(messageLbl, 1, 6);
 		
 		gp.add(registerBtn, 0, 7, 2, 1);
 		GridPane.setHalignment(registerBtn, HPos.CENTER);
-		
-//		buyerRadio.setSelected(true);
 	}
 
 	@Override
@@ -131,11 +131,13 @@ public class RegisterPage extends Page{
 		String role = "";
 		Toggle selectedToggle = roleToggle.getSelectedToggle();
 		if(selectedToggle != null) role = ((RadioButton) selectedToggle).getText();
-		UserController authController = new UserController();
+		UserController userController = new UserController();
 		
-		if(authController.register(username, password, phone_number, address, role)) {
-			System.out.println("Berhasil Input database");
-		}
+		String message = userController.register(username, password, phone_number, address, role);
+		
+		if (message.equals("Success") && role.equals("Buyer")) sceneManager.switchBuyerPage("buyerhome");
+		else if (message.equals("Success") && role.equals("Seller")) sceneManager.switchSellerPage("sellerhome");
+		else messageLbl.setText(message);
 	}
 
 	@Override

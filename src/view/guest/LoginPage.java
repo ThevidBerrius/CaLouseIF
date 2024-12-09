@@ -102,16 +102,16 @@ public class LoginPage extends Page {
 	public void handlePage(ActionEvent e) {
 		String username = usernameField.getText();
 		String password = passwordField.getText();
-		UserController authController = new UserController();
+		UserController userController = new UserController();
 		
 		if(username.equals("admin") && password.equals("admin")) sceneManager.switchPage("adminhome");
 		
-		String message = authController.login(username, password);
+		String message = userController.login(username, password);
 		
 		if (message.equals("Admin")) sceneManager.switchPage("adminhome");
-		else if (message.equals("Username or Password cannot empty")) messageLbl.setText(message);
-		else if (message.equals("Invalid Credentials")) messageLbl.setText(message);
-		else if (message.equals("Buyer")) sceneManager.switchPage(message);
+		else if (message.equals("Buyer")) sceneManager.switchBuyerPage("buyerhome");
+		else if (message.equals("Seller")) sceneManager.switchSellerPage("sellerhome");
+		else messageLbl.setText(message);
 	}
 
 	@Override

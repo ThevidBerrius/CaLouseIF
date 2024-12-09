@@ -56,7 +56,7 @@ public class EditItemPage extends Page{
 		navbar.getMenus().add(menu);
 		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav);
 		
-		titleLbl = new Label("Edit Item");
+		titleLbl = new Label("Seller Edit Item");
 		nameLbl = new Label("Item Name");
 		categoryLbl = new Label("Item Category");
 		sizeLbl = new Label("Item Size");
