@@ -30,7 +30,7 @@ public class LoginPage extends Page {
 	private Menu menu;
 	private MenuItem loginNav, registerNav;
 	
-	private Label usernameLbl, passwordLbl, titleLbl, errorLbl;
+	private Label usernameLbl, passwordLbl, titleLbl, messageLbl;
 	private TextField usernameField;
 	private PasswordField passwordField;
 	private Button loginBtn;
@@ -61,7 +61,7 @@ public class LoginPage extends Page {
 		titleLbl = new Label("Login");
 		usernameLbl = new Label("Username");
 		passwordLbl = new Label("Password");
-		errorLbl = new Label("");
+		messageLbl = new Label("");
 		
 		usernameField = new TextField();
 		passwordField = new PasswordField();
@@ -85,18 +85,17 @@ public class LoginPage extends Page {
 		gp.add(usernameField, 1, 0);
 		gp.add(passwordLbl, 0, 1);
 		gp.add(passwordField, 1, 1);
-		gp.add(errorLbl, 1, 2);
+		gp.add(messageLbl, 1, 2);
 		
 		gp.add(loginBtn, 0, 3, 2, 1);
 		GridPane.setHalignment(loginBtn, HPos.CENTER);
-
 	}
 
 	@Override
 	public void setHandler() {
 		loginNav.setOnAction(e -> sceneManager.switchPage("login"));
 		registerNav.setOnAction(e -> sceneManager.switchPage("register"));
-		loginBtn.setOnAction(this::handlePage);
+		loginBtn.setOnAction(e -> handlePage(e));
 	}
 
 	@Override
@@ -107,7 +106,9 @@ public class LoginPage extends Page {
 		
 		if(username.equals("admin") && password.equals("admin")) sceneManager.switchPage("adminhome");
 		
-		if(authController.login(username, password)) System.out.println("Direct User Page");
+		String message = authController.login(username, password);
+		
+		if (message.equals("Admin")) sceneManager.switchPage("adminhome");
 	}
 
 	@Override

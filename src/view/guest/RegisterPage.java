@@ -47,7 +47,6 @@ public class RegisterPage extends Page{
 		setHandler();
 	}
 
-
 	@Override
 	public void initPage() {
 		layoutBP = new BorderPane();
@@ -84,7 +83,6 @@ public class RegisterPage extends Page{
 		buyerRadio.setToggleGroup(roleToggle);
 		
 		registerBtn = new Button("Register");
-		
 	}
 
 	@Override
@@ -121,21 +119,11 @@ public class RegisterPage extends Page{
 	public void setHandler() {
 		loginNav.setOnAction(e -> sceneManager.switchPage("login"));
 		registerNav.setOnAction(e -> sceneManager.switchPage("register"));
-		registerBtn.setOnAction(e -> register());
+		registerBtn.setOnAction(e -> handlePage(e));
 	}
 
 	@Override
 	public void handlePage(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Scene createScene() {
-		return new Scene(layoutBP);
-	}
-	
-	private void register() {
 		String username = usernameField.getText();
 		String password = passwordField.getText();
 		String phone_number = phoneNumberField.getText();
@@ -147,6 +135,11 @@ public class RegisterPage extends Page{
 		
 		if(authController.register(username, password, phone_number, address, role)) {
 			System.out.println("Berhasil Input database");
-		} 
+		}
+	}
+
+	@Override
+	public Scene createScene() {
+		return new Scene(layoutBP);
 	}
 }

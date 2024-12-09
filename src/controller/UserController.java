@@ -1,17 +1,22 @@
 package controller;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import model.User;
 import util.Connect;
 
 public class UserController {
-	public boolean login(String username, String password) {
-		if(username.isEmpty() || password.isEmpty()) {
-			System.out.println("Username or Password is empty");
-			return false;
-		}
+	private IdGenerator idGenerator;
+	private User authUser;
+	
+	public UserController() {
+		this.idGenerator = new IdGenerator();
+	}
+
+	public String login(String username, String password) {
+		if (username.equals("admin") && password.equals("admin")) return "Admin";
+		else if (username.isEmpty() || password.isEmpty()) return "Username or Password cannot empty";
 		
         String query = "SELECT * FROM users WHERE username = ? AND password = ?";
         Object[] params = { username, password };
@@ -19,7 +24,8 @@ public class UserController {
         
         try {
             if (rs != null && rs.next()) {
-                return true;
+            	this.authUser = new User(rs.getString("id"), rs.getString("username"), rs.getString("password"), rs.getString("phoneNumber"), rs.getString("address"), rs.getString("role"));
+                return "Success";
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -28,7 +34,8 @@ public class UserController {
 //        finally {
 //            Connect.getInstance().closeResultSet();
 //        }
-        return false;
+        
+        return "Invalid Credentials";
     }
 	
 	public boolean register(String username, String password, String phone_number, String address, String role) {
@@ -36,10 +43,13 @@ public class UserController {
 			return false;
 		}
 		
-		String query = "INSERT INTO users (username, password, phone_number, address, role) VALUES (?, ?, ?, ?, ?)";
-        Object[] params = { username, password, phone_number, address, role };
+		String userId = this.idGenerator.generateId("users", "US");
+		
+		String query = "INSERT INTO users (id, username, password, phone_number, address, role) VALUES (?, ?, ?, ?, ?, ?)";
+        Object[] params = { userId, username, password, phone_number, address, role };
         
         if(Connect.getInstance().execUpdate(query, params)) {
+        	this.authUser = new User(userId, username, password, phone_number, address, role);
         	return true;
         }
         
@@ -88,5 +98,9 @@ public class UserController {
 		}
 		
 		return true;
+	}
+
+	public User getAuthUser() {
+		return authUser;
 	}
 }
