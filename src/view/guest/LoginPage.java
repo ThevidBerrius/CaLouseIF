@@ -109,6 +109,9 @@ public class LoginPage extends Page {
 		String message = authController.login(username, password);
 		
 		if (message.equals("Admin")) sceneManager.switchPage("adminhome");
+		else if (message.equals("Username or Password cannot empty")) messageLbl.setText(message);
+		else if (message.equals("Invalid Credentials")) messageLbl.setText(message);
+		else if (message.equals("Buyer")) sceneManager.switchPage(message);
 	}
 
 	@Override
