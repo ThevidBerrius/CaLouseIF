@@ -108,8 +108,10 @@ public class ItemPage extends Page{
 
 	@Override
 	public void setHandler() {
-		// TODO Auto-generated method stub
-		
+		homeNav.setOnAction(e->sceneManager.switchSellerPage("sellerhome"));
+		uploadNav.setOnAction(e->sceneManager.switchSellerPage("edititem"));
+		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
+		offerNav.setOnAction(e->sceneManager.switchSellerPage(""));
 	}
 
 	@Override

@@ -96,8 +96,9 @@ public class HistoryPage extends Page {
 
 	@Override
 	public void setHandler() {
-		// TODO Auto-generated method stub
-
+		homeNav.setOnAction(e->sceneManager.switchBuyerPage("buyerhome"));
+    	historyNav.setOnAction(e->sceneManager.switchBuyerPage("history"));
+    	wishlistNav.setOnAction(e->sceneManager.switchBuyerPage("wishlist"));
 	}
 
 	@Override

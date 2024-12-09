@@ -113,6 +113,8 @@ public class RequestedPage extends Page {
 
     @Override
     public void setHandler() {
+    	homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
+		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
         declineBtn.setOnAction(e -> showReasonPopUp());
         approveBtn.setOnAction(e -> {
             System.out.println("Item approved!");
