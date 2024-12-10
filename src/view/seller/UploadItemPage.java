@@ -1,5 +1,6 @@
 package view.seller;
 
+import controller.ItemController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,7 +28,7 @@ public class UploadItemPage extends Page{
 	private Menu menu;
 	private MenuItem homeNav, uploadNav, itemNav, offerNav;
 	
-	private Label nameLbl, categoryLbl, sizeLbl, priceLbl, titleLbl;
+	private Label nameLbl, categoryLbl, sizeLbl, priceLbl, titleLbl, messageLbl;
 	private TextField nameField, categoryField, sizeField, priceField;
 	private Button uploadBtn;
 	
@@ -61,6 +62,7 @@ public class UploadItemPage extends Page{
 		categoryLbl = new Label("Item Category");
 		sizeLbl = new Label("Item Size");
 		priceLbl = new Label("Item Price");
+		messageLbl = new Label("");
 		
 		nameField = new TextField();
 		categoryField = new TextField();
@@ -90,22 +92,32 @@ public class UploadItemPage extends Page{
 		gp.add(sizeField, 1, 2);
 		gp.add(priceLbl, 0, 3);
 		gp.add(priceField, 1, 3);
+		gp.add(messageLbl, 1, 4);
 		
 		gp.add(uploadBtn, 0, 5, 2, 1);
 	}
 
 	@Override
 	public void setHandler() {
-		homeNav.setOnAction(e->sceneManager.switchSellerPage("sellerhome"));
-		uploadNav.setOnAction(e->sceneManager.switchSellerPage("edititem"));
-		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
-		offerNav.setOnAction(e->sceneManager.switchSellerPage(""));
+		homeNav.setOnAction(e -> sceneManager.switchSellerPage("sellerhome"));
+		uploadNav.setOnAction(e -> sceneManager.switchSellerPage("upload"));
+		itemNav.setOnAction(e -> sceneManager.switchSellerPage("selleritem"));
+		offerNav.setOnAction(e -> sceneManager.switchSellerPage(""));
+		uploadBtn.setOnAction(e -> handlePage(e));
 	}
 
 	@Override
 	public void handlePage(ActionEvent e) {
-		// TODO Auto-generated method stub
+		String itemName = nameField.getText();
+		String itemCategory = categoryField.getText();
+		String itemSize = sizeField.getText();
+		String itemPrice = priceField.getText();
+		ItemController itemController = new ItemController();
 		
+		String message = itemController.uploadItem(itemName, itemCategory, itemSize, itemPrice);
+		
+		if (message.equals("Success")) sceneManager.switchSellerPage("sellerhome");
+		else messageLbl.setText(message);
 	}
 
 	@Override
