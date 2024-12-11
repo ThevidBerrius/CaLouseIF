@@ -98,7 +98,7 @@ public class SellerHomePage extends Page{
 	@Override
 	public void setHandler() {
 		homeNav.setOnAction(e->sceneManager.switchSellerPage("sellerhome"));
-		uploadNav.setOnAction(e->sceneManager.switchSellerPage("edititem"));
+		uploadNav.setOnAction(e->sceneManager.switchSellerPage("upload"));
 		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e->sceneManager.switchSellerPage(""));
 	}

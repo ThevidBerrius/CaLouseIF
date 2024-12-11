@@ -56,7 +56,7 @@ public class EditItemPage extends Page{
 		navbar.getMenus().add(menu);
 		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav);
 		
-		titleLbl = new Label("Edit Item");
+		titleLbl = new Label("Seller Edit Item");
 		nameLbl = new Label("Item Name");
 		categoryLbl = new Label("Item Category");
 		sizeLbl = new Label("Item Size");
@@ -97,14 +97,14 @@ public class EditItemPage extends Page{
 	@Override
 	public void setHandler() {
 		homeNav.setOnAction(e->sceneManager.switchSellerPage("sellerhome"));
-		uploadNav.setOnAction(e->sceneManager.switchSellerPage("edititem"));
+		uploadNav.setOnAction(e->sceneManager.switchSellerPage("upload"));
 		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e->sceneManager.switchSellerPage(""));
+		uploadBtn.setOnAction(e -> handlePage(e));
 	}
 
 	@Override
 	public void handlePage(ActionEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

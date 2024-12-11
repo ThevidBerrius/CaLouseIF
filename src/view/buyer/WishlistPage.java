@@ -59,7 +59,7 @@ public class WishlistPage extends Page {
         navbar.getMenus().add(menu);
         menu.getItems().addAll(homeNav, wishlistNav, historyNav);
 
-        titleLbl = new Label("Wishlist");
+        titleLbl = new Label("Buyer Wishlist");
         removeBtn = new Button("Remove Item");
 
         wishlistTable = new TableView<WishlistItem>();

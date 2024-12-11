@@ -57,7 +57,7 @@ public class HistoryPage extends Page {
 		navbar.getMenus().add(menu);
 		menu.getItems().addAll(homeNav, wishlistNav, historyNav);
 
-		titleLbl = new Label("Transaction History");
+		titleLbl = new Label("Buyer Transaction History");
 
 		historyTable = new TableView<TransactionHistory>();
 	}
