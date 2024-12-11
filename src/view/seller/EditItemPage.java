@@ -99,7 +99,7 @@ public class EditItemPage extends Page{
 		homeNav.setOnAction(e->sceneManager.switchSellerPage("sellerhome"));
 		uploadNav.setOnAction(e->sceneManager.switchSellerPage("upload"));
 		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
-		offerNav.setOnAction(e->sceneManager.switchSellerPage(""));
+		offerNav.setOnAction(e->sceneManager.switchSellerPage("selleroffer"));
 		uploadBtn.setOnAction(e -> handlePage(e));
 	}
 

@@ -63,20 +63,19 @@ public class HistoryPage extends Page {
 	}
 
 	public void initalizeTable() {
-		TableColumn<TransactionHistory, String> idCol = new TableColumn<TransactionHistory, String>("TransactionID");
+		TableColumn<TransactionHistory, String> idCol = new TableColumn<TransactionHistory, String>("Transaction ID");
 		idCol.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
 
-		TableColumn<TransactionHistory, String> nameCol = new TableColumn<TransactionHistory, String>("itemName");
+		TableColumn<TransactionHistory, String> nameCol = new TableColumn<TransactionHistory, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
-		TableColumn<TransactionHistory, String> categoryCol = new TableColumn<TransactionHistory, String>(
-				"itemCategory");
+		TableColumn<TransactionHistory, String> categoryCol = new TableColumn<TransactionHistory, String>("Category");
 		categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
 
-		TableColumn<TransactionHistory, String> sizeCol = new TableColumn<TransactionHistory, String>("itemSize");
+		TableColumn<TransactionHistory, String> sizeCol = new TableColumn<TransactionHistory, String>("Size");
 		sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
 
-		TableColumn<TransactionHistory, String> priceCol = new TableColumn<TransactionHistory, String>("itemPrice");
+		TableColumn<TransactionHistory, String> priceCol = new TableColumn<TransactionHistory, String>("Price");
 		priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
 		historyTable.getColumns().addAll(idCol, nameCol, categoryCol, sizeCol, priceCol);

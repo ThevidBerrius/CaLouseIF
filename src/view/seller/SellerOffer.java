@@ -1,4 +1,4 @@
-package view.admin;
+package view.seller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -15,32 +15,32 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import main.SceneManager;
-import model.Item;
+import model.Offer;
 import model.Page;
 
-public class RequestedPage extends Page {
+public class SellerOffer extends Page {
     private SceneManager sceneManager;
+
+    private BorderPane layoutBP, navBP, offerBP, actionBP;
 
     private GridPane gp;
     private ScrollPane sp;
 
     private MenuBar navbar;
     private Menu menu;
-    private MenuItem homeNav, requestedNav;
+    private MenuItem homeNav, uploadNav, itemNav, offerNav;
 
-    private BorderPane layoutBP, navBP, requestedBP, reasonBP;
-
-    private TableView<Item> requestedTable;
+    private TableView<Offer> offerTable;
 
     private Button approveBtn, declineBtn;
     private TextArea reasonArea;
     private Label reasonLbl, titleLbl;
     private VBox actionBox;
 
-    public RequestedPage(Stage primaryStage) {
+    public SellerOffer(Stage primaryStage) {
         sceneManager = new SceneManager(primaryStage);
         initPage();
         initializeTable();
@@ -52,8 +52,8 @@ public class RequestedPage extends Page {
     public void initPage() {
         layoutBP = new BorderPane();
         navBP = new BorderPane();
-        requestedBP = new BorderPane();
-        reasonBP = new BorderPane();
+        offerBP = new BorderPane();
+        actionBP = new BorderPane();
 
         gp = new GridPane();
         sp = new ScrollPane();
@@ -61,69 +61,79 @@ public class RequestedPage extends Page {
         navbar = new MenuBar();
         menu = new Menu("Menu");
         homeNav = new MenuItem("Home");
-        requestedNav = new MenuItem("Requested Item");
-        navbar.getMenus().add(menu);
-        menu.getItems().addAll(homeNav, requestedNav);
+		uploadNav = new MenuItem("Upload Item");
+		itemNav = new MenuItem("Item");
+		offerNav = new MenuItem("Offer");
 
-        requestedTable = new TableView<>();
+        navbar.getMenus().add(menu);
+        menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav);
+
+        offerTable = new TableView<>();
         approveBtn = new Button("Approve");
         declineBtn = new Button("Decline");
         reasonArea = new TextArea();
         reasonLbl = new Label("Reason for Declining:");
-        titleLbl = new Label("Admin Requested Item");
+        titleLbl = new Label("Seller Offers");
 
         actionBox = new VBox(10);
     }
 
     private void initializeTable() {
-        TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
-        nameCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemName"));
+        TableColumn<Offer, String> itemNameCol = new TableColumn<>("Name");
+        itemNameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
-        TableColumn<Item, String> categoryCol = new TableColumn<Item, String>("Category");
-        categoryCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemCategory"));
+        TableColumn<Offer, String> categoryCol = new TableColumn<>("Category");
+        categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
 
-        TableColumn<Item, String> sizeCol = new TableColumn<Item, String>("Size");
-        sizeCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemSize"));
+        TableColumn<Offer, String> sizeCol = new TableColumn<>("Size");
+        sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
 
-        TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
-        priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
+        TableColumn<Offer, String> priceCol = new TableColumn<>("Original Price");
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
-        requestedTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
+        TableColumn<Offer, String> offerPriceCol = new TableColumn<>("Offer Price");
+        offerPriceCol.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
+
+        TableColumn<Offer, String> statusCol = new TableColumn<>("Offer Status");
+        statusCol.setCellValueFactory(new PropertyValueFactory<>("itemOfferStatus"));
+
+        offerTable.getColumns().addAll(itemNameCol, categoryCol, sizeCol, priceCol, offerPriceCol, statusCol);
     }
 
     @Override
     public void setAlignment() {
         navBP.setTop(navbar);
-        navBP.setCenter(requestedBP);
+        navBP.setCenter(offerBP);
 
-        requestedBP.setCenter(titleLbl);
-        reasonBP.setCenter(actionBox);
+        offerBP.setCenter(titleLbl);
+        actionBP.setCenter(actionBox);
 
         layoutBP.setTop(navBP);
-        layoutBP.setCenter(requestedTable);
-        layoutBP.setBottom(reasonBP);
+        layoutBP.setCenter(offerTable);
+        layoutBP.setBottom(actionBP);
 
         reasonArea.setPromptText("Enter reason for declining...");
         reasonArea.setWrapText(true);
 
         actionBox.getChildren().addAll(approveBtn, declineBtn);
-        actionBox.setSpacing(10);
         actionBox.setStyle("-fx-padding: 10; -fx-alignment: top-center;");
     }
 
     @Override
     public void setHandler() {
-    	homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
-		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
+    	homeNav.setOnAction(e->sceneManager.switchSellerPage("sellerhome"));
+		uploadNav.setOnAction(e->sceneManager.switchSellerPage("upload"));
+		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
+        offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
+
         declineBtn.setOnAction(e -> showReasonPopUp());
         approveBtn.setOnAction(e -> {
-            System.out.println("Item approved!");
+            System.out.println("Offer approved!");
         });
     }
 
     @Override
     public void handlePage(ActionEvent e) {
-    	
     }
 
     @Override
@@ -150,8 +160,8 @@ public class RequestedPage extends Page {
                 reasonLabel.setText("Reason cannot be empty!");
                 reasonLabel.setStyle("-fx-text-fill: red;");
             } else {
-                System.out.println("Item declined with reason: " + reason);
-                popUpStage.close(); 
+                System.out.println("Offer declined with reason: " + reason);
+                popUpStage.close();
             }
         });
 
@@ -165,6 +175,6 @@ public class RequestedPage extends Page {
         Scene popUpScene = new Scene(popUpLayout, 300, 200);
         popUpStage.setScene(popUpScene);
 
-        popUpStage.showAndWait(); 
+        popUpStage.showAndWait();
     }
 }

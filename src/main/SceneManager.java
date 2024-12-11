@@ -13,6 +13,7 @@ import view.guest.RegisterPage;
 import view.seller.EditItemPage;
 import view.seller.ItemPage;
 import view.seller.SellerHomePage;
+import view.seller.SellerOffer;
 import view.seller.UploadItemPage;
 
 public class SceneManager {
@@ -85,6 +86,10 @@ public class SceneManager {
 		case "edititem":
 			EditItemPage editItem = new EditItemPage(primaryStage);
 			setScene(editItem.createScene());
+			break;
+		case "selleroffer":
+			SellerOffer offer = new SellerOffer(primaryStage);
+			setScene(offer.createScene());
 			break;
 		default:
 			throw new IllegalArgumentException("Page not found: " + pageName);

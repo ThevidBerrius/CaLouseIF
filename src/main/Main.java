@@ -14,7 +14,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		sceneManager = new SceneManager(primaryStage);
 		sceneManager.switchPage("login");
-		
 		primaryStage.setTitle("CaLouseIF");
 		primaryStage.show();
 	}
