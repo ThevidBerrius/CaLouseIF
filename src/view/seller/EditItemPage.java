@@ -1,5 +1,7 @@
 package view.seller;
 
+import controller.ItemController;
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,10 +15,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import main.SceneManager;
+import model.Item;
 import model.Page;
 
 public class EditItemPage extends Page{
 	private SceneManager sceneManager;
+	private ItemController itemController;
+	private UserController userController;
+	private Item selectedItem;
 	
 	private BorderPane layoutBP, navBP, editBP;
 	
@@ -25,14 +31,17 @@ public class EditItemPage extends Page{
 	
 	private MenuBar navbar;
 	private Menu menu;
-	private MenuItem homeNav, uploadNav, itemNav, offerNav;
+	private MenuItem homeNav, uploadNav, itemNav, offerNav, logoutNav;
 	
-	private Label nameLbl, categoryLbl, sizeLbl, priceLbl, titleLbl;
+	private Label nameLbl, categoryLbl, sizeLbl, priceLbl, titleLbl, messageLbl;
 	private TextField nameField, categoryField, sizeField, priceField;
-	private Button uploadBtn;
+	private Button updateBtn;
 	
-	public EditItemPage(Stage primaryStage) {
-		sceneManager = new SceneManager(primaryStage);
+	public EditItemPage(Stage primaryStage, Item selectedItem) {
+		this.sceneManager = new SceneManager(primaryStage);
+		this.itemController = new ItemController();
+		this.userController = new UserController();
+		this.selectedItem = selectedItem;
 		initPage();
 		setAlignment();
 		setHandler();
@@ -53,21 +62,23 @@ public class EditItemPage extends Page{
 		uploadNav = new MenuItem("Upload Item");
 		itemNav = new MenuItem("Item");
 		offerNav = new MenuItem("Offer");
+		logoutNav = new MenuItem("Logout");
 		navbar.getMenus().add(menu);
-		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav);
+		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav, logoutNav);
 		
 		titleLbl = new Label("Seller Edit Item");
 		nameLbl = new Label("Item Name");
 		categoryLbl = new Label("Item Category");
 		sizeLbl = new Label("Item Size");
 		priceLbl = new Label("Item Price");
+		messageLbl = new Label("");
 		
-		nameField = new TextField();
-		categoryField = new TextField();
-		sizeField = new TextField();
-		priceField = new TextField();
+		nameField = new TextField(selectedItem.getItemName());
+		categoryField = new TextField(selectedItem.getItemCategory());
+		sizeField = new TextField(selectedItem.getItemSize());
+		priceField = new TextField(selectedItem.getItemPrice());
 		
-		uploadBtn = new Button("Save Changes");
+		updateBtn = new Button("Save Changes");
 	}
 
 	@Override
@@ -90,27 +101,36 @@ public class EditItemPage extends Page{
 		gp.add(sizeField, 1, 2);
 		gp.add(priceLbl, 0, 3);
 		gp.add(priceField, 1, 3);
+		gp.add(messageLbl, 1, 4);
 		
-		gp.add(uploadBtn, 0, 5, 2, 1);
+		gp.add(updateBtn, 0, 5, 2, 1);
 	}
 
 	@Override
 	public void setHandler() {
-		homeNav.setOnAction(e->sceneManager.switchSellerPage("sellerhome"));
-		uploadNav.setOnAction(e->sceneManager.switchSellerPage("upload"));
-		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
-		offerNav.setOnAction(e->sceneManager.switchSellerPage("selleroffer"));
-		uploadBtn.setOnAction(e -> handlePage(e));
+		homeNav.setOnAction(e -> sceneManager.switchSellerPage("sellerhome"));
+		uploadNav.setOnAction(e -> sceneManager.switchSellerPage("upload"));
+		itemNav.setOnAction(e -> sceneManager.switchSellerPage("selleritem"));
+		offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
+		logoutNav.setOnAction(e -> userController.logout(sceneManager));
+		updateBtn.setOnAction(e -> handlePage(e));
 	}
 
 	@Override
 	public void handlePage(ActionEvent e) {
+		String itemName = nameField.getText();
+		String itemCategory = categoryField.getText();
+		String itemSize = sizeField.getText();
+		String itemPrice = priceField.getText();
 		
+		String message = itemController.editItem(this.selectedItem.getItemId(), itemName, itemCategory, itemSize, itemPrice);
+				
+		if (message.equals("Success")) sceneManager.switchSellerPage("selleritem");
+		else messageLbl.setText(message);
 	}
 
 	@Override
 	public Scene createScene() {
-		// TODO Auto-generated method stub
 		return new Scene(layoutBP);
 	}
 

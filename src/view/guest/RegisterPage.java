@@ -25,6 +25,7 @@ import model.Page;
 
 public class RegisterPage extends Page {
     private SceneManager sceneManager;
+    private UserController userController;
 
     private BorderPane layoutBP, navBP, registerBP;
     private GridPane gp;
@@ -42,7 +43,8 @@ public class RegisterPage extends Page {
     private Button registerBtn;
 
     public RegisterPage(Stage primaryStage) {
-        sceneManager = new SceneManager(primaryStage);
+        this.sceneManager = new SceneManager(primaryStage);
+        this.userController = new UserController();
         initPage();
         setAlignment();
         setHandler();
@@ -177,7 +179,6 @@ public class RegisterPage extends Page {
         String role = "";
         Toggle selectedToggle = roleToggle.getSelectedToggle();
         if (selectedToggle != null) role = ((RadioButton) selectedToggle).getText();
-        UserController userController = new UserController();
 
         String message = userController.register(username, password, phone_number, address, role);
 

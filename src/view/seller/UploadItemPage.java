@@ -18,6 +18,7 @@ import model.Page;
 
 public class UploadItemPage extends Page{
 	private SceneManager sceneManager;
+	private ItemController itemController;
 	
 	private BorderPane layoutBP, navBP, uploadBP;
 	
@@ -33,7 +34,8 @@ public class UploadItemPage extends Page{
 	private Button uploadBtn;
 	
 	public UploadItemPage(Stage primaryStage) {
-		sceneManager = new SceneManager(primaryStage);
+		this.sceneManager = new SceneManager(primaryStage);
+		this.itemController = new ItemController();
 		initPage();
 		setAlignment();
 		setHandler();

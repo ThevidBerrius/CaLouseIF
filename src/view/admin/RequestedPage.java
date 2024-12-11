@@ -1,5 +1,11 @@
 package view.admin;
 
+import java.util.Vector;
+
+import controller.ItemController;
+import controller.UserController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,6 +31,8 @@ import model.Page;
 
 public class RequestedPage extends Page {
     private SceneManager sceneManager;
+    private ItemController itemController;
+    private Vector<Item> items;
 
     private GridPane gp;
     private ScrollPane sp;
@@ -43,8 +51,11 @@ public class RequestedPage extends Page {
     private VBox actionBox;
 
     public RequestedPage(Stage primaryStage) {
-        sceneManager = new SceneManager(primaryStage);
+    	this.sceneManager = new SceneManager(primaryStage);
+		this.itemController = new ItemController();
+		this.items = new Vector<>();
         initPage();
+        refreshTable();
         initializeTable();
         setAlignment();
         setHandler();
@@ -76,6 +87,13 @@ public class RequestedPage extends Page {
 
         actionBox = new VBox(10);
     }
+    
+    private void refreshTable() {
+    	this.items.clear();
+    	this.items = itemController.viewRequestedItem();
+    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
+    	this.requestedTable.setItems(itemList);
+    }
 
     private void initializeTable() {
         TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
@@ -92,17 +110,19 @@ public class RequestedPage extends Page {
         
         TableColumn<Item, Void> actionCol = new TableColumn<Item, Void>("Action");
         
-        actionCol.setCellFactory(param -> new TableCell<Item, Void>() {
+        actionCol.setCellFactory(e -> new TableCell<Item, Void>() {
             private final Button approveBtn = new Button("Approve");
             private final Button declineBtn = new Button("Decline");
 
             {
                 approveBtn.setOnAction(e -> {
-                    System.out.println("Item approved!");
+                	Item item = getTableRow().getItem();
+                	itemController.approveItem(item.getItemId(), sceneManager);
                 });
 
                 declineBtn.setOnAction(e -> {
-                    showReasonPopUp();
+                	Item item = getTableRow().getItem();
+                    showReasonPopUp(item.getItemId());
                 });
             }
 
@@ -137,20 +157,12 @@ public class RequestedPage extends Page {
 
         reasonArea.setPromptText("Enter reason for declining...");
         reasonArea.setWrapText(true);
-
-//        actionBox.getChildren().addAll(approveBtn, declineBtn);
-//        actionBox.setSpacing(10);
-//        actionBox.setStyle("-fx-padding: 10; -fx-alignment: top-center;");
     }
 
     @Override
     public void setHandler() {
     	homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
 		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
-//        declineBtn.setOnAction(e -> showReasonPopUp());
-//        approveBtn.setOnAction(e -> {
-//            System.out.println("Item approved!");
-//        });
     }
 
     @Override
@@ -163,7 +175,7 @@ public class RequestedPage extends Page {
         return new Scene(layoutBP);
     }
 
-    private void showReasonPopUp() {
+    private void showReasonPopUp(String itemId) {
         Stage popUpStage = new Stage();
         popUpStage.setTitle("Enter Decline Reason");
         popUpStage.initModality(Modality.APPLICATION_MODAL);
@@ -182,7 +194,7 @@ public class RequestedPage extends Page {
                 reasonLabel.setText("Reason cannot be empty!");
                 reasonLabel.setStyle("-fx-text-fill: red;");
             } else {
-                System.out.println("Item declined with reason: " + reason);
+                itemController.declineItem(itemId, sceneManager);
                 popUpStage.close(); 
             }
         });

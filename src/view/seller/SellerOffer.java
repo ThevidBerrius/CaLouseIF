@@ -1,5 +1,6 @@
 package view.seller;
 
+import controller.ItemController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,6 +26,7 @@ import model.Page;
 
 public class SellerOffer extends Page {
 	private SceneManager sceneManager;
+	private ItemController itemController;
 
 	private BorderPane layoutBP, navBP, offerBP, actionBP;
 
@@ -43,7 +45,8 @@ public class SellerOffer extends Page {
 	private VBox actionBox;
 
 	public SellerOffer(Stage primaryStage) {
-		sceneManager = new SceneManager(primaryStage);
+		this.sceneManager = new SceneManager(primaryStage);
+		this.itemController = new ItemController();
 		initPage();
 		initializeTable();
 		setAlignment();

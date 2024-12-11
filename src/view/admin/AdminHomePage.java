@@ -1,5 +1,10 @@
 package view.admin;
 
+import java.util.Vector;
+
+import controller.ItemController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -18,8 +23,9 @@ import model.Item;
 import model.Page;
 
 public class AdminHomePage extends Page {
-
 	private SceneManager sceneManager;
+	private ItemController itemController;
+    private Vector<Item> items;
 	
 	private BorderPane layoutBP, navBP, adminBP;
 	private GridPane gp;
@@ -34,8 +40,11 @@ public class AdminHomePage extends Page {
 	private TableView<Item> itemTable;
 
 	public AdminHomePage(Stage primaryStage) {
-		sceneManager = new SceneManager(primaryStage);
+		this.sceneManager = new SceneManager(primaryStage);
+		this.itemController = new ItemController();
+		this.items = new Vector<>();
 		initPage();
+		refreshTable();
 		initializeTable();
 		setAlignment();
 		setHandler();
@@ -61,8 +70,14 @@ public class AdminHomePage extends Page {
 		titleLbl = new Label("Admin Home");
 		
 		itemTable = new TableView<Item>();
-		
 	}
+	
+	private void refreshTable() {
+    	this.items.clear();
+    	this.items = itemController.viewAcceptedItem();
+    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
+    	this.itemTable.setItems(itemList);
+    }
 	
 	public void initializeTable() {
 		TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
@@ -78,9 +93,7 @@ public class AdminHomePage extends Page {
 		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
-		
 	}
-	
 
 	@Override
 	public void setAlignment() {

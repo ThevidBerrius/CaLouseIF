@@ -1,5 +1,10 @@
 package view.seller;
 
+import java.util.Vector;
+
+import controller.ItemController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +25,8 @@ import model.Page;
 
 public class ItemPage extends Page{
 	private SceneManager sceneManager;
+	private ItemController itemController;
+	private Vector<Item> items;
 	
 	private BorderPane layoutBP, navBP, itemBP;
 	private GridPane gp;
@@ -33,10 +40,14 @@ public class ItemPage extends Page{
 	private Button editBtn, deleteBtn;
 	
 	private TableView<Item> itemTable;
+	
 
 	public ItemPage(Stage primaryStage) {
-		sceneManager = new SceneManager(primaryStage);
+		this.sceneManager = new SceneManager(primaryStage);
+		this.itemController = new ItemController();
+		this.items = new Vector<>();
 		initPage();
+		refreshTable();
 		initializeTable();
 		setAlignment();
 		setHandler();
@@ -66,8 +77,14 @@ public class ItemPage extends Page{
 		deleteBtn = new Button("Delete");
 		
 		itemTable = new TableView<Item>();
-		
 	}
+
+	private void refreshTable() {
+    	this.items.clear();
+    	this.items = itemController.viewItem();
+    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
+    	this.itemTable.setItems(itemList);
+    }
 	
 	public void initializeTable() {
 		TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
@@ -112,6 +129,11 @@ public class ItemPage extends Page{
 		uploadNav.setOnAction(e->sceneManager.switchSellerPage("upload"));
 		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e->sceneManager.switchSellerPage("selleroffer"));
+		
+		itemTable.setOnMouseClicked(e -> {
+			Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
+			if (selectedItem != null) sceneManager.sellerEditItem(selectedItem);
+		});
 	}
 
 	@Override

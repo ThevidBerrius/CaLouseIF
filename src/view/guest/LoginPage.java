@@ -15,8 +15,8 @@ import main.SceneManager;
 import model.Page;
 
 public class LoginPage extends Page {
-
     private SceneManager sceneManager;
+    private UserController userController;
 
     private BorderPane layoutBP, navBP, loginBP;
     private GridPane gp;
@@ -32,7 +32,8 @@ public class LoginPage extends Page {
     private Button loginBtn;
 
     public LoginPage(Stage primaryStage) {
-        sceneManager = new SceneManager(primaryStage);
+        this.sceneManager = new SceneManager(primaryStage);
+        this.userController = new UserController();
         initPage();
         setAlignment();
         setHandler();
@@ -127,7 +128,6 @@ public class LoginPage extends Page {
     public void handlePage(ActionEvent e) {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        UserController userController = new UserController();
 
         if (username.equals("admin") && password.equals("admin")) {
             sceneManager.switchPage("adminhome");

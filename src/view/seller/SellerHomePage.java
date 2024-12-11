@@ -1,5 +1,10 @@
 package view.seller;
 
+import java.util.Vector;
+
+import controller.ItemController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,8 +24,9 @@ import model.Item;
 import model.Page;
 
 public class SellerHomePage extends Page{
-	
 	private SceneManager sceneManager;
+	private ItemController itemController;
+	private Vector<Item> items;
 	
 	private BorderPane layoutBP, navBP, sellerBP;
 	private GridPane gp;
@@ -33,9 +39,13 @@ public class SellerHomePage extends Page{
 	private Label titleLbl;
 	private TableView<Item> itemTable;
 	
+	
 	public SellerHomePage(Stage primaryStage) {
-		sceneManager = new SceneManager(primaryStage);
+		this.sceneManager = new SceneManager(primaryStage);
+		this.itemController = new ItemController();
+		this.items = new Vector<>();
 		initPage();
+		refreshTable();
 		initializeTable();
 		setAlignment();
 		setHandler();
@@ -62,8 +72,14 @@ public class SellerHomePage extends Page{
 		titleLbl = new Label("Seller Home");
 		
 		itemTable = new TableView<Item>();
-		
 	}
+	
+	private void refreshTable() {
+    	this.items.clear();
+    	this.items = itemController.viewItem();
+    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
+    	this.itemTable.setItems(itemList);
+    }
 	
 	public void initializeTable() {
 		TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
@@ -79,7 +95,6 @@ public class SellerHomePage extends Page{
 		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
-		
 	}
 
 	@Override
@@ -91,8 +106,6 @@ public class SellerHomePage extends Page{
 		
 		layoutBP.setTop(navBP);
 		layoutBP.setCenter(itemTable);
-		
-		
 	}
 
 	@Override
@@ -106,12 +119,10 @@ public class SellerHomePage extends Page{
 	@Override
 	public void handlePage(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public Scene createScene() {
-		// TODO Auto-generated method stub
 		return new Scene(layoutBP);
 	}
 

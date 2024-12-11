@@ -68,6 +68,11 @@ public class SceneManager {
 			throw new IllegalArgumentException("Page not found: " + pageName);
 		}
 	}
+	
+	public void sellerEditItem(Item selectedItem) {
+		EditItemPage editItem = new EditItemPage(primaryStage, selectedItem);
+		setScene(editItem.createScene());
+	}
 
 	public void switchSellerPage(String pageName) {
 		switch (pageName.toLowerCase()) {
@@ -83,10 +88,10 @@ public class SceneManager {
 			UploadItemPage uploadItem = new UploadItemPage(primaryStage);
 			setScene(uploadItem.createScene());
 			break;
-		case "edititem":
-			EditItemPage editItem = new EditItemPage(primaryStage);
-			setScene(editItem.createScene());
-			break;
+//		case "edititem":
+//			EditItemPage editItem = new EditItemPage(primaryStage);
+//			setScene(editItem.createScene());
+//			break;
 		case "selleroffer":
 			SellerOffer offer = new SellerOffer(primaryStage);
 			setScene(offer.createScene());

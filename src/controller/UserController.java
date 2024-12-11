@@ -3,6 +3,7 @@ package controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import main.SceneManager;
 import model.User;
 import util.Connect;
 
@@ -24,7 +25,7 @@ public class UserController {
         
         try {
             if (rs != null && rs.next()) {
-            	this.authUser = new User(rs.getString("id"), rs.getString("username"), rs.getString("password"), rs.getString("phone_number"), rs.getString("address"), rs.getString("role"));
+            	this.authUser = new User(rs.getString("userId"), rs.getString("username"), rs.getString("password"), rs.getString("phoneNumber"), rs.getString("address"), rs.getString("role"));
                 return this.authUser.getRole();
             }
         } catch (SQLException e) {
@@ -40,12 +41,13 @@ public class UserController {
 		if (!message.equals("Validation Success")) return message;
 		
 		String userId = this.idGenerator.generateId("users", "US");
+		User newUser = new User(userId, username, password, phone_number, address, role);
 		
-		String query = "INSERT INTO users (id, username, password, phone_number, address, role) VALUES (?, ?, ?, ?, ?, ?)";
-        Object[] params = { userId, username, password, phone_number, address, role };
+		String query = "INSERT INTO users (userId, username, password, phoneNumber, address, role) VALUES (?, ?, ?, ?, ?, ?)";
+        Object[] params = { newUser.getUserId(), newUser.getUsername(), newUser.getPassword(), newUser.getPhoneNumber(), newUser.getAddress(), newUser.getRole() };
         
         if(Connect.getInstance().execUpdate(query, params)) {
-        	this.authUser = new User(userId, username, password, phone_number, address, role);
+        	this.authUser = newUser;
         	return "Success";
         }
         
@@ -97,8 +99,13 @@ public class UserController {
 		
 		return "Validation Success";
 	}
+	
+	public void logout(SceneManager sceneManager) {
+		this.authUser = null;
+		sceneManager.switchPage("login");
+	}
 
 	public User getAuthUser() {
-		return authUser;
+		return this.authUser;
 	}
 }
