@@ -48,7 +48,6 @@ public class SellerOffer extends Page {
 		initializeTable();
 		setAlignment();
 		setHandler();
-		loadDummyData();
 	}
 
 	@Override
@@ -100,7 +99,6 @@ public class SellerOffer extends Page {
 	    TableColumn<Offer, String> statusCol = new TableColumn<>("Offer Status");
 	    statusCol.setCellValueFactory(new PropertyValueFactory<>("itemOfferStatus"));
 
-	    // Correcting the action column definition for inline buttons
 	    TableColumn<Offer, Void> actionCol = new TableColumn<>("Action");
 	    actionCol.setCellFactory(param -> new TableCell<Offer, Void>() {
 	        private final Button approveBtn = new Button("Approve");
@@ -213,13 +211,4 @@ public class SellerOffer extends Page {
 
 		popUpStage.showAndWait();
 	}
-	
-	private void loadDummyData() {
-	    offerTable.getItems().addAll(
-	        new Offer("OFFER001", "ITEM001", "USER001", "Item 1", "Category 1", "Small", "100", "80", "Pending"),
-	        new Offer("OFFER002", "ITEM002", "USER002", "Item 2", "Category 2", "Medium", "200", "150", "Approved"),
-	        new Offer("OFFER003", "ITEM003", "USER003", "Item 3", "Category 3", "Large", "300", "250", "Declined")
-	    );
-	}
-
 }

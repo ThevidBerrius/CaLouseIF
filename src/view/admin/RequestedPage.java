@@ -8,12 +8,14 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Modality;
@@ -87,9 +89,39 @@ public class RequestedPage extends Page {
 
         TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
+        
+        TableColumn<Item, Void> actionCol = new TableColumn<Item, Void>("Action");
+        
+        actionCol.setCellFactory(param -> new TableCell<Item, Void>() {
+            private final Button approveBtn = new Button("Approve");
+            private final Button declineBtn = new Button("Decline");
 
-        requestedTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
+            {
+                approveBtn.setOnAction(e -> {
+                    System.out.println("Item approved!");
+                });
+
+                declineBtn.setOnAction(e -> {
+                    showReasonPopUp();
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null); 
+                } else {
+                    HBox buttonBox = new HBox(10);
+                    buttonBox.getChildren().addAll(approveBtn, declineBtn);
+                    setGraphic(buttonBox);
+                }
+            }
+        });
+
+        requestedTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, actionCol);
     }
+
 
     @Override
     public void setAlignment() {
@@ -106,19 +138,19 @@ public class RequestedPage extends Page {
         reasonArea.setPromptText("Enter reason for declining...");
         reasonArea.setWrapText(true);
 
-        actionBox.getChildren().addAll(approveBtn, declineBtn);
-        actionBox.setSpacing(10);
-        actionBox.setStyle("-fx-padding: 10; -fx-alignment: top-center;");
+//        actionBox.getChildren().addAll(approveBtn, declineBtn);
+//        actionBox.setSpacing(10);
+//        actionBox.setStyle("-fx-padding: 10; -fx-alignment: top-center;");
     }
 
     @Override
     public void setHandler() {
     	homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
 		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
-        declineBtn.setOnAction(e -> showReasonPopUp());
-        approveBtn.setOnAction(e -> {
-            System.out.println("Item approved!");
-        });
+//        declineBtn.setOnAction(e -> showReasonPopUp());
+//        approveBtn.setOnAction(e -> {
+//            System.out.println("Item approved!");
+//        });
     }
 
     @Override
