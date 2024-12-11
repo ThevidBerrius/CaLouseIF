@@ -1,8 +1,7 @@
 package model;
 
 public class WishlistItem {
-	private String wishlistId, userId, itemId, itemName, itemSize, itemCategory, itemStatus, itemWishlist,
-			itemOfferStatus;
+	private String wishlistId, userId, itemId, itemName, itemSize, itemCategory, itemStatus, itemWishlist, itemOfferStatus;
 
 	public WishlistItem(String wishlistId, String userId, String itemId, String itemName, String itemSize,
 			String itemCategory, String itemStatus, String itemWishlist, String itemOfferStatus) {
