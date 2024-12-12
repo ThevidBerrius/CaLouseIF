@@ -46,8 +46,6 @@ public class BuyerHomePage extends Page {
 
     private Label titleLbl;
 
-    private Button offerBtn, wishlistBtn, buyBtn;
-
     private TableView<Item> itemTable;
 
     public BuyerHomePage(Stage primaryStage) {
@@ -82,10 +80,6 @@ public class BuyerHomePage extends Page {
         menu.getItems().addAll(homeNav, wishlistNav, historyNav, logoutNav);
 
         titleLbl = new Label("Buyer Home");
-
-//        offerBtn = new Button("Offer Item");
-//        wishlistBtn = new Button("Add Wishlist");
-//        buyBtn = new Button("Buy");
 
         itemTable = new TableView<Item>();
     }
@@ -160,16 +154,6 @@ public class BuyerHomePage extends Page {
         layoutBP.setTop(navBP);
         layoutBP.setCenter(itemTable);
 
-//        GridPane buttonPane = new GridPane();
-//        buttonPane.setHgap(10); 
-//        buttonPane.setVgap(10);
-//        buttonPane.add(offerBtn, 0, 0);
-//        buttonPane.add(wishlistBtn, 1, 0);
-//        buttonPane.add(buyBtn, 2, 0);
-
-//        layoutBP.setBottom(buttonPane);
-
-//        buttonPane.setStyle("-fx-alignment: center; -fx-padding: 10;");
     }
 
     @Override

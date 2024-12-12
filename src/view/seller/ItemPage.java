@@ -14,11 +14,13 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import main.SceneManager;
 import model.Item;
@@ -39,7 +41,6 @@ public class ItemPage extends Page{
 	private MenuItem homeNav, uploadNav, itemNav, offerNav, logoutNav;
 	
 	private Label tibleLbl;
-	private Button editBtn, deleteBtn;
 	
 	private TableView<Item> itemTable;
 	
@@ -77,9 +78,6 @@ public class ItemPage extends Page{
 		
 		tibleLbl = new Label("Seller Item");
 		
-		editBtn = new Button("Edit");
-		deleteBtn = new Button("Delete");
-		
 		itemTable = new TableView<Item>();
 	}
 
@@ -103,7 +101,42 @@ public class ItemPage extends Page{
 		TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
 		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
 		
-		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
+		TableColumn<Item, String> statusCol = new TableColumn<Item, String>("Status");
+		statusCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemStatus"));
+		
+		TableColumn<Item, Void> actionCol = new TableColumn<Item, Void>("Action");
+		actionCol.setCellFactory(param -> new TableCell<Item, Void>() {
+            private final Button editBtn = new Button("Edit");
+            private final Button deleteBtn = new Button("Delete");
+            
+            {
+                editBtn.setOnAction(e -> {
+                    System.out.println("Buy Item");
+                });
+                
+                deleteBtn.setOnAction(e -> {
+                    System.out.println("Offer Item");
+                });
+                
+            }
+            
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                	HBox buttonBox = new HBox(10);
+	                buttonBox.getChildren().addAll(editBtn, deleteBtn);
+                	buttonBox.setStyle("-fx-alignment: center-left;");  
+	                buttonBox.setSpacing(20);
+                    setGraphic(buttonBox);
+                }
+            }
+        });
+		
+		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, statusCol, actionCol);
 	}
 
 	@Override
@@ -115,16 +148,6 @@ public class ItemPage extends Page{
 		
 		layoutBP.setTop(navBP);
 		layoutBP.setCenter(itemTable);
-		
-		GridPane buttonPane = new GridPane();
-        buttonPane.setHgap(10); 
-        buttonPane.setVgap(10);
-        buttonPane.add(editBtn, 0, 0);
-        buttonPane.add(deleteBtn, 1, 0);
-
-        layoutBP.setBottom(buttonPane);
-
-        buttonPane.setStyle("-fx-alignment: center; -fx-padding: 10;");
 	}
 
 	@Override
