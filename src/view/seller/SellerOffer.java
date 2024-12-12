@@ -1,6 +1,7 @@
 package view.seller;
 
 import controller.ItemController;
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -26,6 +27,7 @@ import model.Page;
 
 public class SellerOffer extends Page {
 	private SceneManager sceneManager;
+	private UserController userController;
 	private ItemController itemController;
 
 	private BorderPane layoutBP, navBP, offerBP, actionBP;
@@ -35,7 +37,7 @@ public class SellerOffer extends Page {
 
 	private MenuBar navbar;
 	private Menu menu;
-	private MenuItem homeNav, uploadNav, itemNav, offerNav;
+	private MenuItem homeNav, uploadNav, itemNav, offerNav, logoutNav;
 
 	private TableView<Offer> offerTable;
 
@@ -69,9 +71,10 @@ public class SellerOffer extends Page {
 		uploadNav = new MenuItem("Upload Item");
 		itemNav = new MenuItem("Item");
 		offerNav = new MenuItem("Offer");
+		logoutNav = new MenuItem("Logout");
 
 		navbar.getMenus().add(menu);
-		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav);
+		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav, logoutNav);
 
 		offerTable = new TableView<>();
 //        approveBtn = new Button("Approve");
@@ -162,6 +165,7 @@ public class SellerOffer extends Page {
 		uploadNav.setOnAction(e -> sceneManager.switchSellerPage("upload"));
 		itemNav.setOnAction(e -> sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
+		logoutNav.setOnAction(e -> userController.logout(sceneManager));
 
 //        declineBtn.setOnAction(e -> showReasonPopUp());
 //        approveBtn.setOnAction(e -> {

@@ -3,6 +3,7 @@ package view.admin;
 import java.util.Vector;
 
 import controller.ItemController;
+import controller.UserController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ import model.Page;
 public class AdminHomePage extends Page {
 	private SceneManager sceneManager;
 	private ItemController itemController;
+	private UserController userController;
     private Vector<Item> items;
 	
 	private BorderPane layoutBP, navBP, adminBP;
@@ -33,7 +35,7 @@ public class AdminHomePage extends Page {
 	
 	private MenuBar navbar;
 	private Menu menu;
-	private MenuItem homeNav, requestedNav;
+	private MenuItem homeNav, requestedNav, logoutNav;
 	
 	private Label titleLbl;
 	
@@ -63,9 +65,10 @@ public class AdminHomePage extends Page {
 		menu  = new Menu("Menu");
 		homeNav = new MenuItem("Home");
 		requestedNav = new MenuItem("Requested Item");
+		logoutNav = new MenuItem("Logout");
 		
 		navbar.getMenus().add(menu);
-		menu.getItems().addAll(homeNav, requestedNav);
+		menu.getItems().addAll(homeNav, requestedNav, logoutNav);
 		
 		titleLbl = new Label("Admin Home");
 		
@@ -110,6 +113,8 @@ public class AdminHomePage extends Page {
 	public void setHandler() {
 		homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
 		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
+		logoutNav.setOnAction(e -> userController.logout(sceneManager));
+
 	}
 
 	@Override

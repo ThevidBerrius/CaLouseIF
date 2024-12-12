@@ -3,6 +3,7 @@ package view.seller;
 import java.util.Vector;
 
 import controller.ItemController;
+import controller.UserController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,6 +26,7 @@ import model.Page;
 
 public class ItemPage extends Page{
 	private SceneManager sceneManager;
+	private UserController userController;
 	private ItemController itemController;
 	private Vector<Item> items;
 	
@@ -34,7 +36,7 @@ public class ItemPage extends Page{
 	
 	private MenuBar navbar;
 	private Menu menu;
-	private MenuItem homeNav, uploadNav, itemNav, offerNav;
+	private MenuItem homeNav, uploadNav, itemNav, offerNav, logoutNav;
 	
 	private Label tibleLbl;
 	private Button editBtn, deleteBtn;
@@ -68,8 +70,9 @@ public class ItemPage extends Page{
 		uploadNav = new MenuItem("Upload Item");
 		itemNav = new MenuItem("Item");
 		offerNav = new MenuItem("Offer");
+		logoutNav = new MenuItem("Logout");
 		navbar.getMenus().add(menu);
-		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav);
+		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav, logoutNav);
 		
 		tibleLbl = new Label("Seller Item");
 		
@@ -129,6 +132,7 @@ public class ItemPage extends Page{
 		uploadNav.setOnAction(e->sceneManager.switchSellerPage("upload"));
 		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e->sceneManager.switchSellerPage("selleroffer"));
+		logoutNav.setOnAction(e -> userController.logout(sceneManager));
 		
 		itemTable.setOnMouseClicked(e -> {
 			Item selectedItem = itemTable.getSelectionModel().getSelectedItem();

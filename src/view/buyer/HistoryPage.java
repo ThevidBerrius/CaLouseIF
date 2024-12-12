@@ -1,5 +1,6 @@
 package view.buyer;
 
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -19,6 +20,7 @@ import model.TransactionHistory;
 
 public class HistoryPage extends Page {
 	private SceneManager sceneManager;
+	private UserController userController;
 
 	private BorderPane layoutBP, navBP, historyBP;
 	private GridPane gp;
@@ -26,7 +28,7 @@ public class HistoryPage extends Page {
 
 	private MenuBar navbar;
 	private Menu menu;
-	private MenuItem homeNav, wishlistNav, historyNav;
+	private MenuItem homeNav, wishlistNav, historyNav, logoutNav;
 
 	private Label titleLbl;
 
@@ -54,8 +56,9 @@ public class HistoryPage extends Page {
 		homeNav = new MenuItem("Home");
 		wishlistNav = new MenuItem("Wishlist");
 		historyNav = new MenuItem("History");
+		logoutNav = new MenuItem("Logout");
 		navbar.getMenus().add(menu);
-		menu.getItems().addAll(homeNav, wishlistNav, historyNav);
+		menu.getItems().addAll(homeNav, wishlistNav, historyNav, logoutNav);
 
 		titleLbl = new Label("Buyer Transaction History");
 
@@ -98,6 +101,7 @@ public class HistoryPage extends Page {
 		homeNav.setOnAction(e->sceneManager.switchBuyerPage("buyerhome"));
     	historyNav.setOnAction(e->sceneManager.switchBuyerPage("history"));
     	wishlistNav.setOnAction(e->sceneManager.switchBuyerPage("wishlist"));
+		logoutNav.setOnAction(e -> userController.logout(sceneManager));
 	}
 
 	@Override

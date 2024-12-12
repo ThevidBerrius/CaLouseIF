@@ -1,5 +1,6 @@
 package view.buyer;
 
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +21,7 @@ import model.Page;
 
 public class BuyerHomePage extends Page {
     private SceneManager sceneManager;
+    private UserController userController;
 
     private BorderPane layoutBP, navBP, buyerBP;
 
@@ -28,7 +30,7 @@ public class BuyerHomePage extends Page {
 
     private MenuBar navbar;
     private Menu menu;
-    private MenuItem homeNav, wishlistNav, historyNav;
+    private MenuItem homeNav, wishlistNav, historyNav, logoutNav;
 
     private Label titleLbl;
 
@@ -58,6 +60,7 @@ public class BuyerHomePage extends Page {
         homeNav = new MenuItem("Home");
         wishlistNav = new MenuItem("Wishlist");
         historyNav = new MenuItem("History");
+        logoutNav = new MenuItem("Logout");
         navbar.getMenus().add(menu);
         menu.getItems().addAll(homeNav, wishlistNav, historyNav);
 

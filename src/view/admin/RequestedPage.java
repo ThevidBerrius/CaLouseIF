@@ -31,6 +31,7 @@ import model.Page;
 
 public class RequestedPage extends Page {
     private SceneManager sceneManager;
+    private UserController userController;
     private ItemController itemController;
     private Vector<Item> items;
 
@@ -39,7 +40,7 @@ public class RequestedPage extends Page {
 
     private MenuBar navbar;
     private Menu menu;
-    private MenuItem homeNav, requestedNav;
+    private MenuItem homeNav, requestedNav, logoutNav;
 
     private BorderPane layoutBP, navBP, requestedBP, reasonBP;
 
@@ -75,8 +76,9 @@ public class RequestedPage extends Page {
         menu = new Menu("Menu");
         homeNav = new MenuItem("Home");
         requestedNav = new MenuItem("Requested Item");
+        logoutNav = new MenuItem("Logout");
         navbar.getMenus().add(menu);
-        menu.getItems().addAll(homeNav, requestedNav);
+        menu.getItems().addAll(homeNav, requestedNav, logoutNav);
 
         requestedTable = new TableView<>();
         approveBtn = new Button("Approve");
@@ -163,6 +165,7 @@ public class RequestedPage extends Page {
     public void setHandler() {
     	homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
 		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
+		logoutNav.setOnAction(e -> userController.logout(sceneManager));
     }
 
     @Override

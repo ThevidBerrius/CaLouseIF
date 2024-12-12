@@ -1,5 +1,6 @@
 package view.buyer;
 
+import controller.UserController;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -20,6 +21,7 @@ import model.WishlistItem;
 
 public class WishlistPage extends Page {
     private SceneManager sceneManager;
+    private UserController userController;
 
     private BorderPane layoutBP, navBP, wishlistBP;
     private GridPane gp;
@@ -27,7 +29,7 @@ public class WishlistPage extends Page {
 
     private MenuBar navbar;
     private Menu menu;
-    private MenuItem homeNav, wishlistNav, historyNav;
+    private MenuItem homeNav, wishlistNav, historyNav, logoutNav;
 
     private TableView<WishlistItem> wishlistTable;
 
@@ -56,6 +58,7 @@ public class WishlistPage extends Page {
         homeNav = new MenuItem("Home");
         wishlistNav = new MenuItem("Wishlist");
         historyNav = new MenuItem("History");
+        logoutNav = new MenuItem("Logout");
         navbar.getMenus().add(menu);
         menu.getItems().addAll(homeNav, wishlistNav, historyNav);
 
@@ -105,6 +108,7 @@ public class WishlistPage extends Page {
     	homeNav.setOnAction(e->sceneManager.switchBuyerPage("buyerhome"));
     	historyNav.setOnAction(e->sceneManager.switchBuyerPage("history"));
     	wishlistNav.setOnAction(e->sceneManager.switchBuyerPage("wishlist"));
+		logoutNav.setOnAction(e -> userController.logout(sceneManager));
     }
 
     @Override
