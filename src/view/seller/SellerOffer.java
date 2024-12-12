@@ -49,7 +49,7 @@ public class SellerOffer extends Page {
 	public SellerOffer(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
-		this.userController = new UserController();
+		this.userController = UserController.getInstance();
 		initPage();
 		initializeTable();
 		setAlignment();

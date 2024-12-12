@@ -38,7 +38,7 @@ public class UploadItemPage extends Page{
 	public UploadItemPage(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
-		this.userController = new UserController();
+		this.userController = UserController.getInstance();
 		initPage();
 		setAlignment();
 		setHandler();
@@ -121,9 +121,9 @@ public class UploadItemPage extends Page{
 		String itemPrice = priceField.getText();
 		ItemController itemController = new ItemController();
 		
-		String message = itemController.uploadItem(itemName, itemCategory, itemSize, itemPrice);
+		String message = itemController.uploadItem(itemName, userController.getAuthUser().getUserId(), itemCategory, itemSize, itemPrice);
 		
-		if (message.equals("Success")) sceneManager.switchSellerPage("sellerhome");
+		if (message.equals("Success")) sceneManager.switchSellerPage("selleritem");
 		else messageLbl.setText(message);
 	}
 

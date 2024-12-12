@@ -16,12 +16,6 @@ public class Connect {
 	private ResultSet rs;
 	private ResultSetMetaData rsm;
 
-	public static Connect getInstance() {
-		if (connect == null)
-			connect = new Connect();
-		return connect;
-	}
-
 	private Connect() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -29,6 +23,11 @@ public class Connect {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Connect getInstance() {
+		if (connect == null) connect = new Connect();
+		return connect;
 	}
 
 	public ResultSet execQuery(String query, Object[] params) {

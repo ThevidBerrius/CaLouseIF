@@ -1,6 +1,11 @@
 package view.buyer;
 
+import java.util.Vector;
+
 import controller.UserController;
+import controller.WishlistController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +27,8 @@ import model.WishlistItem;
 public class WishlistPage extends Page {
     private SceneManager sceneManager;
     private UserController userController;
+    private WishlistController wishlistController;
+    private Vector<WishlistItem> wishlistItems;
 
     private BorderPane layoutBP, navBP, wishlistBP;
     private GridPane gp;
@@ -38,8 +45,11 @@ public class WishlistPage extends Page {
 
     public WishlistPage(Stage primaryStage) {
         this.sceneManager = new SceneManager(primaryStage);
-        this.userController = new UserController();
+        this.userController = UserController.getInstance();
+        this.wishlistController = new WishlistController();
+        this.wishlistItems = new Vector<>();
         initPage();
+        refreshTable();
         initializeTable();
         setAlignment();
         setHandler();
@@ -67,6 +77,13 @@ public class WishlistPage extends Page {
         removeBtn = new Button("Remove Item");
 
         wishlistTable = new TableView<WishlistItem>();
+    }
+    
+    private void refreshTable() {
+    	this.wishlistItems.clear();
+    	this.wishlistItems = wishlistController.viewWishlist("", userController.getAuthUser().getUserId());
+    	ObservableList<WishlistItem> wishlistItemList = FXCollections.observableArrayList(this.wishlistItems);
+    	this.wishlistTable.setItems(wishlistItemList);
     }
 
     public void initializeTable() {

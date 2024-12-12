@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import main.SceneManager;
 import model.Item;
 import model.Page;
+import model.User;
 
 public class BuyerHomePage extends Page {
     private SceneManager sceneManager;
@@ -52,7 +53,7 @@ public class BuyerHomePage extends Page {
     public BuyerHomePage(Stage primaryStage) {
         this.sceneManager = new SceneManager(primaryStage);
         this.itemController = new ItemController();
-        this.userController = new UserController();
+        this.userController = UserController.getInstance();
         this.wishlistController = new WishlistController();
         this.items = new Vector<>();
         initPage();

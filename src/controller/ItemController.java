@@ -15,16 +15,16 @@ public class ItemController {
 		this.idGenerator = new IdGenerator();
 	}
 
-	public String uploadItem(String itemName, String itemCategory, String itemSize, String itemPrice) {
+	public String uploadItem(String itemName, String userId, String itemCategory, String itemSize, String itemPrice) {
 		String message = checkItemValidation(itemName, itemCategory, itemSize, itemPrice);
 		
 		if (!message.equals("Validation Success")) return message;
 		
 		String itemId = this.idGenerator.generateId("items", "IT");
-		Item newItem = new Item(itemId, itemName, itemSize, itemPrice, itemCategory, null, null, null);
+		Item newItem = new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, null, null, null);
 		
-		String query = "INSERT INTO items (itemId, itemName, itemCategory, itemSize, itemPrice) VALUES (?, ?, ?, ?, ?)";
-        Object[] params = { newItem.getItemId(), newItem.getItemName(), newItem.getItemCategory(), newItem.getItemSize(), newItem.getItemPrice() };
+		String query = "INSERT INTO items (itemId, userId, itemName, itemCategory, itemSize, itemPrice) VALUES (?, ?, ?, ?, ?, ?)";
+        Object[] params = { newItem.getItemId(), newItem.getUserId(), newItem.getItemName(), newItem.getItemCategory(), newItem.getItemSize(), newItem.getItemPrice() };
         
         if(Connect.getInstance().execUpdate(query, params)) {
         	return "Success";
@@ -34,19 +34,19 @@ public class ItemController {
 	}
 	
 	public String editItem(String itemId, String itemName, String itemCategory, String itemSize, String itemPrice) {
-		String message = checkItemValidation(itemName, itemCategory, itemSize, itemPrice);
-		
-		if (!message.equals("Validation Success")) return message;
-		
-		Item newItem = new Item(itemId, itemName, itemSize, itemPrice, itemCategory, null, null, null);
-		
-		String query = "UPDATE items SET itemName = ?, itemCategory = ?, itemSize = ?, itemPrice = ? WHERE itemId = ?";
-        Object[] params = { newItem.getItemName(), newItem.getItemCategory(), newItem.getItemSize(), newItem.getItemPrice(), newItem.getItemId(),  };
-        
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	return "Success";
-        }
-		
+//		String message = checkItemValidation(itemName, itemCategory, itemSize, itemPrice);
+//		
+//		if (!message.equals("Validation Success")) return message;
+//		
+//		Item newItem = new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, null, null, null);
+//		
+//		String query = "UPDATE items SET itemName = ?, itemCategory = ?, itemSize = ?, itemPrice = ? WHERE itemId = ?";
+//        Object[] params = { newItem.getItemName(), newItem.getItemCategory(), newItem.getItemSize(), newItem.getItemPrice(), newItem.getItemId() };
+//        
+//        if(Connect.getInstance().execUpdate(query, params)) {
+//        	return "Success";
+//        }
+//		
 		return "Error Insert to Database";
 	}
 	
@@ -59,14 +59,15 @@ public class ItemController {
 	}
 	
 	public Vector<Item> viewItem() {
-		Vector<Item> items = new Vector<Item>();
-		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Approved'";
+		Vector<Item> items = new Vector<>();
+		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Approved' && itemOfferStatus LIKE 'Available'";
 		
 		ResultSet rs = Connect.getInstance().execQuery(query, new Object[] {});
 		
 		try {
             while (rs.next()) {
             	String itemId = rs.getString("itemId");
+            	String userId = rs.getString("userId");
                 String itemName = rs.getString("itemName");
                 String itemSize = rs.getString("itemSize");
                 String itemPrice = rs.getString("itemPrice");
@@ -74,7 +75,7 @@ public class ItemController {
                 String itemStatus = rs.getString("itemStatus");
                 String itemWishlist = rs.getString("itemWishlist");
                 String itemOfferStatus = rs.getString("itemOfferStatus");
-                items.add(new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
+                items.add(new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,7 +115,7 @@ public class ItemController {
 	
 	// Disini saya asumsikan bahwa viewRequestedItem tidak membutuhkan parameter
 	public Vector<Item> viewRequestedItem() {
-		Vector<Item> items = new Vector<Item>();
+		Vector<Item> items = new Vector<>();
 		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Pending'";
 		
 		ResultSet rs = Connect.getInstance().execQuery(query, new Object[] {});
@@ -122,6 +123,7 @@ public class ItemController {
 		try {
             while (rs.next()) {
             	String itemId = rs.getString("itemId");
+            	String userId = rs.getString("userId");
                 String itemName = rs.getString("itemName");
                 String itemSize = rs.getString("itemSize");
                 String itemPrice = rs.getString("itemPrice");
@@ -129,7 +131,7 @@ public class ItemController {
                 String itemStatus = rs.getString("itemStatus");
                 String itemWishlist = rs.getString("itemWishlist");
                 String itemOfferStatus = rs.getString("itemOfferStatus");
-                items.add(new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
+                items.add(new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -162,7 +164,7 @@ public class ItemController {
 	}
 	
 	public Vector<Item> viewAcceptedItem() {
-		Vector<Item> items = new Vector<Item>();
+		Vector<Item> items = new Vector<>();
 		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Approved'";
 		
 		ResultSet rs = Connect.getInstance().execQuery(query, new Object[] {});
@@ -170,6 +172,7 @@ public class ItemController {
 		try {
             while (rs.next()) {
             	String itemId = rs.getString("itemId");
+            	String userId = rs.getString("userId");
                 String itemName = rs.getString("itemName");
                 String itemSize = rs.getString("itemSize");
                 String itemPrice = rs.getString("itemPrice");
@@ -177,7 +180,35 @@ public class ItemController {
                 String itemStatus = rs.getString("itemStatus");
                 String itemWishlist = rs.getString("itemWishlist");
                 String itemOfferStatus = rs.getString("itemOfferStatus");
-                items.add(new Item(itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
+                items.add(new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } 
+		
+		return items;
+	}
+	
+	public Vector<Item> viewSellerItem(String user_id){
+		Vector<Item> items = new Vector<>();
+		String query = "SELECT * FROM items WHERE userId LIKE ?";
+		Object[] params = { user_id };
+		
+		ResultSet rs = Connect.getInstance().execQuery(query, params);
+		
+		try {
+            while (rs.next()) {
+            	String itemId = rs.getString("itemId");
+            	String userId = rs.getString("userId");
+                String itemName = rs.getString("itemName");
+                String itemSize = rs.getString("itemSize");
+                String itemPrice = rs.getString("itemPrice");
+                String itemCategory = rs.getString("itemCategory");
+                String itemStatus = rs.getString("itemStatus");
+                String itemWishlist = rs.getString("itemWishlist");
+                String itemOfferStatus = rs.getString("itemOfferStatus");
+                items.add(new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
             }
         } catch (SQLException e) {
             e.printStackTrace();

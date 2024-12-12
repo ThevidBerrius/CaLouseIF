@@ -45,7 +45,7 @@ public class SellerHomePage extends Page{
 	public SellerHomePage(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
-		this.userController = new UserController();
+		this.userController = UserController.getInstance();
 		this.items = new Vector<>();
 		initPage();
 		refreshTable();

@@ -36,7 +36,7 @@ public class HistoryPage extends Page {
 
 	public HistoryPage(Stage primaryStage) {
     	this.sceneManager = new SceneManager(primaryStage);
-    	this.userController = new UserController();
+    	this.userController = UserController.getInstance();
     	initPage();
     	initalizeTable();
     	setAlignment();

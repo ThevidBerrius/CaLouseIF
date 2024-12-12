@@ -1,15 +1,15 @@
 package model;
 
 public class WishlistItem {
-	private String wishlistId, userId, itemId, itemName, itemSize, itemCategory, itemStatus, itemWishlist, itemOfferStatus;
+	private String wishlistId, userId, itemId, itemName, itemPrice, itemSize, itemCategory, itemStatus, itemWishlist, itemOfferStatus;
 
-	public WishlistItem(String wishlistId, String userId, String itemId, String itemName, String itemSize,
-			String itemCategory, String itemStatus, String itemWishlist, String itemOfferStatus) {
+	public WishlistItem(String wishlistId, String userId, String itemId, String itemName, String itemPrice, String itemSize, String itemCategory, String itemStatus, String itemWishlist, String itemOfferStatus) {
 		super();
 		this.wishlistId = wishlistId;
 		this.userId = userId;
 		this.itemId = itemId;
 		this.itemName = itemName;
+		this.itemPrice = itemPrice;
 		this.itemSize = itemSize;
 		this.itemCategory = itemCategory;
 		this.itemStatus = itemStatus;
@@ -47,6 +47,14 @@ public class WishlistItem {
 
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
+	}
+	
+	public String getItemPrice() {
+		return itemPrice;
+	}
+
+	public void setItemPrice(String itemPrice) {
+		this.itemPrice = itemPrice;
 	}
 
 	public String getItemSize() {

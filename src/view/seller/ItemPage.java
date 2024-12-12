@@ -47,7 +47,7 @@ public class ItemPage extends Page{
 	public ItemPage(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
-		this.userController = new UserController();
+		this.userController = UserController.getInstance();
 		this.items = new Vector<>();
 		initPage();
 		refreshTable();
@@ -85,7 +85,7 @@ public class ItemPage extends Page{
 
 	private void refreshTable() {
     	this.items.clear();
-    	this.items = itemController.viewItem();
+    	this.items = itemController.viewSellerItem(userController.getAuthUser().getUserId());
     	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
     	this.itemTable.setItems(itemList);
     }

@@ -1,19 +1,20 @@
 package model;
 
 public class Item {
-	private String itemId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWhislist, itemOfferStatus;
+	private String itemId, userId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus;
 
-	public Item(String itemId, String itemName, String itemSize, String itemPrice, String itemCategory,
-			String itemStatus, String itemWhislist, String itemOfferStatus) {
+	public Item(String itemId, String userId, String itemName, String itemSize, String itemPrice, String itemCategory,
+			String itemStatus, String itemWishlist, String itemOfferStatus) {
 		super();
 		this.itemId = itemId;
+		this.userId = userId;
 		this.itemName = itemName;
 		this.itemSize = itemSize;
 		this.itemPrice = itemPrice;
 		this.itemCategory = itemCategory;
 		this.itemStatus = itemStatus;
-		this.itemWhislist = itemWhislist;
-		this.itemOfferStatus = itemOfferStatus;
+		this.itemWishlist = itemWishlist;
+		this.itemOfferStatus = itemOfferStatus; // Available, Offering, Sold
 	}
 
 	public String getItemId() {
@@ -22,6 +23,14 @@ public class Item {
 
 	public void setItemId(String itemId) {
 		this.itemId = itemId;
+	}
+	
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getItemName() {
@@ -65,11 +74,11 @@ public class Item {
 	}
 
 	public String getItemWhislist() {
-		return itemWhislist;
+		return itemWishlist;
 	}
 
-	public void setItemWhislist(String itemWhislist) {
-		this.itemWhislist = itemWhislist;
+	public void setItemWhislist(String itemWishlist) {
+		this.itemWishlist = itemWishlist;
 	}
 
 	public String getItemOfferStatus() {

@@ -5,7 +5,7 @@ public class TransactionController {
 		
 	}
 	
-	public void viewHistory(String user_id) {
+	public void viewHistory(String userId) {
 		
 	}
 	

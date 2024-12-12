@@ -7,12 +7,13 @@ import util.Connect;
 
 public class IdGenerator {
 	public String generateId(String table, String prefix) {
-		String query = "SELECT id FROM " + table + " ORDER BY id DESC LIMIT 1";
+		String idField = table.substring(0, table.length() - 1) + "Id";
+		String query = "SELECT " + idField + " FROM " + table + " ORDER BY " + idField + " DESC LIMIT 1";
 		String lastId = "";
 		
         try {
         	ResultSet rs = Connect.getInstance().execQuery(query, new Object[]{});
-			if (rs.next()) lastId = rs.getString("id");
+			if (rs.next()) lastId = rs.getString(idField);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

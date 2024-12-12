@@ -33,7 +33,7 @@ public class LoginPage extends Page {
 
     public LoginPage(Stage primaryStage) {
         this.sceneManager = new SceneManager(primaryStage);
-        this.userController = new UserController();
+        this.userController = UserController.getInstance();
         initPage();
         setAlignment();
         setHandler();
