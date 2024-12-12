@@ -1,6 +1,12 @@
 package view.buyer;
 
+import java.util.Vector;
+
+import controller.ItemController;
 import controller.UserController;
+import controller.WishlistController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,7 +29,10 @@ import model.Page;
 
 public class BuyerHomePage extends Page {
     private SceneManager sceneManager;
+    private ItemController itemController;
     private UserController userController;
+    private WishlistController wishlistController;
+    private Vector<Item> items;
 
     private BorderPane layoutBP, navBP, buyerBP;
 
@@ -41,8 +50,13 @@ public class BuyerHomePage extends Page {
     private TableView<Item> itemTable;
 
     public BuyerHomePage(Stage primaryStage) {
-        sceneManager = new SceneManager(primaryStage);
+        this.sceneManager = new SceneManager(primaryStage);
+        this.itemController = new ItemController();
+        this.userController = new UserController();
+        this.wishlistController = new WishlistController();
+        this.items = new Vector<>();
         initPage();
+        refreshTable();
         initializeTable();
         setAlignment();
         setHandler();
@@ -74,6 +88,13 @@ public class BuyerHomePage extends Page {
 
         itemTable = new TableView<Item>();
     }
+    
+    private void refreshTable() {
+    	this.items.clear();
+    	this.items = itemController.viewItem();
+    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
+    	this.itemTable.setItems(itemList);
+    }
 
     public void initializeTable() {
         TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
@@ -104,7 +125,8 @@ public class BuyerHomePage extends Page {
                 });
                 
                 wishlistBtn.setOnAction(e -> {
-                    System.out.println("Add Wishlist");
+                	Item item = getTableRow().getItem();
+                	wishlistController.addWishlist(item.getItemId(), userController.getAuthUser().getUserId());
                 });
             }
             
@@ -164,7 +186,6 @@ public class BuyerHomePage extends Page {
 
     @Override
     public Scene createScene() {
-        // Create and return the Scene with the layout
         return new Scene(layoutBP); 
     }
 }

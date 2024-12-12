@@ -35,7 +35,8 @@ public class HistoryPage extends Page {
 	private TableView<TransactionHistory> historyTable;
 
 	public HistoryPage(Stage primaryStage) {
-    	sceneManager = new SceneManager(primaryStage);
+    	this.sceneManager = new SceneManager(primaryStage);
+    	this.userController = new UserController();
     	initPage();
     	initalizeTable();
     	setAlignment();
@@ -106,13 +107,11 @@ public class HistoryPage extends Page {
 
 	@Override
 	public void handlePage(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public Scene createScene() {
-		// TODO Auto-generated method stub
 		return new Scene(layoutBP);
 	}
 

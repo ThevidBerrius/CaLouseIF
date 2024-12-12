@@ -60,7 +60,7 @@ public class ItemController {
 	
 	public Vector<Item> viewItem() {
 		Vector<Item> items = new Vector<Item>();
-		String query = "SELECT * FROM items";
+		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Approved'";
 		
 		ResultSet rs = Connect.getInstance().execQuery(query, new Object[] {});
 		

@@ -26,7 +26,7 @@ public class UserController {
         try {
             if (rs != null && rs.next()) {
             	this.authUser = new User(rs.getString("userId"), rs.getString("username"), rs.getString("password"), rs.getString("phoneNumber"), rs.getString("address"), rs.getString("role"));
-                return this.authUser.getRole();
+            	return this.authUser.getRole();
             }
         } catch (SQLException e) {
             e.printStackTrace();

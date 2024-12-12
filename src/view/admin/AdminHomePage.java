@@ -44,6 +44,7 @@ public class AdminHomePage extends Page {
 	public AdminHomePage(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
+		this.userController = new UserController();
 		this.items = new Vector<>();
 		initPage();
 		refreshTable();
@@ -119,13 +120,11 @@ public class AdminHomePage extends Page {
 
 	@Override
 	public void handlePage(ActionEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public Scene createScene() {
-		// TODO Auto-generated method stub
 		return new Scene(layoutBP);
 	}
 

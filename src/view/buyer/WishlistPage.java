@@ -37,7 +37,8 @@ public class WishlistPage extends Page {
     private Button removeBtn;
 
     public WishlistPage(Stage primaryStage) {
-        sceneManager = new SceneManager(primaryStage);
+        this.sceneManager = new SceneManager(primaryStage);
+        this.userController = new UserController();
         initPage();
         initializeTable();
         setAlignment();
@@ -60,7 +61,7 @@ public class WishlistPage extends Page {
         historyNav = new MenuItem("History");
         logoutNav = new MenuItem("Logout");
         navbar.getMenus().add(menu);
-        menu.getItems().addAll(homeNav, wishlistNav, historyNav);
+        menu.getItems().addAll(homeNav, wishlistNav, historyNav, logoutNav);
 
         titleLbl = new Label("Buyer Wishlist");
         removeBtn = new Button("Remove Item");
@@ -113,12 +114,11 @@ public class WishlistPage extends Page {
 
     @Override
     public void handlePage(ActionEvent e) {
-        // TODO: Handle page events
+
     }
 
     @Override
     public Scene createScene() {
-        // Create and return the Scene
         return new Scene(layoutBP); 
     }
 }

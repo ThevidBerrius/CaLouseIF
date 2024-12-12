@@ -26,8 +26,8 @@ import model.Page;
 
 public class SellerHomePage extends Page{
 	private SceneManager sceneManager;
-	private UserController userController;
 	private ItemController itemController;
+	private UserController userController;
 	private Vector<Item> items;
 	
 	private BorderPane layoutBP, navBP, sellerBP;
@@ -45,6 +45,7 @@ public class SellerHomePage extends Page{
 	public SellerHomePage(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
+		this.userController = new UserController();
 		this.items = new Vector<>();
 		initPage();
 		refreshTable();

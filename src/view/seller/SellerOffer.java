@@ -27,8 +27,8 @@ import model.Page;
 
 public class SellerOffer extends Page {
 	private SceneManager sceneManager;
-	private UserController userController;
 	private ItemController itemController;
+	private UserController userController;
 
 	private BorderPane layoutBP, navBP, offerBP, actionBP;
 
@@ -49,6 +49,7 @@ public class SellerOffer extends Page {
 	public SellerOffer(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
+		this.userController = new UserController();
 		initPage();
 		initializeTable();
 		setAlignment();

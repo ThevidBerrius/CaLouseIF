@@ -19,8 +19,8 @@ import model.Page;
 
 public class UploadItemPage extends Page{
 	private SceneManager sceneManager;
-	private UserController userController;
 	private ItemController itemController;
+	private UserController userController;
 	
 	private BorderPane layoutBP, navBP, uploadBP;
 	
@@ -38,6 +38,7 @@ public class UploadItemPage extends Page{
 	public UploadItemPage(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
+		this.userController = new UserController();
 		initPage();
 		setAlignment();
 		setHandler();
@@ -128,7 +129,6 @@ public class UploadItemPage extends Page{
 
 	@Override
 	public Scene createScene() {
-		// TODO Auto-generated method stub
 		return new Scene(layoutBP);
 	}
 
