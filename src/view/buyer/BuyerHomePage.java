@@ -9,11 +9,13 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import main.SceneManager;
 import model.Item;
@@ -62,13 +64,13 @@ public class BuyerHomePage extends Page {
         historyNav = new MenuItem("History");
         logoutNav = new MenuItem("Logout");
         navbar.getMenus().add(menu);
-        menu.getItems().addAll(homeNav, wishlistNav, historyNav);
+        menu.getItems().addAll(homeNav, wishlistNav, historyNav, logoutNav);
 
         titleLbl = new Label("Buyer Home");
 
-        offerBtn = new Button("Offer Item");
-        wishlistBtn = new Button("Add Wishlist");
-        buyBtn = new Button("Buy");
+//        offerBtn = new Button("Offer Item");
+//        wishlistBtn = new Button("Add Wishlist");
+//        buyBtn = new Button("Buy");
 
         itemTable = new TableView<Item>();
     }
@@ -85,8 +87,44 @@ public class BuyerHomePage extends Page {
 
         TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
-
-        itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
+        
+        TableColumn<Item, Void> actionCol = new TableColumn<>("Action");
+        actionCol.setCellFactory(param -> new TableCell<Item, Void>() {
+            private final Button buyBtn = new Button("Buy");
+            private final Button offerBtn = new Button("Offer");
+            private final Button wishlistBtn = new Button("Add Wishlist");
+            
+            {
+                buyBtn.setOnAction(e -> {
+                    System.out.println("Buy Item");
+                });
+                
+                offerBtn.setOnAction(e -> {
+                    System.out.println("Offer Item");
+                });
+                
+                wishlistBtn.setOnAction(e -> {
+                    System.out.println("Add Wishlist");
+                });
+            }
+            
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                	HBox buttonBox = new HBox(10);
+	                buttonBox.getChildren().addAll(buyBtn, offerBtn, wishlistBtn);
+                	buttonBox.setStyle("-fx-alignment: center-left;");  
+	                buttonBox.setSpacing(20);
+                    setGraphic(buttonBox);
+                }
+            }
+        });
+        
+        itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, actionCol);
     }
 
     @Override
@@ -99,16 +137,16 @@ public class BuyerHomePage extends Page {
         layoutBP.setTop(navBP);
         layoutBP.setCenter(itemTable);
 
-        GridPane buttonPane = new GridPane();
-        buttonPane.setHgap(10); 
-        buttonPane.setVgap(10);
-        buttonPane.add(offerBtn, 0, 0);
-        buttonPane.add(wishlistBtn, 1, 0);
-        buttonPane.add(buyBtn, 2, 0);
+//        GridPane buttonPane = new GridPane();
+//        buttonPane.setHgap(10); 
+//        buttonPane.setVgap(10);
+//        buttonPane.add(offerBtn, 0, 0);
+//        buttonPane.add(wishlistBtn, 1, 0);
+//        buttonPane.add(buyBtn, 2, 0);
 
-        layoutBP.setBottom(buttonPane);
+//        layoutBP.setBottom(buttonPane);
 
-        buttonPane.setStyle("-fx-alignment: center; -fx-padding: 10;");
+//        buttonPane.setStyle("-fx-alignment: center; -fx-padding: 10;");
     }
 
     @Override
@@ -116,6 +154,7 @@ public class BuyerHomePage extends Page {
     	homeNav.setOnAction(e->sceneManager.switchBuyerPage("buyerhome"));
     	historyNav.setOnAction(e->sceneManager.switchBuyerPage("history"));
     	wishlistNav.setOnAction(e->sceneManager.switchBuyerPage("wishlist"));
+		logoutNav.setOnAction(e -> userController.logout(sceneManager));
     }
 
     @Override
