@@ -20,6 +20,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.SceneManager;
 import model.Item;
@@ -116,7 +118,7 @@ public class ItemPage extends Page{
                 
                 deleteBtn.setOnAction(e -> {
                 	Item selectedItem = getTableRow().getItem();
-        			if (selectedItem != null) itemController.deleteItem(selectedItem.getItemId());
+        			if (selectedItem != null) showDeleteConfirmationPopUp(selectedItem);;
         			refreshTable();
                 });
             }
@@ -159,6 +161,34 @@ public class ItemPage extends Page{
 		offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
 	}
+	
+	public void showDeleteConfirmationPopUp(Item item) {
+    	Stage popUpStage = new Stage();
+    	popUpStage.setTitle("Confirm Delete Item");
+    	popUpStage.initModality(Modality.APPLICATION_MODAL);
+    	
+    	Label messageLbl = new Label("Are you sure you want to delete " + item.getItemName() + "?");
+    	
+    	Button confirmBtn = new Button("Confirm");
+    	Button cancelBtn = new Button("Cancel");
+    	
+    	confirmBtn.setOnAction(e -> {
+    		// Masukin controller delete 
+            popUpStage.close();
+            refreshTable();
+        });
+    	
+    	cancelBtn.setOnAction(e -> popUpStage.close());
+    	
+    	HBox buttonBox = new HBox(10, confirmBtn, cancelBtn);
+        buttonBox.setStyle("-fx-alignment: center;");
+        VBox popUpLayout = new VBox(10, messageLbl, buttonBox);
+        popUpLayout.setStyle("-fx-padding: 15; -fx-alignment: center;");
+        
+        Scene popUpScene = new Scene(popUpLayout, 300, 150);
+        popUpStage.setScene(popUpScene);
+        popUpStage.showAndWait();
+    }
 
 	@Override
 	public Scene createScene() {

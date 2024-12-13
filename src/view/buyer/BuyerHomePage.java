@@ -17,10 +17,13 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.SceneManager;
 import model.Item;
@@ -111,11 +114,13 @@ public class BuyerHomePage extends Page {
             
             {
                 buyBtn.setOnAction(e -> {
-                    System.out.println("Buy Item");
+                	Item item  = getTableRow().getItem();
+                	if(item != null) showBuyConfirmationPopUp(item);
                 });
                 
                 offerBtn.setOnAction(e -> {
-                    System.out.println("Offer Item");
+                	Item item  = getTableRow().getItem();
+                	if(item != null) showOfferPricePopUp(item);
                 });
                 
                 wishlistBtn.setOnAction(e -> {
@@ -162,6 +167,70 @@ public class BuyerHomePage extends Page {
     	historyNav.setOnAction(e -> sceneManager.switchBuyerPage("history"));
     	wishlistNav.setOnAction(e -> sceneManager.switchBuyerPage("wishlist"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
+    }
+    
+    public void showBuyConfirmationPopUp(Item item) {
+    	Stage popUpStage = new Stage();
+    	popUpStage.setTitle("Confirm Purchase");
+    	popUpStage.initModality(Modality.APPLICATION_MODAL);
+    	
+    	Label messageLbl = new Label("Are you sure you want to buy " + item.getItemName() + "?");
+    	
+    	Button confirmBtn = new Button("Confirm");
+    	Button cancelBtn = new Button("Cancel");
+    	
+    	confirmBtn.setOnAction(e -> {
+    		// Masukin controller buy 
+            popUpStage.close();
+            refreshTable();
+        });
+    	
+    	cancelBtn.setOnAction(e -> popUpStage.close());
+    	
+    	HBox buttonBox = new HBox(10, confirmBtn, cancelBtn);
+        buttonBox.setStyle("-fx-alignment: center;");
+        VBox popUpLayout = new VBox(10, messageLbl, buttonBox);
+        popUpLayout.setStyle("-fx-padding: 15; -fx-alignment: center;");
+        
+        Scene popUpScene = new Scene(popUpLayout, 300, 150);
+        popUpStage.setScene(popUpScene);
+        popUpStage.showAndWait();
+    }
+    
+    public void showOfferPricePopUp(Item item) {
+        Stage popUpStage = new Stage();
+        popUpStage.setTitle("Make Offer");
+        popUpStage.initModality(Modality.APPLICATION_MODAL);
+
+        Label messageLbl = new Label("Enter your offer price for " + item.getItemName() + ":");
+        TextField offerInput = new TextField();
+        offerInput.setPromptText("Enter offer price...");
+
+        Button submitBtn = new Button("Submit");
+        Button cancelBtn = new Button("Cancel");
+
+        submitBtn.setOnAction(e -> {
+            String offerPrice = offerInput.getText().trim();
+            if (offerPrice.isEmpty()) {
+                messageLbl.setText("Must Not Empty");
+                messageLbl.setStyle("-fx-text-fill: red;");
+            } else {
+            	// Masukin controller offer
+                popUpStage.close();
+                System.out.println("Offer submitted: " + offerPrice + " for " + item.getItemName());
+            }
+        });
+
+        cancelBtn.setOnAction(e -> popUpStage.close());
+
+        HBox buttonBox = new HBox(10, submitBtn, cancelBtn);
+        buttonBox.setStyle("-fx-alignment: center;");
+        VBox popUpLayout = new VBox(10, messageLbl, offerInput, buttonBox);
+        popUpLayout.setStyle("-fx-padding: 15; -fx-alignment: center;");
+
+        Scene popUpScene = new Scene(popUpLayout, 350, 200);
+        popUpStage.setScene(popUpScene);
+        popUpStage.showAndWait();
     }
 
     @Override
