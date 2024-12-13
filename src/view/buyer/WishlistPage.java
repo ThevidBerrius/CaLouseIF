@@ -106,7 +106,9 @@ public class WishlistPage extends Page {
 
 		    {
 		        removeBtn.setOnAction(e -> {
-		            
+		        	WishlistItem wishlist = getTableRow().getItem();
+		            wishlistController.removeWishlist(wishlist.getWishlistId());
+		            refreshTable();
 		        });
 		    }
 
@@ -136,7 +138,6 @@ public class WishlistPage extends Page {
 
 		layoutBP.setTop(navBP);
 		layoutBP.setCenter(wishlistTable);
-
 	}
 
 	@Override

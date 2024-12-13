@@ -10,9 +10,11 @@ import util.Connect;
 
 public class WishlistController {
 	private IdGenerator idGenerator;
+	private UserController userController;
 	
 	public WishlistController() {
 		this.idGenerator = new IdGenerator();
+		this.userController = UserController.getInstance();
 	}
 	
 	public Vector<WishlistItem> viewWishlist(String wishlist_id, String user_id) {
@@ -56,5 +58,16 @@ public class WishlistController {
         }
         
         return "Error Insert to Database";
+	}	
+	
+	public boolean removeWishlist(String wishlistId) {
+		String query = "DELETE FROM wishlists WHERE wishlistId LIKE ?";
+        Object[] params = { wishlistId };
+        
+        if(Connect.getInstance().execUpdate(query, params)) {
+        	return true;
+        }
+		
+		return false;
 	}
 }

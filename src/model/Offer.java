@@ -1,10 +1,10 @@
 package model;
 
 public class Offer {
-	private String offerId, itemId, userId, itemName, itemCategory, itemSize, itemPrice, offerPrice, itemOfferStatus;
+	private String offerId, itemId, userId, itemName, itemCategory, itemSize, itemPrice, offerPrice, status;
 
 	public Offer(String offerId, String itemId, String userId, String itemName, String itemCategory, String itemSize,
-			String itemPrice, String offerPrice, String itemOfferStatus) {
+			String itemPrice, String offerPrice, String status) {
 		super();
 		this.offerId = offerId;
 		this.itemId = itemId;
@@ -14,7 +14,7 @@ public class Offer {
 		this.itemSize = itemSize;
 		this.itemPrice = itemPrice;
 		this.offerPrice = offerPrice;
-		this.itemOfferStatus = itemOfferStatus;
+		this.status = status;
 	}
 
 	public String getOfferId() {
@@ -81,12 +81,12 @@ public class Offer {
 		this.offerPrice = offerPrice;
 	}
 
-	public String getItemOfferStatus() {
-		return itemOfferStatus;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setItemOfferStatus(String itemOfferStatus) {
-		this.itemOfferStatus = itemOfferStatus;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 	
 }

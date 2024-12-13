@@ -86,7 +86,7 @@ public class BuyerHomePage extends Page {
     
     private void refreshTable() {
     	this.items.clear();
-    	this.items = itemController.viewItem();
+    	this.items = itemController.viewItemNotInWishlist(userController.getAuthUser().getUserId());
     	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
     	this.itemTable.setItems(itemList);
     }
@@ -122,6 +122,7 @@ public class BuyerHomePage extends Page {
                 wishlistBtn.setOnAction(e -> {
                 	Item item = getTableRow().getItem();
                 	wishlistController.addWishlist(item.getItemId(), userController.getAuthUser().getUserId());
+                	refreshTable();
                 });
             }
             

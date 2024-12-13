@@ -1,6 +1,11 @@
 package view.buyer;
 
+import java.util.Vector;
+
+import controller.TransactionController;
 import controller.UserController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -17,10 +22,13 @@ import javafx.stage.Stage;
 import main.SceneManager;
 import model.Page;
 import model.TransactionHistory;
+import model.WishlistItem;
 
 public class HistoryPage extends Page {
 	private SceneManager sceneManager;
+	private TransactionController transactionController;
 	private UserController userController;
+	private Vector<TransactionHistory> transactionHistory;
 
 	private BorderPane layoutBP, navBP, historyBP;
 	private GridPane gp;
@@ -36,8 +44,11 @@ public class HistoryPage extends Page {
 
 	public HistoryPage(Stage primaryStage) {
     	this.sceneManager = new SceneManager(primaryStage);
+    	this.transactionController = new TransactionController();
     	this.userController = UserController.getInstance();
+    	this.transactionHistory = new Vector<>();
     	initPage();
+    	refreshTable();
     	initalizeTable();
     	setAlignment();
     	setHandler();
@@ -65,10 +76,17 @@ public class HistoryPage extends Page {
 
 		historyTable = new TableView<TransactionHistory>();
 	}
+	
+	private void refreshTable() {
+		this.transactionHistory.clear();
+		this.transactionHistory = transactionController.viewHistory(userController.getAuthUser().getUserId());
+		ObservableList<TransactionHistory> transactionHistoryList = FXCollections.observableArrayList(this.transactionHistory);
+		this.historyTable.setItems(transactionHistoryList);
+	}
 
 	public void initalizeTable() {
 		TableColumn<TransactionHistory, String> idCol = new TableColumn<TransactionHistory, String>("Transaction ID");
-		idCol.setCellValueFactory(new PropertyValueFactory<>("transactionID"));
+		idCol.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
 
 		TableColumn<TransactionHistory, String> nameCol = new TableColumn<TransactionHistory, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
@@ -94,7 +112,6 @@ public class HistoryPage extends Page {
 		
 		layoutBP.setTop(navBP);
 		layoutBP.setCenter(historyTable);
-		
 	}
 
 	@Override

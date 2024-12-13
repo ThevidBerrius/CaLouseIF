@@ -1,7 +1,11 @@
 package view.seller;
 
+import java.util.Vector;
+
 import controller.ItemController;
 import controller.UserController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -22,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.SceneManager;
+import model.Item;
 import model.Offer;
 import model.Page;
 
@@ -29,6 +34,7 @@ public class SellerOffer extends Page {
 	private SceneManager sceneManager;
 	private ItemController itemController;
 	private UserController userController;
+	private Vector<Offer> offers;
 
 	private BorderPane layoutBP, navBP, offerBP, actionBP;
 
@@ -50,7 +56,9 @@ public class SellerOffer extends Page {
 		this.sceneManager = new SceneManager(primaryStage);
 		this.itemController = new ItemController();
 		this.userController = UserController.getInstance();
+		this.offers = new Vector<>();
 		initPage();
+		refreshTable();
 		initializeTable();
 		setAlignment();
 		setHandler();
@@ -86,6 +94,13 @@ public class SellerOffer extends Page {
 
 		actionBox = new VBox(10);
 	}
+	
+	private void refreshTable() {
+    	this.offers.clear();
+    	this.offers = itemController.viewOfferItem(userController.getAuthUser().getUserId());
+    	ObservableList<Offer> offerList = FXCollections.observableArrayList(this.offers);
+    	this.offerTable.setItems(offerList);
+    }
 
 	private void initializeTable() {
 	    TableColumn<Offer, String> itemNameCol = new TableColumn<>("Name");
@@ -104,7 +119,7 @@ public class SellerOffer extends Page {
 	    offerPriceCol.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
 
 	    TableColumn<Offer, String> statusCol = new TableColumn<>("Offer Status");
-	    statusCol.setCellValueFactory(new PropertyValueFactory<>("itemOfferStatus"));
+	    statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
 	    TableColumn<Offer, Void> actionCol = new TableColumn<>("Action");
 	    actionCol.setCellFactory(param -> new TableCell<Offer, Void>() {
@@ -138,8 +153,6 @@ public class SellerOffer extends Page {
 
 	    offerTable.getColumns().addAll(itemNameCol, categoryCol, sizeCol, priceCol, offerPriceCol, statusCol, actionCol);
 	}
-
-
 
 	@Override
 	public void setAlignment() {

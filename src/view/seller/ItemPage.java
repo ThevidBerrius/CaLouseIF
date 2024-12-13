@@ -111,11 +111,14 @@ public class ItemPage extends Page{
             
             {
                 editBtn.setOnAction(e -> {
-                    System.out.println("Buy Item");
+                	Item selectedItem = getTableRow().getItem();
+        			if (selectedItem != null) sceneManager.sellerEditItem(selectedItem);
                 });
                 
                 deleteBtn.setOnAction(e -> {
-                    System.out.println("Offer Item");
+                	Item selectedItem = getTableRow().getItem();
+        			if (selectedItem != null) itemController.deleteItem(selectedItem.getItemId());
+        			refreshTable();
                 });
                 
             }
@@ -157,11 +160,6 @@ public class ItemPage extends Page{
 		itemNav.setOnAction(e->sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e->sceneManager.switchSellerPage("selleroffer"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
-		
-		itemTable.setOnMouseClicked(e -> {
-			Item selectedItem = itemTable.getSelectionModel().getSelectedItem();
-			if (selectedItem != null) sceneManager.sellerEditItem(selectedItem);
-		});
 	}
 
 	@Override

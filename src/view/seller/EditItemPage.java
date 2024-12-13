@@ -123,7 +123,7 @@ public class EditItemPage extends Page{
 		String itemSize = sizeField.getText();
 		String itemPrice = priceField.getText();
 		
-		String message = itemController.editItem(this.selectedItem.getItemId(), itemName, itemCategory, itemSize, itemPrice);
+		String message = itemController.editItem(this.selectedItem.getItemId(), this.selectedItem.getUserId(), itemName, itemCategory, itemSize, itemPrice);
 				
 		if (message.equals("Success")) sceneManager.switchSellerPage("selleritem");
 		else messageLbl.setText(message);
