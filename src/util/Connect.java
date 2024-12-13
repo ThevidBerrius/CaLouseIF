@@ -14,7 +14,6 @@ public class Connect {
 	private static Connect connect;
 
 	private ResultSet rs;
-	private ResultSetMetaData rsm;
 
 	private Connect() {
 		try {

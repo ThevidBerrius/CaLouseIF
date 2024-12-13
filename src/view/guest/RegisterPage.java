@@ -1,7 +1,6 @@
 package view.guest;
 
 import controller.UserController;
-import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -167,27 +166,21 @@ public class RegisterPage extends Page {
     public void setHandler() {
         loginNav.setOnAction(e -> sceneManager.switchPage("login"));
         registerNav.setOnAction(e -> sceneManager.switchPage("register"));
-        registerBtn.setOnAction(e -> handlePage(e));
-    }
+        registerBtn.setOnAction(e -> {
+        	String username = usernameField.getText();
+            String password = passwordField.getText();
+            String phone_number = phoneNumberField.getText();
+            String address = addressField.getText();
+            String role = "";
+            Toggle selectedToggle = roleToggle.getSelectedToggle();
+            if (selectedToggle != null) role = ((RadioButton) selectedToggle).getText();
 
-    @Override
-    public void handlePage(ActionEvent e) {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-        String phone_number = phoneNumberField.getText();
-        String address = addressField.getText();
-        String role = "";
-        Toggle selectedToggle = roleToggle.getSelectedToggle();
-        if (selectedToggle != null) role = ((RadioButton) selectedToggle).getText();
+            String message = userController.register(username, password, phone_number, address, role);
 
-        String message = userController.register(username, password, phone_number, address, role);
-
-        if (message.equals("Success") && role.equals("Buyer"))
-            sceneManager.switchBuyerPage("buyerhome");
-        else if (message.equals("Success") && role.equals("Seller"))
-            sceneManager.switchSellerPage("sellerhome");
-        else
-            messageLbl.setText(message);
+            if (message.equals("Success") && role.equals("Buyer")) sceneManager.switchBuyerPage("buyerhome");
+            else if (message.equals("Success") && role.equals("Seller")) sceneManager.switchSellerPage("sellerhome");
+            else messageLbl.setText(message);
+        });
     }
 
     @Override

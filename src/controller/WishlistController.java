@@ -6,23 +6,11 @@ import java.util.Vector;
 
 import model.Wishlist;
 import model.WishlistItem;
-import util.Connect;
 
 public class WishlistController {
-	private IdGenerator idGenerator;
-	private UserController userController;
-	
-	public WishlistController() {
-		this.idGenerator = new IdGenerator();
-		this.userController = UserController.getInstance();
-	}
-	
 	public Vector<WishlistItem> viewWishlist(String wishlist_id, String user_id) {
 		Vector<WishlistItem> wishlistItems = new Vector<>();
-		String query = "SELECT wishlists.wishlistId, wishlists.userId, wishlists.itemId, items.itemName, items.itemSize, items.itemPrice, items.itemCategory, items.itemStatus, items.itemWishlist, items.itemOfferStatus FROM wishlists JOIN items ON wishlists.itemId = items.itemId WHERE wishlists.userId LIKE ? && items.itemOfferStatus LIKE 'Available'";
-        Object[] params = { user_id };
-		
-		ResultSet rs = Connect.getInstance().execQuery(query, params);
+		ResultSet rs = Wishlist.viewWishlist(wishlist_id, user_id);
 		
 		try {
             while (rs.next()) {
@@ -46,27 +34,14 @@ public class WishlistController {
 		return wishlistItems;
 	}
 
-	public String addWishlist(String itemId, String userId) {
-		String wishlistId = this.idGenerator.generateId("wishlists", "WI");
-		Wishlist newWishlist = new Wishlist(wishlistId, itemId, userId);
+	public String addWishlist(String item_id, String user_id) {
+		if (Wishlist.addWishlist(item_id, user_id)) return "Success";
 		
-		String query = "INSERT INTO wishlists (wishlistId, itemId, userId) VALUES (?, ?, ?)";
-        Object[] params = { newWishlist.getWishlistId(), itemId, userId };
-        
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	return "Success";
-        }
-        
-        return "Error Insert to Database";
+		return "Error Insert to Database";
 	}	
 	
-	public boolean removeWishlist(String wishlistId) {
-		String query = "DELETE FROM wishlists WHERE wishlistId LIKE ?";
-        Object[] params = { wishlistId };
-        
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	return true;
-        }
+	public boolean removeWishlist(String wishlist_id) {
+		if (Wishlist.removeWishlist(wishlist_id)) return true;
 		
 		return false;
 	}

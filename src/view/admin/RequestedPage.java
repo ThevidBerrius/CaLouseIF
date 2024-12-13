@@ -6,7 +6,6 @@ import controller.ItemController;
 import controller.UserController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -145,7 +144,6 @@ public class RequestedPage extends Page {
         requestedTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, actionCol);
     }
 
-
     @Override
     public void setAlignment() {
         navBP.setTop(navbar);
@@ -164,14 +162,9 @@ public class RequestedPage extends Page {
 
     @Override
     public void setHandler() {
-    	homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
-		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
+    	homeNav.setOnAction(e -> sceneManager.switchPage("adminhome"));
+		requestedNav.setOnAction(e -> sceneManager.switchPage("adminrequested"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
-    }
-
-    @Override
-    public void handlePage(ActionEvent e) {
-    	
     }
 
     @Override

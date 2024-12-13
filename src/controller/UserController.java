@@ -1,20 +1,11 @@
 package controller;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import main.SceneManager;
 import model.User;
-import util.Connect;
 
 public class UserController {
 	private static UserController instance;
-	private IdGenerator idGenerator;
 	private User authUser;
-	
-	private UserController() {
-		this.idGenerator = new IdGenerator();
-	}
 	
 	public static UserController getInstance() {
 		if (instance == null) instance = new UserController();
@@ -25,18 +16,8 @@ public class UserController {
 		if (username.equals("admin") && password.equals("admin")) return "Admin";
 		else if (username.isEmpty() || password.isEmpty()) return "Username or Password cannot empty";
 		
-        String query = "SELECT * FROM users WHERE username = ? AND password = ?";
-        Object[] params = { username, password };
-        ResultSet rs = Connect.getInstance().execQuery(query, params);
-        
-        try {
-            if (rs != null && rs.next()) {
-            	setAuthUser(new User(rs.getString("userId"), rs.getString("username"), rs.getString("password"), rs.getString("phoneNumber"), rs.getString("address"), rs.getString("role")));
-            	return this.authUser.getRole();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
+        authUser = User.login(username, password);
+        if (this.authUser != null) return this.authUser.getRole();
         
         return "Invalid Credentials";
     }
@@ -46,17 +27,9 @@ public class UserController {
 		
 		if (!message.equals("Validation Success")) return message;
 		
-		String userId = this.idGenerator.generateId("users", "US");
-		User newUser = new User(userId, username, password, phoneNumber, address, role);
+		authUser = User.register(username, password, phoneNumber, address, role);
+		if(this.authUser != null) return "Success";
 		
-		String query = "INSERT INTO users (userId, username, password, phoneNumber, address, role) VALUES (?, ?, ?, ?, ?, ?)";
-        Object[] params = { newUser.getUserId(), newUser.getUsername(), newUser.getPassword(), newUser.getPhoneNumber(), newUser.getAddress(), newUser.getRole() };
-        
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	setAuthUser(newUser);
-        	return "Success";
-        }
-        
         return "Error Insert to Database";
 	}
 	

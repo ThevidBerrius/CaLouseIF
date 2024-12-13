@@ -6,7 +6,6 @@ import controller.UserController;
 import controller.WishlistController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -103,7 +102,7 @@ public class WishlistPage extends Page {
 		actionCol.setPrefWidth(100);
 		actionCol.setCellFactory(param -> new TableCell<>() {
 		    private final Button removeBtn = new Button("Remove");
-
+		    
 		    {
 		        removeBtn.setOnAction(e -> {
 		        	WishlistItem wishlist = getTableRow().getItem();
@@ -146,11 +145,6 @@ public class WishlistPage extends Page {
 		historyNav.setOnAction(e -> sceneManager.switchBuyerPage("history"));
 		wishlistNav.setOnAction(e -> sceneManager.switchBuyerPage("wishlist"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
-	}
-
-	@Override
-	public void handlePage(ActionEvent e) {
-
 	}
 
 	@Override

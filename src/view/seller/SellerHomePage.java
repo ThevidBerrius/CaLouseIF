@@ -6,9 +6,7 @@ import controller.ItemController;
 import controller.UserController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -40,7 +38,6 @@ public class SellerHomePage extends Page{
 	
 	private Label titleLbl;
 	private TableView<Item> itemTable;
-	
 	
 	public SellerHomePage(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
@@ -122,13 +119,7 @@ public class SellerHomePage extends Page{
 	}
 
 	@Override
-	public void handlePage(ActionEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public Scene createScene() {
 		return new Scene(layoutBP);
 	}
-
 }

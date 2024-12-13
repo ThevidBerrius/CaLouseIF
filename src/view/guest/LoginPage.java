@@ -1,7 +1,6 @@
 package view.guest;
 
 import controller.UserController;
-import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -121,31 +120,28 @@ public class LoginPage extends Page {
     public void setHandler() {
         loginNav.setOnAction(e -> sceneManager.switchPage("login"));
         registerNav.setOnAction(e -> sceneManager.switchPage("register"));
-        loginBtn.setOnAction(e -> handlePage(e));
+        loginBtn.setOnAction(e -> {
+        	String username = usernameField.getText();
+            String password = passwordField.getText();
+
+            if (username.equals("admin") && password.equals("admin")) {
+                sceneManager.switchPage("adminhome");
+            }
+
+            String message = userController.login(username, password);
+
+            if (message.equals("Admin")) {
+                sceneManager.switchPage("adminhome");
+            } else if (message.equals("Buyer")) {
+                sceneManager.switchBuyerPage("buyerhome");
+            } else if (message.equals("Seller")) {
+                sceneManager.switchSellerPage("sellerhome");
+            } else {
+                messageLbl.setText(message);
+            }
+        });
     }
-
-    @Override
-    public void handlePage(ActionEvent e) {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-
-        if (username.equals("admin") && password.equals("admin")) {
-            sceneManager.switchPage("adminhome");
-        }
-
-        String message = userController.login(username, password);
-
-        if (message.equals("Admin")) {
-            sceneManager.switchPage("adminhome");
-        } else if (message.equals("Buyer")) {
-            sceneManager.switchBuyerPage("buyerhome");
-        } else if (message.equals("Seller")) {
-            sceneManager.switchSellerPage("sellerhome");
-        } else {
-            messageLbl.setText(message);
-        }
-    }
-
+    
     @Override
     public Scene createScene() {
         return new Scene(layoutBP);

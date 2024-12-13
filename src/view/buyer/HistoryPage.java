@@ -6,7 +6,6 @@ import controller.TransactionController;
 import controller.UserController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -116,20 +115,14 @@ public class HistoryPage extends Page {
 
 	@Override
 	public void setHandler() {
-		homeNav.setOnAction(e->sceneManager.switchBuyerPage("buyerhome"));
-    	historyNav.setOnAction(e->sceneManager.switchBuyerPage("history"));
-    	wishlistNav.setOnAction(e->sceneManager.switchBuyerPage("wishlist"));
+		homeNav.setOnAction(e -> sceneManager.switchBuyerPage("buyerhome"));
+    	historyNav.setOnAction(e -> sceneManager.switchBuyerPage("history"));
+    	wishlistNav.setOnAction(e -> sceneManager.switchBuyerPage("wishlist"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
-	}
-
-	@Override
-	public void handlePage(ActionEvent e) {
-
 	}
 
 	@Override
 	public Scene createScene() {
 		return new Scene(layoutBP);
 	}
-
 }

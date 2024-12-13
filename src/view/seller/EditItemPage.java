@@ -2,7 +2,6 @@ package view.seller;
 
 import controller.ItemController;
 import controller.UserController;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -113,25 +112,21 @@ public class EditItemPage extends Page{
 		itemNav.setOnAction(e -> sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
-		updateBtn.setOnAction(e -> handlePage(e));
-	}
-
-	@Override
-	public void handlePage(ActionEvent e) {
-		String itemName = nameField.getText();
-		String itemCategory = categoryField.getText();
-		String itemSize = sizeField.getText();
-		String itemPrice = priceField.getText();
-		
-		String message = itemController.editItem(this.selectedItem.getItemId(), this.selectedItem.getUserId(), itemName, itemCategory, itemSize, itemPrice);
-				
-		if (message.equals("Success")) sceneManager.switchSellerPage("selleritem");
-		else messageLbl.setText(message);
+		updateBtn.setOnAction(e -> {
+			String itemName = nameField.getText();
+			String itemCategory = categoryField.getText();
+			String itemSize = sizeField.getText();
+			String itemPrice = priceField.getText();
+			
+			String message = itemController.editItem(this.selectedItem.getItemId(), this.selectedItem.getUserId(), itemName, itemCategory, itemSize, itemPrice);
+					
+			if (message.equals("Success")) sceneManager.switchSellerPage("selleritem");
+			else messageLbl.setText(message);
+		});
 	}
 
 	@Override
 	public Scene createScene() {
 		return new Scene(layoutBP);
 	}
-
 }

@@ -10,7 +10,5 @@ public abstract class Page {
 
 	public abstract void setHandler();
 
-	public abstract void handlePage(ActionEvent e);
-
 	public abstract Scene createScene();
 }

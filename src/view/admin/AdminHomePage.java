@@ -6,7 +6,6 @@ import controller.ItemController;
 import controller.UserController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -112,20 +111,13 @@ public class AdminHomePage extends Page {
 
 	@Override
 	public void setHandler() {
-		homeNav.setOnAction(e->sceneManager.switchPage("adminhome"));
-		requestedNav.setOnAction(e->sceneManager.switchPage("adminrequested"));
+		homeNav.setOnAction(e -> sceneManager.switchPage("adminhome"));
+		requestedNav.setOnAction(e -> sceneManager.switchPage("adminrequested"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
-
-	}
-
-	@Override
-	public void handlePage(ActionEvent e) {
-
 	}
 
 	@Override
 	public Scene createScene() {
 		return new Scene(layoutBP);
 	}
-
 }

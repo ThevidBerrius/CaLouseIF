@@ -17,5 +17,4 @@ public class Main extends Application {
 		primaryStage.setTitle("CaLouseIF");
 		primaryStage.show();
 	}
-
 }

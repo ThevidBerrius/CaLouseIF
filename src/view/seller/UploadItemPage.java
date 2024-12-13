@@ -110,26 +110,21 @@ public class UploadItemPage extends Page{
 		itemNav.setOnAction(e -> sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
-		uploadBtn.setOnAction(e -> handlePage(e));
-	}
-
-	@Override
-	public void handlePage(ActionEvent e) {
-		String itemName = nameField.getText();
-		String itemCategory = categoryField.getText();
-		String itemSize = sizeField.getText();
-		String itemPrice = priceField.getText();
-		ItemController itemController = new ItemController();
-		
-		String message = itemController.uploadItem(itemName, userController.getAuthUser().getUserId(), itemCategory, itemSize, itemPrice);
-		
-		if (message.equals("Success")) sceneManager.switchSellerPage("selleritem");
-		else messageLbl.setText(message);
+		uploadBtn.setOnAction(e -> {
+			String itemName = nameField.getText();
+			String itemCategory = categoryField.getText();
+			String itemSize = sizeField.getText();
+			String itemPrice = priceField.getText();
+			
+			String message = itemController.uploadItem(itemName, userController.getAuthUser().getUserId(), itemCategory, itemSize, itemPrice);
+			
+			if (message.equals("Success")) sceneManager.switchSellerPage("selleritem");
+			else messageLbl.setText(message);
+		});
 	}
 
 	@Override
 	public Scene createScene() {
 		return new Scene(layoutBP);
 	}
-
 }
