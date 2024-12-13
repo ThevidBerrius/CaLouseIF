@@ -15,12 +15,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.SceneManager;
 import model.Item;
@@ -41,6 +41,8 @@ public class SellerHomePage extends Page{
 	private MenuItem homeNav, uploadNav, itemNav, offerNav, logoutNav;
 	
 	private Label titleLbl;
+	private TextField searchField;
+    private Button searchBtn;
 	private TableView<Item> itemTable;
 	
 	public SellerHomePage(Stage primaryStage) {
@@ -75,6 +77,9 @@ public class SellerHomePage extends Page{
 		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav, logoutNav);
 		
 		titleLbl = new Label("Seller Home");
+		searchField = new TextField();
+        searchField.setPromptText("Search item");
+        searchBtn = new Button("Search");
 		
 		itemTable = new TableView<Item>();
 	}
@@ -109,8 +114,14 @@ public class SellerHomePage extends Page{
 		
 		sellerBP.setCenter(titleLbl);
 		
+		HBox searchBox = new HBox(10, searchField, searchBtn);
+        searchBox.setStyle("-fx-padding: 10; -fx-alignment: center;");
+
+        VBox mainLayout = new VBox(10, searchBox, itemTable);
+        mainLayout.setStyle("-fx-padding: 10;");
+        
 		layoutBP.setTop(navBP);
-		layoutBP.setCenter(itemTable);
+		layoutBP.setCenter(mainLayout);
 	}
 
 	@Override

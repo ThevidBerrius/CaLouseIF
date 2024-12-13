@@ -84,8 +84,7 @@ public class SellerOffer extends Page {
 		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav, logoutNav);
 
 		offerTable = new TableView<>();
-//        approveBtn = new Button("Approve");
-//        declineBtn = new Button("Decline");
+
 		reasonArea = new TextArea();
 		reasonLbl = new Label("Reason for Declining:");
 		titleLbl = new Label("Seller Offers");
@@ -167,8 +166,6 @@ public class SellerOffer extends Page {
 		reasonArea.setPromptText("Enter reason for declining...");
 		reasonArea.setWrapText(true);
 
-//        actionBox.getChildren().addAll(approveBtn, declineBtn);
-//        actionBox.setStyle("-fx-padding: 10; -fx-alignment: top-center;");
 	}
 
 	@Override
@@ -179,10 +176,6 @@ public class SellerOffer extends Page {
 		offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
 
-//        declineBtn.setOnAction(e -> showReasonPopUp());
-//        approveBtn.setOnAction(e -> {
-//            System.out.println("Offer approved!");
-//        });
 	}
 
 	@Override

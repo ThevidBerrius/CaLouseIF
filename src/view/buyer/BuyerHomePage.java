@@ -47,6 +47,8 @@ public class BuyerHomePage extends Page {
     private MenuItem homeNav, wishlistNav, historyNav, logoutNav;
 
     private Label titleLbl;
+    private TextField searchField;
+    private Button searchBtn;
 
     private TableView<Item> itemTable;
 
@@ -84,6 +86,10 @@ public class BuyerHomePage extends Page {
         titleLbl = new Label("Buyer Home");
 
         itemTable = new TableView<Item>();
+        
+        searchField = new TextField();
+        searchField.setPromptText("Search item");
+        searchBtn = new Button("Search");
     }
     
     private void refreshTable() {
@@ -155,9 +161,15 @@ public class BuyerHomePage extends Page {
         navBP.setCenter(buyerBP);
 
         buyerBP.setCenter(titleLbl);
+        
+        HBox searchBox = new HBox(10, searchField, searchBtn);
+        searchBox.setStyle("-fx-padding: 10; -fx-alignment: center;");
+
+        VBox mainLayout = new VBox(10, searchBox, itemTable);
+        mainLayout.setStyle("-fx-padding: 10;");
 
         layoutBP.setTop(navBP);
-        layoutBP.setCenter(itemTable);
+        layoutBP.setCenter(mainLayout);
 
     }
 

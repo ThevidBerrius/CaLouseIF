@@ -7,6 +7,7 @@ import controller.UserController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -14,9 +15,12 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.SceneManager;
 import model.Item;
@@ -39,6 +43,8 @@ public class AdminHomePage extends Page {
 	private Label titleLbl;
 	
 	private TableView<Item> itemTable;
+	private TextField searchField;
+    private Button searchBtn;
 
 	public AdminHomePage(Stage primaryStage) {
 		this.sceneManager = new SceneManager(primaryStage);
@@ -71,6 +77,10 @@ public class AdminHomePage extends Page {
 		menu.getItems().addAll(homeNav, requestedNav, logoutNav);
 		
 		titleLbl = new Label("Admin Home");
+		
+		searchField = new TextField();
+        searchField.setPromptText("Search item");
+        searchBtn = new Button("Search");
 		
 		itemTable = new TableView<Item>();
 	}
@@ -105,8 +115,14 @@ public class AdminHomePage extends Page {
 		
 		adminBP.setCenter(titleLbl);
 		
+		HBox searchBox = new HBox(10, searchField, searchBtn);
+        searchBox.setStyle("-fx-padding: 10; -fx-alignment: center;");
+
+        VBox mainLayout = new VBox(10, searchBox, itemTable);
+        mainLayout.setStyle("-fx-padding: 10;");
+		
 		layoutBP.setTop(navBP);
-		layoutBP.setCenter(itemTable);
+		layoutBP.setCenter(mainLayout);
 	}
 
 	@Override
