@@ -7,7 +7,6 @@ import controller.IdGenerator;
 import util.Connect;
 
 public class User {
-	private static IdGenerator idGenerator;
 	private String userId, username, password, phoneNumber, address, role;
 
 	public User(String userId, String username, String password, String phoneNumber, String address, String role) {
@@ -35,7 +34,7 @@ public class User {
 	}
 	
 	public static User register(String username, String password, String phoneNumber, String address, String role) {
-		String userId = idGenerator.generateId("users", "US");
+		String userId = IdGenerator.generateId("users", "US");
 		User newUser = new User(userId, username, password, phoneNumber, address, role);
 		
 		String query = "INSERT INTO users (userId, username, password, phoneNumber, address, role) VALUES (?, ?, ?, ?, ?, ?)";

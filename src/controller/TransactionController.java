@@ -8,14 +8,8 @@ import model.Transaction;
 import model.TransactionHistory;
 
 public class TransactionController {
-	private IdGenerator idGenerator;
-	
-	public TransactionController() {
-		this.idGenerator = new IdGenerator();
-	}
-	
 	public void purchaseItems(String userId, String itemId) {
-        if (Transaction.purchaseItems(userId, itemId)) createTransaction(idGenerator.generateId("transactions", "TR"), userId, itemId);
+        if (Transaction.purchaseItems(userId, itemId)) createTransaction(IdGenerator.generateId("transactions", "TR"), userId, itemId);
         else System.out.println("Error Delete Database");
 	}
 	

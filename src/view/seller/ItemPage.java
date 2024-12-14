@@ -173,7 +173,7 @@ public class ItemPage extends Page{
     	Button cancelBtn = new Button("Cancel");
     	
     	confirmBtn.setOnAction(e -> {
-    		// Masukin controller delete 
+    		itemController.deleteItem(item.getItemId());
             popUpStage.close();
             refreshTable();
         });

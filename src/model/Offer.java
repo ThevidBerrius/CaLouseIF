@@ -1,20 +1,14 @@
 package model;
 
 public class Offer {
-	private String offerId, itemId, userId, itemName, itemCategory, itemSize, itemPrice, offerPrice, status;
+	private String offerId, itemId, userId, offerPrice;
 
-	public Offer(String offerId, String itemId, String userId, String itemName, String itemCategory, String itemSize,
-			String itemPrice, String offerPrice, String status) {
+	public Offer(String offerId, String itemId, String userId, String offerPrice) {
 		super();
 		this.offerId = offerId;
 		this.itemId = itemId;
 		this.userId = userId;
-		this.itemName = itemName;
-		this.itemCategory = itemCategory;
-		this.itemSize = itemSize;
-		this.itemPrice = itemPrice;
 		this.offerPrice = offerPrice;
-		this.status = status;
 	}
 
 	public String getOfferId() {
@@ -41,38 +35,6 @@ public class Offer {
 		this.userId = userId;
 	}
 
-	public String getItemName() {
-		return itemName;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
-	public String getItemCategory() {
-		return itemCategory;
-	}
-
-	public void setItemCategory(String itemCategory) {
-		this.itemCategory = itemCategory;
-	}
-
-	public String getItemSize() {
-		return itemSize;
-	}
-
-	public void setItemSize(String itemSize) {
-		this.itemSize = itemSize;
-	}
-
-	public String getItemPrice() {
-		return itemPrice;
-	}
-
-	public void setItemPrice(String itemPrice) {
-		this.itemPrice = itemPrice;
-	}
-
 	public String getOfferPrice() {
 		return offerPrice;
 	}
@@ -80,13 +42,4 @@ public class Offer {
 	public void setOfferPrice(String offerPrice) {
 		this.offerPrice = offerPrice;
 	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-	
 }

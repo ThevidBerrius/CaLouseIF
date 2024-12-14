@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import util.Connect;
 
 public class IdGenerator {
-	public String generateId(String table, String prefix) {
+	public static String generateId(String table, String prefix) {
 		String idField = table.substring(0, table.length() - 1) + "Id";
 		String query = "SELECT " + idField + " FROM " + table + " ORDER BY " + idField + " DESC LIMIT 1";
 		String lastId = "";

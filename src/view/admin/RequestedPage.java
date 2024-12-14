@@ -92,7 +92,7 @@ public class RequestedPage extends Page {
     
     private void refreshTable() {
     	this.items.clear();
-    	this.items = itemController.viewRequestedItem();
+    	this.items = itemController.viewRequestedItem(null, null);
     	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
     	this.requestedTable.setItems(itemList);
     }

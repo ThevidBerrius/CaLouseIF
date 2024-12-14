@@ -87,7 +87,7 @@ public class AdminHomePage extends Page {
 	
 	private void refreshTable() {
     	this.items.clear();
-    	this.items = itemController.viewAcceptedItem();
+    	this.items = itemController.viewAcceptedItem(null);
     	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
     	this.itemTable.setItems(itemList);
     }

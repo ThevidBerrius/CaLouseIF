@@ -3,6 +3,7 @@ package view.buyer;
 import java.util.Vector;
 
 import controller.ItemController;
+import controller.TransactionController;
 import controller.UserController;
 import controller.WishlistController;
 import javafx.collections.FXCollections;
@@ -33,6 +34,7 @@ import model.User;
 public class BuyerHomePage extends Page {
     private SceneManager sceneManager;
     private ItemController itemController;
+    private TransactionController transactionController;
     private UserController userController;
     private WishlistController wishlistController;
     private Vector<Item> items;
@@ -55,6 +57,7 @@ public class BuyerHomePage extends Page {
     public BuyerHomePage(Stage primaryStage) {
         this.sceneManager = new SceneManager(primaryStage);
         this.itemController = new ItemController();
+        this.transactionController = new TransactionController();
         this.userController = UserController.getInstance();
         this.wishlistController = new WishlistController();
         this.items = new Vector<>();
@@ -170,7 +173,6 @@ public class BuyerHomePage extends Page {
 
         layoutBP.setTop(navBP);
         layoutBP.setCenter(mainLayout);
-
     }
 
     @Override
@@ -179,6 +181,14 @@ public class BuyerHomePage extends Page {
     	historyNav.setOnAction(e -> sceneManager.switchBuyerPage("history"));
     	wishlistNav.setOnAction(e -> sceneManager.switchBuyerPage("wishlist"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
+		searchBtn.setOnAction(e -> {
+			String search = searchField.getText();
+			
+			this.items.clear();
+	    	this.items = itemController.browseItem(search);
+	    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
+	    	this.itemTable.setItems(itemList);
+		});
     }
     
     public void showBuyConfirmationPopUp(Item item) {
@@ -192,7 +202,7 @@ public class BuyerHomePage extends Page {
     	Button cancelBtn = new Button("Cancel");
     	
     	confirmBtn.setOnAction(e -> {
-    		// Masukin controller buy 
+    		transactionController.purchaseItems(userController.getAuthUser().getUserId(), item.getItemId());
             popUpStage.close();
             refreshTable();
         });
@@ -213,8 +223,10 @@ public class BuyerHomePage extends Page {
         Stage popUpStage = new Stage();
         popUpStage.setTitle("Make Offer");
         popUpStage.initModality(Modality.APPLICATION_MODAL);
+        
+        int highest_offer = itemController.getHighestOffer(item.getItemId());
 
-        Label messageLbl = new Label("Enter your offer price for " + item.getItemName() + ":");
+        Label messageLbl = new Label("Enter your offer price for " + item.getItemName() + ", current offer: " + highest_offer);
         TextField offerInput = new TextField();
         offerInput.setPromptText("Enter offer price...");
 
@@ -223,13 +235,12 @@ public class BuyerHomePage extends Page {
 
         submitBtn.setOnAction(e -> {
             String offerPrice = offerInput.getText().trim();
-            if (offerPrice.isEmpty()) {
-                messageLbl.setText("Must Not Empty");
+            String message = itemController.offerPrice(item.getItemId(), userController.getAuthUser().getUserId(), offerPrice, highest_offer);
+            
+            if (message.equals("Success")) popUpStage.close();
+            else {
+            	messageLbl.setText(message);
                 messageLbl.setStyle("-fx-text-fill: red;");
-            } else {
-            	// Masukin controller offer
-                popUpStage.close();
-                System.out.println("Offer submitted: " + offerPrice + " for " + item.getItemName());
             }
         });
 

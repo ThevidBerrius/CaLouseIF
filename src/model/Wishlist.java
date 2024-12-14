@@ -6,7 +6,6 @@ import controller.IdGenerator;
 import util.Connect;
 
 public class Wishlist {
-	private static IdGenerator idGenerator;
 	private String wishlistId, itemId, userId;
 
 	public Wishlist(String wishlistId, String itemId, String userId) {
@@ -27,7 +26,7 @@ public class Wishlist {
 	}
 	
 	public static boolean addWishlist(String item_id, String user_id) {
-		String wishlistId = idGenerator.generateId("wishlists", "WI");
+		String wishlistId = IdGenerator.generateId("wishlists", "WI");
 		Wishlist newWishlist = new Wishlist(wishlistId, item_id, user_id);
 		
 		String query = "INSERT INTO wishlists (wishlistId, itemId, userId) VALUES (?, ?, ?)";

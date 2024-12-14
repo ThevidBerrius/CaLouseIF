@@ -2,6 +2,7 @@ package model;
 
 import java.sql.ResultSet;
 
+import controller.IdGenerator;
 import util.Connect;
 
 public class Transaction {
@@ -14,17 +15,30 @@ public class Transaction {
 		this.itemId = itemId;
 	}
 	
+	public static boolean updateItemToSold(String item_id) {
+		String query = "UPDATE items SET itemOfferStatus = 'Sold' WHERE itemId LIKE ?";
+        Object[] params = { item_id };
+        
+        if (Connect.getInstance().execUpdate(query, params)) {
+        	return true;
+        }
+        
+        return false;
+	}
+	
 	// Disini saya mengasumsikan untuk menghapus semua data yang ada di wishlist berdasarkan itemId
 	// Karena item yang sudah dibeli tidak boleh ada di wishlist orang lain lagi
 	public static boolean purchaseItems(String user_id, String item_id) {
 		String query = "DELETE FROM wishlists WHERE itemId LIKE ?";
         Object[] params = { item_id };
         
-        if(Connect.getInstance().execUpdate(query, params)) {        
-        	return true;
-        }
+        Connect.getInstance().execUpdate(query, params);
         
-        return false;
+        if (!updateItemToSold(item_id)) return false;
+        
+        createTransaction(IdGenerator.generateId("transactions", "TR"), user_id, item_id);
+        
+        return true;
 	}
 	
 	public static ResultSet viewHistory(String user_id) {

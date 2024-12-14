@@ -25,14 +25,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.SceneManager;
-import model.Offer;
+import model.Item;
+import model.OfferItem;
 import model.Page;
 
 public class SellerOffer extends Page {
 	private SceneManager sceneManager;
 	private ItemController itemController;
 	private UserController userController;
-	private Vector<Offer> offers;
+	private Vector<OfferItem> offers;
 
 	private BorderPane layoutBP, navBP, offerBP, actionBP;
 
@@ -43,7 +44,7 @@ public class SellerOffer extends Page {
 	private Menu menu;
 	private MenuItem homeNav, uploadNav, itemNav, offerNav, logoutNav;
 
-	private TableView<Offer> offerTable;
+	private TableView<OfferItem> offerTable;
 
 	private Button approveBtn, declineBtn;
 	private TextArea reasonArea;
@@ -95,31 +96,31 @@ public class SellerOffer extends Page {
 	private void refreshTable() {
     	this.offers.clear();
     	this.offers = itemController.viewOfferItem(userController.getAuthUser().getUserId());
-    	ObservableList<Offer> offerList = FXCollections.observableArrayList(this.offers);
+    	ObservableList<OfferItem> offerList = FXCollections.observableArrayList(this.offers);
     	this.offerTable.setItems(offerList);
     }
 
 	private void initializeTable() {
-	    TableColumn<Offer, String> itemNameCol = new TableColumn<>("Name");
+	    TableColumn<OfferItem, String> itemNameCol = new TableColumn<>("Name");
 	    itemNameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
 
-	    TableColumn<Offer, String> categoryCol = new TableColumn<>("Category");
+	    TableColumn<OfferItem, String> categoryCol = new TableColumn<>("Category");
 	    categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
 
-	    TableColumn<Offer, String> sizeCol = new TableColumn<>("Size");
+	    TableColumn<OfferItem, String> sizeCol = new TableColumn<>("Size");
 	    sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
 
-	    TableColumn<Offer, String> priceCol = new TableColumn<>("Original Price");
+	    TableColumn<OfferItem, String> priceCol = new TableColumn<>("Original Price");
 	    priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
 
-	    TableColumn<Offer, String> offerPriceCol = new TableColumn<>("Offer Price");
+	    TableColumn<OfferItem, String> offerPriceCol = new TableColumn<>("Offer Price");
 	    offerPriceCol.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
 
-	    TableColumn<Offer, String> statusCol = new TableColumn<>("Offer Status");
+	    TableColumn<OfferItem, String> statusCol = new TableColumn<>("Offer Status");
 	    statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-	    TableColumn<Offer, Void> actionCol = new TableColumn<>("Action");
-	    actionCol.setCellFactory(param -> new TableCell<Offer, Void>() {
+	    TableColumn<OfferItem, Void> actionCol = new TableColumn<>("Action");
+	    actionCol.setCellFactory(param -> new TableCell<OfferItem, Void>() {
 	        private final Button approveBtn = new Button("Approve");
 	        private final Button declineBtn = new Button("Decline");
 
@@ -129,7 +130,8 @@ public class SellerOffer extends Page {
 	            });
 
 	            declineBtn.setOnAction(e -> {
-	                showReasonPopUp();
+	            	OfferItem offerItem = getTableRow().getItem();
+	                showReasonPopUp(offerItem);
 	            });
 	        }
 
@@ -175,7 +177,6 @@ public class SellerOffer extends Page {
 		itemNav.setOnAction(e -> sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
-
 	}
 
 	@Override
@@ -183,7 +184,7 @@ public class SellerOffer extends Page {
 		return new Scene(layoutBP);
 	}
 
-	private void showReasonPopUp() {
+	private void showReasonPopUp(OfferItem offerItem) {
 		Stage popUpStage = new Stage();
 		popUpStage.setTitle("Enter Decline Reason");
 		popUpStage.initModality(Modality.APPLICATION_MODAL);
@@ -198,12 +199,12 @@ public class SellerOffer extends Page {
 
 		submitBtn.setOnAction(e -> {
 			String reason = reasonInput.getText().trim();
-			if (reason.isEmpty()) {
-				reasonLabel.setText("Reason cannot be empty!");
+			String message = itemController.declineOffer(reason, reason);
+			
+			if (message.equals("Sucess")) popUpStage.close();
+			else {
+				reasonLabel.setText(message);
 				reasonLabel.setStyle("-fx-text-fill: red;");
-			} else {
-				System.out.println("Offer declined with reason: " + reason);
-				popUpStage.close();
 			}
 		});
 

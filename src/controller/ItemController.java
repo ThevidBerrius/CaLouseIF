@@ -6,69 +6,84 @@ import java.util.Vector;
 
 import main.SceneManager;
 import model.Item;
-import model.Offer;
+import model.OfferItem;
 import util.Connect;
 
 public class ItemController {
-	private IdGenerator idGenerator;
-	
-	public ItemController() {
-		this.idGenerator = new IdGenerator();
-	}
-
-	public String uploadItem(String itemName, String userId, String itemCategory, String itemSize, String itemPrice) {
-		String message = checkItemValidation(itemName, itemCategory, itemSize, itemPrice);
+	public String uploadItem(String item_name, String user_id, String item_category, String item_size, String item_price) {
+		String message = checkItemValidation(item_name, item_category, item_size, item_price);
 		
 		if (!message.equals("Validation Success")) return message;
 		
-		String itemId = this.idGenerator.generateId("items", "IT");
-		Item newItem = new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, null, null, null);
-		
-		String query = "INSERT INTO items (itemId, userId, itemName, itemCategory, itemSize, itemPrice) VALUES (?, ?, ?, ?, ?, ?)";
-        Object[] params = { newItem.getItemId(), newItem.getUserId(), newItem.getItemName(), newItem.getItemCategory(), newItem.getItemSize(), newItem.getItemPrice() };
-        
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	return "Success";
-        }
+        if (Item.uploadItem(item_name, user_id, item_category, item_size, item_price)) return "Success";
         
         return "Error Insert to Database";
 	}
 	
-	public String editItem(String itemId, String userId, String itemName, String itemCategory, String itemSize, String itemPrice) {
-		String message = checkItemValidation(itemName, itemCategory, itemSize, itemPrice);
+	public String editItem(String item_id, String item_name, String item_category, String item_size, String item_price) {
+		String message = checkItemValidation(item_name, item_category, item_size, item_price);
 		
 		if (!message.equals("Validation Success")) return message;
 		
-		Item newItem = new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, null, null, null);
+		Item currentItem = null;
+		ResultSet rs = Item.getItemById(item_id);
 		
-		String query = "UPDATE items SET itemName = ?, itemCategory = ?, itemSize = ?, itemPrice = ? WHERE itemId = ?";
-        Object[] params = { newItem.getItemName(), newItem.getItemCategory(), newItem.getItemSize(), newItem.getItemPrice(), newItem.getItemId() };
-        
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	return "Success";
-        }
+		try {
+			if (rs.next()) {
+				String itemId = rs.getString("itemId");
+            	String userId = rs.getString("userId");
+                String itemName = rs.getString("itemName");
+                String itemSize = rs.getString("itemSize");
+                String itemPrice = rs.getString("itemPrice");
+                String itemCategory = rs.getString("itemCategory");
+                String itemStatus = rs.getString("itemStatus");
+                String itemWishlist = rs.getString("itemWishlist");
+                String itemOfferStatus = rs.getString("itemOfferStatus");
+                currentItem = new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+        if (Item.editItem(currentItem.getItemId(), currentItem.getItemName(), currentItem.getItemCategory(), currentItem.getItemSize(), currentItem.getItemPrice())) return "Success";
 		
 		return "Error Update to Database";
 	}
 	
-	public void deleteItem(String itemId) {
-		String query = "DELETE FROM items WHERE itemId LIKE ?";
-        Object[] params = { itemId };
+	public boolean deleteItem(String itemId) {
+        if (Item.deleteItem(itemId)) return true;
         
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	return;
-        }
+        return false;
 	}
 	
-	public void browseItem(String itemName) {
+	public Vector<Item> browseItem(String item_name) {
+		Vector<Item> items = new Vector<>();
+		ResultSet rs = Item.browseItem(item_name);
 		
+		try {
+            while (rs.next()) {
+            	String itemId = rs.getString("itemId");
+            	String userId = rs.getString("userId");
+                String itemName = rs.getString("itemName");
+                String itemSize = rs.getString("itemSize");
+                String itemPrice = rs.getString("itemPrice");
+                String itemCategory = rs.getString("itemCategory");
+                String itemStatus = rs.getString("itemStatus");
+                String itemWishlist = rs.getString("itemWishlist");
+                String itemOfferStatus = rs.getString("itemOfferStatus");
+                items.add(new Item(itemId, userId, itemName, itemSize, itemPrice, itemCategory, itemStatus, itemWishlist, itemOfferStatus));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } 
+		
+		return items;
 	}
 	
 	public Vector<Item> viewItem() {
 		Vector<Item> items = new Vector<>();
-		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Approved' && itemOfferStatus LIKE 'Available'";
-		
-		ResultSet rs = Connect.getInstance().execQuery(query, new Object[] {});
+		ResultSet rs = Item.viewItem();
 		
 		try {
             while (rs.next()) {
@@ -94,10 +109,7 @@ public class ItemController {
 	// Menampilkan semua data item yang tidak berada di wishlist
 	public Vector<Item> viewItemNotInWishlist(String user_id){
 		Vector<Item> items = new Vector<>();
-		String query = "SELECT items.itemId, items.userId, items.itemName, items.itemSize, items.itemPrice, items.itemCategory, items.itemStatus, items.itemWishlist, items.itemOfferStatus FROM items WHERE items.itemStatus LIKE 'Approved' AND items.itemOfferStatus LIKE 'Available' AND items.itemId NOT IN (SELECT wishlists.itemId FROM wishlists WHERE wishlists.userId = ?)";
-        Object[] params = { user_id };
-		
-		ResultSet rs = Connect.getInstance().execQuery(query, params);
+		ResultSet rs = Item.viewItemNotInWishlist(user_id);
 		
 		try {
             while (rs.next()) {
@@ -148,12 +160,10 @@ public class ItemController {
 		return "Validation Success";
 	}
 	
-	// Disini saya asumsikan bahwa viewRequestedItem tidak membutuhkan parameter
-	public Vector<Item> viewRequestedItem() {
+	// Disini saya asumsikan bahwa viewRequestedItem tidak membutuhkan parameter, sehingga dipassing dengan null
+	public Vector<Item> viewRequestedItem(String item_id, String item_status) {
 		Vector<Item> items = new Vector<>();
-		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Pending'";
-		
-		ResultSet rs = Connect.getInstance().execQuery(query, new Object[] {});
+		ResultSet rs = Item.viewRequestedItem(item_id, item_status);
 		
 		try {
             while (rs.next()) {
@@ -176,45 +186,90 @@ public class ItemController {
 		return items;
 	}
 	
-	public void offerPrice(String itemId, String itemPrice) {
+	// Function untuk mendapatkan harga tertinggi dari offer sebelumnya
+	public int getHighestOffer(String item_id) {
+		int highest_offer = 0;
+		ResultSet rs = Item.getLastOffer(item_id);
 		
+		try {
+            if (rs.next()) {
+            	highest_offer = Integer.parseInt(rs.getString("offerPrice"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+		
+		return highest_offer;
 	}
 	
-	public void acceptOffer(String itemId) {
+	// Validasi untuk offer price dari user
+	private String offerPriceValidation(String item_price, int highest_offer) {
+		if (item_price.isEmpty()) return "Offer must not be empty";
 		
+		for (char c : item_price.toCharArray()) {
+			if(!Character.isDigit(c)) return "Offer must be number";
+		}
+		
+		if (Integer.parseInt(item_price) <= 0) return "Offer must more than 0";
+		
+		if (highest_offer >= Integer.parseInt(item_price)) return "Offer must more than latest offer " + highest_offer;
+		
+		return "Validation Success";
 	}
 	
-	public void declineOffer(String itemId) {
+	// Disini saya mengasumsikan item_price sebagai harga yang dioffer dari buyer
+	public String offerPrice(String itemId, String user_id, String item_price, int highest_offer) {
+		String message = offerPriceValidation(item_price, highest_offer);
 		
+		if (!message.equals("Validation Success")) return message;
+		
+		if (!Item.updateItemToOffering(itemId)) return "Error Update to Database";
+		
+		if (!Item.deleteLastOffer(itemId)) return "Error Delete to Database";
+		
+		if (Item.offerPrice(itemId, user_id, item_price)) return "Success";
+		
+		return "Error Insert to Database";
 	}
 	
-	public boolean approveItem(String itemId, SceneManager sceneManager) {
-		String query = "UPDATE items SET itemStatus = 'Approved' WHERE itemId = ?";
-        Object[] params = { itemId };
-        
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	sceneManager.switchPage("adminrequested");
-        }
+	public boolean acceptOffer(String item_id) {
+		if (Item.acceptOffer(item_id)) return true;
+		
+		return false;
+	}
+	
+	private String declineOfferValidation(String reason) {
+		if (reason.isEmpty()) return "Reason must not be empty";
+		
+		return "Validation Success";
+	}
+	
+	public String declineOffer(String item_id, String reason) {
+		String message = declineOfferValidation(reason);
+		
+		if (!message.equals("Validation Success")) return message;
+		
+		if (Item.declineOffer(item_id)) return "Sucess";
+		
+		return "Error Delete to Database";
+	}
+	
+	public boolean approveItem(String item_id, SceneManager sceneManager) {
+        if (Item.approveItem(item_id)) sceneManager.switchPage("adminrequested");
         
         return false;
 	}
 	
-	public boolean declineItem(String itemId, SceneManager sceneManager) {
-		String query = "UPDATE items SET itemStatus = 'Declined' WHERE itemId = ?";
-        Object[] params = { itemId };
-        
-        if(Connect.getInstance().execUpdate(query, params)) {
-        	sceneManager.switchPage("adminrequested");
-        }
+	public boolean declineItem(String item_id, SceneManager sceneManager) {
+        if (Item.declineItem(item_id)) sceneManager.switchPage("adminrequested");
         
         return false;
 	}
 	
-	public Vector<Item> viewAcceptedItem() {
+	// Function viewAcceptedItem hanya mengembalikan semua item yang telah diaccept oleh admin dan tidak membutuhkan item_id
+	public Vector<Item> viewAcceptedItem(String item_id) {
 		Vector<Item> items = new Vector<>();
-		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Approved'";
-		
-		ResultSet rs = Connect.getInstance().execQuery(query, new Object[] {});
+		ResultSet rs = Item.viewAcceptedItem(item_id);
 		
 		try {
             while (rs.next()) {
@@ -240,10 +295,7 @@ public class ItemController {
 	// Function untuk mengembalikan data itemm yang telah dibuat oleh seller
 	public Vector<Item> viewSellerItem(String user_id){
 		Vector<Item> items = new Vector<>();
-		String query = "SELECT * FROM items WHERE userId LIKE ?";
-		Object[] params = { user_id };
-		
-		ResultSet rs = Connect.getInstance().execQuery(query, params);
+		ResultSet rs = Item.viewSellerItem(user_id);
 		
 		try {
             while (rs.next()) {
@@ -266,12 +318,9 @@ public class ItemController {
 		return items;
 	}
 	
-	public Vector<Offer> viewOfferItem(String user_id) {
-		Vector<Offer> offers = new Vector<>();
-		String query = "SELECT offers.offerId, offers.itemId, offers.userId, items.itemName, items.itemCategory, items.itemSize, items.itemPrice, offers.offerPrice, offers.status FROM items JOIN offers ON items.itemId = offers.itemId WHERE items.userId LIKE ?";
-		Object[] params = { user_id };
-		
-		ResultSet rs = Connect.getInstance().execQuery(query, params);
+	public Vector<OfferItem> viewOfferItem(String user_id) {
+		Vector<OfferItem> offers = new Vector<>();		
+		ResultSet rs = Item.viewOfferItem(user_id);
 		
 		try {
             while (rs.next()) {
@@ -283,8 +332,7 @@ public class ItemController {
                 String itemSize = rs.getString("itemSize");
                 String itemPrice = rs.getString("itemPrice");
                 String offerPrice = rs.getString("offerPrice");
-                String status = rs.getString("status");
-                offers.add(new Offer(offerId, itemId, userId, itemName, itemCategory, itemSize, itemPrice, offerPrice, status));
+                offers.add(new OfferItem(offerId, itemId, userId, itemName, itemCategory, itemSize, itemPrice, offerPrice));
             }
         } catch (SQLException e) {
             e.printStackTrace();
