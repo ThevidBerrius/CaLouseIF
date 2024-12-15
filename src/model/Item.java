@@ -138,9 +138,9 @@ public class Item {
 	}
 	
 	public static boolean acceptOffer(String item_id) {
-		if (Transaction.updateItemToSold(item_id)) return true;
+		if (!Transaction.updateItemToSold(item_id)) return false;
 		
-		return false;
+		return true;
 	}
 	
 	public static boolean declineOffer(String item_id) {

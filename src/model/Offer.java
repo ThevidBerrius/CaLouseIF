@@ -1,5 +1,7 @@
 package model;
 
+import util.Connect;
+
 public class Offer {
 	private String offerId, itemId, userId, offerPrice;
 
@@ -9,6 +11,16 @@ public class Offer {
 		this.itemId = itemId;
 		this.userId = userId;
 		this.offerPrice = offerPrice;
+	}
+	
+	// Kalau offer sudah diapprove maka status offer akan menjadi accepted
+	public static boolean updateOfferToAccepted(String item_id) {
+		String query = "UPDATE offers SET status = 'Accepted' WHERE itemId LIKE ?";
+        Object[] params = { item_id };
+	
+        if (Connect.getInstance().execUpdate(query, params)) return true;
+        
+        return false;
 	}
 
 	public String getOfferId() {

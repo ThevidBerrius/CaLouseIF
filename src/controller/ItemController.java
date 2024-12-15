@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import main.SceneManager;
 import model.Item;
+import model.Offer;
 import model.OfferItem;
 import util.Connect;
 
@@ -238,9 +239,11 @@ public class ItemController {
 	}
 	
 	public boolean acceptOffer(String item_id) {
-		if (Item.acceptOffer(item_id)) return true;
+		if (!Item.acceptOffer(item_id)) return false;
 		
-		return false;
+		if (!Offer.updateOfferToAccepted(item_id)) return false;
+		
+		return true;
 	}
 	
 	private String declineOfferValidation(String reason) {
