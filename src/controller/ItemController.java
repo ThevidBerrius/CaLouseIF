@@ -45,6 +45,11 @@ public class ItemController {
 			e.printStackTrace();
 		}
 		
+		currentItem.setItemName(item_name);
+		currentItem.setItemCategory(item_category);
+		currentItem.setItemSize(item_size);
+		currentItem.setItemPrice(item_price);
+		
         if (Item.editItem(currentItem.getItemId(), currentItem.getItemName(), currentItem.getItemCategory(), currentItem.getItemSize(), currentItem.getItemPrice())) return "Success";
 		
 		return "Error Update to Database";

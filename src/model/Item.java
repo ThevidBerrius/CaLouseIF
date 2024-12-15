@@ -45,8 +45,9 @@ public class Item {
 	}
 	
 	public static boolean editItem(String item_id, String item_name, String item_category, String item_size, String item_price) {
+		System.out.println(item_id);
 		String query = "UPDATE items SET itemName = ?, itemCategory = ?, itemSize = ?, itemPrice = ? WHERE itemId = ?";
-        Object[] params = { item_id };
+        Object[] params = { item_name, item_category, item_size, item_price, item_id };
 	
         if (Connect.getInstance().execUpdate(query, params)) return true;
         
