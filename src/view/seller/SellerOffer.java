@@ -180,7 +180,6 @@ public class SellerOffer extends Page {
 
 		reasonArea.setPromptText("Enter reason for declining...");
 		reasonArea.setWrapText(true);
-
 	}
 
 	@Override
@@ -212,13 +211,15 @@ public class SellerOffer extends Page {
 
 		submitBtn.setOnAction(e -> {
 			String reason = reasonInput.getText().trim();
-			String message = itemController.declineOffer(reason, reason);
+			String message = itemController.declineOffer(offerItem.getItemId(), reason);
 			
 			if (message.equals("Sucess")) popUpStage.close();
 			else {
 				reasonLabel.setText(message);
 				reasonLabel.setStyle("-fx-text-fill: red;");
 			}
+			
+			refreshTable();
 		});
 
 		cancelBtn.setOnAction(e -> popUpStage.close());

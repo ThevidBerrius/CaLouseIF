@@ -112,7 +112,7 @@ public class Item {
 	public static void deleteLastOffer(String item_id) {
 		String query = "DELETE FROM offers WHERE itemId LIKE ?";
         Object[] params = { item_id };
-        
+
         Connect.getInstance().execUpdate(query, params);
 	}
 	
