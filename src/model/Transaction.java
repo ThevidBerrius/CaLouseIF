@@ -36,8 +36,6 @@ public class Transaction {
         
         if (!updateItemToSold(item_id)) return false;
         
-        createTransaction(IdGenerator.generateId("transactions", "TR"), user_id, item_id);
-        
         return true;
 	}
 	
