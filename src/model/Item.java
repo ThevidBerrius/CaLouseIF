@@ -185,7 +185,7 @@ public class Item {
 	}
 	
 	public static ResultSet viewOfferItem(String user_id) {
-		String query = "SELECT offers.offerId, offers.itemId, offers.userId, items.itemName, items.itemCategory, items.itemSize, items.itemPrice, offers.offerPrice FROM items JOIN offers ON items.itemId = offers.itemId WHERE items.userId LIKE ?";
+		String query = "SELECT offers.offerId, offers.itemId, offers.userId, items.itemName, items.itemCategory, items.itemSize, items.itemPrice, offers.offerPrice FROM items JOIN offers ON items.itemId = offers.itemId WHERE items.userId LIKE ? && offers.status LIKE 'Pending'";
 		Object[] params = { user_id };
 
 		ResultSet rs = Connect.getInstance().execQuery(query, params);
