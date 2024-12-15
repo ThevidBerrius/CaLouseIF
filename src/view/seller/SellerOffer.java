@@ -134,7 +134,8 @@ public class SellerOffer extends Page {
 
 	        {
 	            approveBtn.setOnAction(e -> {
-	                System.out.println("Offer Approved");
+	            	OfferItem offerItem = getTableRow().getItem();
+	                itemController.acceptOffer(offerItem.getItemId());
 	            });
 
 	            declineBtn.setOnAction(e -> {
