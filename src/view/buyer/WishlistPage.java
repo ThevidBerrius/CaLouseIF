@@ -88,15 +88,19 @@ public class WishlistPage extends Page {
 	public void initializeTable() {
 		TableColumn<WishlistItem, String> nameCol = new TableColumn<WishlistItem, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<WishlistItem, String>("itemName"));
+		nameCol.setPrefWidth(200);
 
 		TableColumn<WishlistItem, String> categoryCol = new TableColumn<WishlistItem, String>("Category");
 		categoryCol.setCellValueFactory(new PropertyValueFactory<WishlistItem, String>("itemCategory"));
+		categoryCol.setPrefWidth(150);
 
 		TableColumn<WishlistItem, String> sizeCol = new TableColumn<WishlistItem, String>("Size");
 		sizeCol.setCellValueFactory(new PropertyValueFactory<WishlistItem, String>("itemSize"));
+		sizeCol.setPrefWidth(150);
 
 		TableColumn<WishlistItem, String> priceCol = new TableColumn<WishlistItem, String>("Price");
 		priceCol.setCellValueFactory(new PropertyValueFactory<WishlistItem, String>("itemPrice"));
+		priceCol.setPrefWidth(150);
 
 		TableColumn<WishlistItem, Void> actionCol = new TableColumn<>("Action");
 		actionCol.setPrefWidth(100);
@@ -126,6 +130,10 @@ public class WishlistPage extends Page {
 		});
 
 		wishlistTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, actionCol);
+		
+		double tableWidth = 200 + 150 + 150 + 150 + 100;
+	    wishlistTable.setPrefWidth(tableWidth);
+	    wishlistTable.setMaxWidth(tableWidth);
 	}
 
 	@Override
@@ -134,6 +142,7 @@ public class WishlistPage extends Page {
 		navBP.setCenter(wishlistBP);
 
 		wishlistBP.setCenter(titleLbl);
+	    titleLbl.setStyle("-fx-font-size: 16px; -fx-padding: 10;");
 
 		layoutBP.setTop(navBP);
 		layoutBP.setCenter(wishlistTable);

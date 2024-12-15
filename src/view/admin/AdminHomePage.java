@@ -95,17 +95,25 @@ public class AdminHomePage extends Page {
 	public void initializeTable() {
 		TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemName"));
+		nameCol.setPrefWidth(200);
 		
 		TableColumn<Item, String> categoryCol = new TableColumn<Item, String>("Category");
 		categoryCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemCategory"));
+		categoryCol.setPrefWidth(150);
 		
 		TableColumn<Item, String> sizeCol = new TableColumn<Item, String>("Size");
 		sizeCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemSize"));
-		
+		sizeCol.setPrefWidth(150);
+
 		TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
 		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
+		priceCol.setPrefWidth(150);
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol);
+		
+		double tableWidth = 200 + 150 + 150 + 150;
+        itemTable.setPrefWidth(tableWidth);
+        itemTable.setMaxWidth(tableWidth);
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package view.seller;
 
 import controller.ItemController;
 import controller.UserController;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -66,11 +68,16 @@ public class EditItemPage extends Page{
 		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav, logoutNav);
 		
 		titleLbl = new Label("Seller Edit Item");
+	    titleLbl.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333;");
+	    GridPane.setHalignment(titleLbl, HPos.CENTER);
+
 		nameLbl = new Label("Item Name");
 		categoryLbl = new Label("Item Category");
 		sizeLbl = new Label("Item Size");
 		priceLbl = new Label("Item Price");
+		
 		messageLbl = new Label("");
+	    messageLbl.setStyle("-fx-text-fill: red;");
 		
 		nameField = new TextField(selectedItem.getItemName());
 		categoryField = new TextField(selectedItem.getItemCategory());
@@ -78,32 +85,47 @@ public class EditItemPage extends Page{
 		priceField = new TextField(selectedItem.getItemPrice());
 		
 		updateBtn = new Button("Save Changes");
+	    updateBtn.setStyle("-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px;");
+	    GridPane.setHalignment(updateBtn, HPos.CENTER);
 	}
 
 	@Override
 	public void setAlignment() {
-		navBP.setTop(navbar);
-		navBP.setCenter(editBP);
-		
-		editBP.setCenter(titleLbl);
-		
-		layoutBP.setTop(navBP);
-		layoutBP.setCenter(sp);
-		
-		sp.setContent(gp);
-		
-		gp.add(nameLbl, 0, 0);
-		gp.add(nameField, 1, 0);
-		gp.add(categoryLbl, 0, 1);
-		gp.add(categoryField, 1, 1);
-		gp.add(sizeLbl, 0, 2);
-		gp.add(sizeField, 1, 2);
-		gp.add(priceLbl, 0, 3);
-		gp.add(priceField, 1, 3);
-		gp.add(messageLbl, 1, 4);
-		
-		gp.add(updateBtn, 0, 5, 2, 1);
+	    navBP.setTop(navbar);
+
+	    layoutBP.setTop(navBP);
+	    layoutBP.setCenter(sp);
+
+	    sp.setContent(gp);
+	    sp.setFitToWidth(true);
+	    sp.setPadding(new Insets(20, 50, 20, 50)); 
+	    gp.setVgap(15);
+	    gp.setHgap(10);
+	    gp.setPadding(new Insets(30, 50, 30, 50));
+
+	    gp.add(titleLbl, 0, 0, 2, 1);
+
+	    gp.add(nameLbl, 0, 1);
+	    gp.add(nameField, 1, 1);
+	    nameField.setPrefWidth(300);
+
+	    gp.add(categoryLbl, 0, 2);
+	    gp.add(categoryField, 1, 2);
+	    categoryField.setPrefWidth(300);
+
+	    gp.add(sizeLbl, 0, 3);
+	    gp.add(sizeField, 1, 3);
+	    sizeField.setPrefWidth(300);
+
+	    gp.add(priceLbl, 0, 4);
+	    gp.add(priceField, 1, 4);
+	    priceField.setPrefWidth(300);
+
+	    gp.add(messageLbl, 1, 5);
+
+	    gp.add(updateBtn, 0, 6, 2, 1);
 	}
+
 
 	@Override
 	public void setHandler() {

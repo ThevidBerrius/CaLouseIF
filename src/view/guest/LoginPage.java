@@ -55,6 +55,7 @@ public class LoginPage extends Page {
         menu.getItems().addAll(loginNav, registerNav);
 
         titleLbl = new Label("Login");
+        GridPane.setHalignment(titleLbl, HPos.CENTER);
         titleLbl.setFont(Font.font("Arial", FontWeight.BOLD, 24));
         titleLbl.setStyle("-fx-text-fill: #333;");
 
@@ -67,17 +68,22 @@ public class LoginPage extends Page {
         passwordLbl.setStyle("-fx-text-fill: #333;");
 
         messageLbl = new Label("");
+        GridPane.setHalignment(messageLbl, HPos.CENTER);
         messageLbl.setStyle("-fx-text-fill: red; -fx-font-size: 12px;");
 
         usernameField = new TextField();
+        usernameField.setPrefWidth(300); 
         usernameField.setPromptText("Enter your username");
         usernameField.setStyle("-fx-border-color: #ccc; -fx-padding: 5px;");
 
         passwordField = new PasswordField();
+        passwordField.setPrefWidth(300);
         passwordField.setPromptText("Enter your password");
         passwordField.setStyle("-fx-border-color: #ccc; -fx-padding: 5px;");
 
         loginBtn = new Button("Login");
+        GridPane.setHalignment(loginBtn, HPos.CENTER);
+        loginBtn.setPrefWidth(150); 
         loginBtn.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-cursor: hand;");
         loginBtn.setOnMouseEntered(e -> loginBtn.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-cursor: hand;"));
         loginBtn.setOnMouseExited(e -> loginBtn.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-cursor: hand;"));
@@ -86,22 +92,18 @@ public class LoginPage extends Page {
     @Override
     public void setAlignment() {
         navBP.setTop(navbar);
-        navBP.setCenter(loginBP);
-
-        loginBP.setCenter(titleLbl);
 
         layoutBP.setTop(navBP);
         layoutBP.setCenter(sp);
-
+        
         sp.setContent(gp);
         sp.setFitToWidth(true);
 
-        gp.setPadding(new Insets(20));
-        gp.setHgap(10);
-        gp.setVgap(15);
+        gp.setPadding(new Insets(30, 50, 30, 50));
+        gp.setHgap(15);
+        gp.setVgap(20);
 
         gp.add(titleLbl, 0, 0, 2, 1);
-        GridPane.setHalignment(titleLbl, HPos.CENTER);
 
         gp.add(usernameLbl, 0, 1);
         gp.add(usernameField, 1, 1);
@@ -110,11 +112,11 @@ public class LoginPage extends Page {
         gp.add(passwordField, 1, 2);
 
         gp.add(messageLbl, 0, 3, 2, 1);
-        GridPane.setHalignment(messageLbl, HPos.CENTER);
 
         gp.add(loginBtn, 0, 4, 2, 1);
-        GridPane.setHalignment(loginBtn, HPos.CENTER);
+        
     }
+
 
     @Override
     public void setHandler() {

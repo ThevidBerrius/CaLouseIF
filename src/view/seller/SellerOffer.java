@@ -89,6 +89,7 @@ public class SellerOffer extends Page {
 		reasonArea = new TextArea();
 		reasonLbl = new Label("Reason for Declining:");
 		titleLbl = new Label("Seller Offers");
+	    titleLbl.setStyle("-fx-font-size: 16px; -fx-padding: 10;");
 
 		actionBox = new VBox(10);
 	}
@@ -103,23 +104,30 @@ public class SellerOffer extends Page {
 	private void initializeTable() {
 	    TableColumn<OfferItem, String> itemNameCol = new TableColumn<>("Name");
 	    itemNameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+		itemNameCol.setPrefWidth(200);
 
 	    TableColumn<OfferItem, String> categoryCol = new TableColumn<>("Category");
 	    categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
-
+		categoryCol.setPrefWidth(150);
+	    
 	    TableColumn<OfferItem, String> sizeCol = new TableColumn<>("Size");
 	    sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
+		sizeCol.setPrefWidth(150);
 
 	    TableColumn<OfferItem, String> priceCol = new TableColumn<>("Original Price");
 	    priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+		priceCol.setPrefWidth(150);
 
 	    TableColumn<OfferItem, String> offerPriceCol = new TableColumn<>("Offer Price");
 	    offerPriceCol.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
+		offerPriceCol.setPrefWidth(150);
 
-	    TableColumn<OfferItem, String> statusCol = new TableColumn<>("Offer Status");
-	    statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+//	    TableColumn<OfferItem, String> statusCol = new TableColumn<>("Offer Status");
+//	    statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
+//		statusCol.setPrefWidth(150);
 
 	    TableColumn<OfferItem, Void> actionCol = new TableColumn<>("Action");
+		actionCol.setPrefWidth(150);
 	    actionCol.setCellFactory(param -> new TableCell<OfferItem, Void>() {
 	        private final Button approveBtn = new Button("Approve");
 	        private final Button declineBtn = new Button("Decline");
@@ -150,7 +158,11 @@ public class SellerOffer extends Page {
 	        }
 	    });
 
-	    offerTable.getColumns().addAll(itemNameCol, categoryCol, sizeCol, priceCol, offerPriceCol, statusCol, actionCol);
+	    offerTable.getColumns().addAll(itemNameCol, categoryCol, sizeCol, priceCol, offerPriceCol, actionCol);
+	    
+	    double tableWidth = 200 + 150 + 150 + 150 + 150 + 150;
+	    offerTable.setPrefWidth(tableWidth);
+	    offerTable.setMaxWidth(tableWidth);
 	}
 
 	@Override

@@ -86,20 +86,30 @@ public class HistoryPage extends Page {
 	public void initalizeTable() {
 		TableColumn<TransactionHistory, String> idCol = new TableColumn<TransactionHistory, String>("Transaction ID");
 		idCol.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
+		idCol.setPrefWidth(150);
 
 		TableColumn<TransactionHistory, String> nameCol = new TableColumn<TransactionHistory, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<>("itemName"));
+		nameCol.setPrefWidth(200);
 
 		TableColumn<TransactionHistory, String> categoryCol = new TableColumn<TransactionHistory, String>("Category");
 		categoryCol.setCellValueFactory(new PropertyValueFactory<>("itemCategory"));
+		categoryCol.setPrefWidth(150);
+
 
 		TableColumn<TransactionHistory, String> sizeCol = new TableColumn<TransactionHistory, String>("Size");
 		sizeCol.setCellValueFactory(new PropertyValueFactory<>("itemSize"));
+		sizeCol.setPrefWidth(150);
 
 		TableColumn<TransactionHistory, String> priceCol = new TableColumn<TransactionHistory, String>("Price");
 		priceCol.setCellValueFactory(new PropertyValueFactory<>("itemPrice"));
+		priceCol.setPrefWidth(150);
 
 		historyTable.getColumns().addAll(idCol, nameCol, categoryCol, sizeCol, priceCol);
+		
+		double tableWidth = 150 + 200 + 150 + 150 + 150;
+	    historyTable.setPrefWidth(tableWidth);
+	    historyTable.setMaxWidth(tableWidth);
 	}
 
 	@Override
@@ -108,6 +118,7 @@ public class HistoryPage extends Page {
 		navBP.setCenter(historyBP);
 		
 		historyBP.setCenter(titleLbl);
+	    titleLbl.setStyle("-fx-font-size: 16px; -fx-padding: 10;");
 		
 		layoutBP.setTop(navBP);
 		layoutBP.setCenter(historyTable);

@@ -66,6 +66,7 @@ public class RegisterPage extends Page {
         menu.getItems().addAll(loginNav, registerNav);
 
         titleLbl = new Label("Register");
+        GridPane.setHalignment(titleLbl, HPos.CENTER);
         titleLbl.setFont(javafx.scene.text.Font.font("Arial",FontWeight.BOLD, 24));
         titleLbl.setStyle("-fx-text-fill: #333;");
 
@@ -90,21 +91,26 @@ public class RegisterPage extends Page {
         roleLbl.setStyle("-fx-text-fill: #333;");
 
         messageLbl = new Label("");
+        GridPane.setHalignment(messageLbl, HPos.CENTER);
         messageLbl.setStyle("-fx-text-fill: red; -fx-font-size: 12px;");
 
         usernameField = new TextField();
+        usernameField.setPrefWidth(300);
         usernameField.setPromptText("Enter username");
         usernameField.setStyle("-fx-border-color: #ccc; -fx-padding: 5px;");
 
         passwordField = new PasswordField();
+        passwordField.setPrefWidth(300);
         passwordField.setPromptText("Enter password");
         passwordField.setStyle("-fx-border-color: #ccc; -fx-padding: 5px;");
 
         phoneNumberField = new TextField();
+        phoneNumberField.setPrefWidth(300);
         phoneNumberField.setPromptText("Enter phone number");
         phoneNumberField.setStyle("-fx-border-color: #ccc; -fx-padding: 5px;");
 
         addressField = new TextField();
+        addressField.setPrefWidth(300);
         addressField.setPromptText("Enter address");
         addressField.setStyle("-fx-border-color: #ccc; -fx-padding: 5px;");
 
@@ -115,6 +121,8 @@ public class RegisterPage extends Page {
         buyerRadio.setToggleGroup(roleToggle);
 
         registerBtn = new Button("Register");
+        GridPane.setHalignment(registerBtn, HPos.CENTER);
+        registerBtn.setPrefWidth(150); 
         registerBtn.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-cursor: hand;");
         registerBtn.setOnMouseEntered(e -> registerBtn.setStyle("-fx-background-color: #0056b3; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-cursor: hand;"));
         registerBtn.setOnMouseExited(e -> registerBtn.setStyle("-fx-background-color: #007BFF; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-font-size: 14px; -fx-cursor: hand;"));
@@ -123,21 +131,18 @@ public class RegisterPage extends Page {
     @Override
     public void setAlignment() {
         navBP.setTop(navbar);
-        navBP.setCenter(registerBP);
-
-        registerBP.setCenter(titleLbl);
 
         layoutBP.setTop(navBP);
         layoutBP.setCenter(sp);
 
         sp.setContent(gp);
+        sp.setFitToWidth(true); 
 
-        gp.setPadding(new Insets(20));
-        gp.setHgap(10);
-        gp.setVgap(15);
+        gp.setPadding(new Insets(30, 50, 30, 50)); 
+        gp.setHgap(15);
+        gp.setVgap(20);
 
         gp.add(titleLbl, 0, 0, 2, 1);
-        GridPane.setHalignment(titleLbl, HPos.CENTER);
 
         gp.add(usernameLbl, 0, 1);
         gp.add(usernameField, 1, 1);
@@ -156,11 +161,11 @@ public class RegisterPage extends Page {
         gp.add(sellerRadio, 1, 6);
 
         gp.add(messageLbl, 0, 7, 2, 1);
-        GridPane.setHalignment(messageLbl, HPos.CENTER);
 
         gp.add(registerBtn, 0, 8, 2, 1);
-        GridPane.setHalignment(registerBtn, HPos.CENTER);
+        
     }
+
 
     @Override
     public void setHandler() {

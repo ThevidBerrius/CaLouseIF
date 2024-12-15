@@ -100,18 +100,22 @@ public class RequestedPage extends Page {
     private void initializeTable() {
         TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemName"));
+		nameCol.setPrefWidth(200);
 
         TableColumn<Item, String> categoryCol = new TableColumn<Item, String>("Category");
         categoryCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemCategory"));
+		categoryCol.setPrefWidth(150);
 
         TableColumn<Item, String> sizeCol = new TableColumn<Item, String>("Size");
         sizeCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemSize"));
+		sizeCol.setPrefWidth(150);
 
         TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
+		priceCol.setPrefWidth(150);
         
         TableColumn<Item, Void> actionCol = new TableColumn<Item, Void>("Action");
-        
+		actionCol.setPrefWidth(150);
         actionCol.setCellFactory(e -> new TableCell<Item, Void>() {
             private final Button approveBtn = new Button("Approve");
             private final Button declineBtn = new Button("Decline");
@@ -142,6 +146,10 @@ public class RequestedPage extends Page {
         });
 
         requestedTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, actionCol);
+        
+        double tableWidth = 200 + 150 + 150 + 150 + 150;
+        requestedTable.setPrefWidth(tableWidth);
+        requestedTable.setMaxWidth(tableWidth);
     }
 
     @Override

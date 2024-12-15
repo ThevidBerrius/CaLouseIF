@@ -41,7 +41,7 @@ public class ItemPage extends Page{
 	private Menu menu;
 	private MenuItem homeNav, uploadNav, itemNav, offerNav, logoutNav;
 	
-	private Label tibleLbl;
+	private Label titleLbl;
 	
 	private TableView<Item> itemTable;
 	
@@ -77,7 +77,8 @@ public class ItemPage extends Page{
 		navbar.getMenus().add(menu);
 		menu.getItems().addAll(homeNav, uploadNav, itemNav, offerNav, logoutNav);
 		
-		tibleLbl = new Label("Seller Item");
+		titleLbl = new Label("Seller Item");
+	    titleLbl.setStyle("-fx-font-size: 16px; -fx-padding: 10;");
 		
 		itemTable = new TableView<Item>();
 	}
@@ -92,20 +93,26 @@ public class ItemPage extends Page{
 	public void initializeTable() {
 		TableColumn<Item, String> nameCol = new TableColumn<Item, String>("Name");
 		nameCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemName"));
+		nameCol.setPrefWidth(200);
 		
 		TableColumn<Item, String> categoryCol = new TableColumn<Item, String>("Category");
 		categoryCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemCategory"));
+		categoryCol.setPrefWidth(150);
 		
 		TableColumn<Item, String> sizeCol = new TableColumn<Item, String>("Size");
 		sizeCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemSize"));
+		sizeCol.setPrefWidth(150);
 		
 		TableColumn<Item, String> priceCol = new TableColumn<Item, String>("Price");
 		priceCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemPrice"));
+		priceCol.setPrefWidth(150);
 		
 		TableColumn<Item, String> statusCol = new TableColumn<Item, String>("Status");
 		statusCol.setCellValueFactory(new PropertyValueFactory<Item, String>("itemStatus"));
+		statusCol.setPrefWidth(150);
 		
 		TableColumn<Item, Void> actionCol = new TableColumn<Item, Void>("Action");
+		actionCol.setPrefWidth(150);
 		actionCol.setCellFactory(param -> new TableCell<Item, Void>() {
             private final Button editBtn = new Button("Edit");
             private final Button deleteBtn = new Button("Delete");
@@ -140,6 +147,10 @@ public class ItemPage extends Page{
         });
 		
 		itemTable.getColumns().addAll(nameCol, categoryCol, sizeCol, priceCol, statusCol, actionCol);
+		
+		double tableWidth = 200 + 150 + 150 + 150 + 150 + 150;
+	    itemTable.setPrefWidth(tableWidth);
+	    itemTable.setMaxWidth(tableWidth);
 	}
 
 	@Override
@@ -147,7 +158,7 @@ public class ItemPage extends Page{
 		navBP.setTop(navbar);
 		navBP.setCenter(itemBP);
 		
-		itemBP.setCenter(tibleLbl);
+		itemBP.setCenter(titleLbl);
 		
 		layoutBP.setTop(navBP);
 		layoutBP.setCenter(itemTable);
