@@ -109,13 +109,11 @@ public class Item {
 	}
 	
 	// Function untuk mendelete last offer sehingga akan ditimpah dengan offer baru
-	public static boolean deleteLastOffer(String item_id) {
+	public static void deleteLastOffer(String item_id) {
 		String query = "DELETE FROM offers WHERE itemId LIKE ?";
         Object[] params = { item_id };
         
-        if (Connect.getInstance().execUpdate(query, params)) return true;
-        
-        return false;
+        Connect.getInstance().execUpdate(query, params);
 	}
 	
 	public static ResultSet getLastOffer(String item_id) {

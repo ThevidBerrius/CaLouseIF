@@ -223,16 +223,16 @@ public class ItemController {
 	}
 	
 	// Disini saya mengasumsikan item_price sebagai harga yang dioffer dari buyer
-	public String offerPrice(String itemId, String user_id, String item_price, int highest_offer) {
+	public String offerPrice(String item_id, String user_id, String item_price, int highest_offer) {
 		String message = offerPriceValidation(item_price, highest_offer);
 		
 		if (!message.equals("Validation Success")) return message;
 		
-		if (!Item.updateItemToOffering(itemId)) return "Error Update to Database";
+		if (!Item.updateItemToOffering(item_id)) return "Error Update to Database";
 		
-		if (!Item.deleteLastOffer(itemId)) return "Error Delete to Database";
+		Item.deleteLastOffer(item_id);
 		
-		if (Item.offerPrice(itemId, user_id, item_price)) return "Success";
+		if (Item.offerPrice(item_id, user_id, item_price)) return "Success";
 		
 		return "Error Insert to Database";
 	}
