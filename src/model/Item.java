@@ -82,7 +82,7 @@ public class Item {
 	
 	// Untuk mengembalikan item yang tidak ada di wishlist
 	public static ResultSet viewItemNotInWishlist(String user_id) {
-		String query = "SELECT items.itemId, items.userId, items.itemName, items.itemSize, items.itemPrice, items.itemCategory, items.itemStatus, items.itemWishlist, items.itemOfferStatus FROM items WHERE items.itemStatus LIKE 'Approved' AND items.itemOfferStatus NOT LIKE 'Sold' AND items.itemId NOT IN (SELECT wishlists.itemId FROM wishlists WHERE wishlists.userId = ?)";
+		String query = "SELECT items.itemId, items.userId, items.itemName, items.itemSize, items.itemPrice, items.itemCategory, items.itemStatus, items.itemWishlist, items.itemOfferStatus FROM items WHERE items.itemStatus LIKE 'Approved' AND items.itemOfferStatus NOT LIKE 'Sold' AND items.itemId NOT IN (SELECT wishlists.itemId FROM wishlists WHERE wishlists.userId LIKE ?)";
         Object[] params = { user_id };
         
         ResultSet rs = Connect.getInstance().execQuery(query, params);
