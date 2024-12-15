@@ -144,9 +144,9 @@ public class Item {
 	}
 	
 	public static boolean declineOffer(String item_id) {
-		if (deleteLastOffer(item_id)) return true;
+		deleteLastOffer(item_id);
 		
-		return false;
+		return true;
 	}
 	
 	public static boolean approveItem(String item_id) {
