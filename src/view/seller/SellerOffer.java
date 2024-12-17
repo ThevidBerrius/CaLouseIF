@@ -225,13 +225,15 @@ public class SellerOffer extends Page {
 
 		cancelBtn.setOnAction(e -> popUpStage.close());
 
-		VBox popUpLayout = new VBox(10, reasonLabel, reasonInput, submitBtn, cancelBtn);
-		popUpLayout.setStyle("-fx-padding: 10;");
-		popUpLayout.setSpacing(10);
-		popUpLayout.setStyle("-fx-alignment: center;");
+		HBox buttonBox = new HBox(10, submitBtn, cancelBtn); 
+        buttonBox.setStyle("-fx-alignment: center;"); 
+        buttonBox.setSpacing(20); 
 
-		Scene popUpScene = new Scene(popUpLayout, 300, 200);
-		popUpStage.setScene(popUpScene);
+        VBox popUpLayout = new VBox(10, reasonLabel, reasonInput, buttonBox);
+        popUpLayout.setStyle("-fx-padding: 10; -fx-alignment: center;");
+
+        Scene popUpScene = new Scene(popUpLayout, 300, 200);
+        popUpStage.setScene(popUpScene);
 
 		popUpStage.showAndWait();
 	}
