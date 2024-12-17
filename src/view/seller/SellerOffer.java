@@ -122,10 +122,6 @@ public class SellerOffer extends Page {
 	    offerPriceCol.setCellValueFactory(new PropertyValueFactory<>("offerPrice"));
 		offerPriceCol.setPrefWidth(150);
 
-//	    TableColumn<OfferItem, String> statusCol = new TableColumn<>("Offer Status");
-//	    statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
-//		statusCol.setPrefWidth(150);
-
 	    TableColumn<OfferItem, Void> actionCol = new TableColumn<>("Action");
 		actionCol.setPrefWidth(150);
 	    actionCol.setCellFactory(param -> new TableCell<OfferItem, Void>() {
@@ -135,7 +131,7 @@ public class SellerOffer extends Page {
 	        {
 	            approveBtn.setOnAction(e -> {
 	            	OfferItem offerItem = getTableRow().getItem();
-	                itemController.acceptOffer(offerItem.getItemId());
+	                itemController.acceptOffer(userController.getAuthUser().getUserId(), offerItem.getItemId());
 	                refreshTable();
 	            });
 

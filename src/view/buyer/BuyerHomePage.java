@@ -261,7 +261,7 @@ public class BuyerHomePage extends Page {
         VBox popUpLayout = new VBox(10, messageLbl, offerInput, buttonBox);
         popUpLayout.setStyle("-fx-padding: 15; -fx-alignment: center;");
 
-        Scene popUpScene = new Scene(popUpLayout, 350, 200);
+        Scene popUpScene = new Scene(popUpLayout, 450, 200);
         popUpStage.setScene(popUpScene);
         popUpStage.showAndWait();
     }

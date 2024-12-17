@@ -17,7 +17,7 @@ public class Wishlist {
 	
 	// Disini saya mengasumsikan jika ingin melihat wishlist tidak perlu menggunakan wishlist_id kecuali searching
 	public static ResultSet viewWishlist(String wishlist_id, String user_id) {
-		String query = "SELECT wishlists.wishlistId, wishlists.userId, wishlists.itemId, items.itemName, items.itemSize, items.itemPrice, items.itemCategory, items.itemStatus, items.itemWishlist, items.itemOfferStatus FROM wishlists JOIN items ON wishlists.itemId = items.itemId WHERE wishlists.userId LIKE ? && items.itemOfferStatus LIKE 'Available'";
+		String query = "SELECT wishlists.wishlistId, wishlists.userId, wishlists.itemId, items.itemName, items.itemSize, items.itemPrice, items.itemCategory, items.itemStatus, items.itemWishlist, items.itemOfferStatus FROM wishlists JOIN items ON wishlists.itemId = items.itemId WHERE wishlists.userId LIKE ? && items.itemOfferStatus NOT LIKE 'Sold'";
         Object[] params = { user_id };
 
         ResultSet rs = Connect.getInstance().execQuery(query, params);

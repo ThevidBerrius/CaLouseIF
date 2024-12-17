@@ -8,6 +8,7 @@ import main.SceneManager;
 import model.Item;
 import model.Offer;
 import model.OfferItem;
+import model.Transaction;
 import util.Connect;
 
 public class ItemController {
@@ -238,10 +239,13 @@ public class ItemController {
 		return "Error Insert to Database";
 	}
 	
-	public boolean acceptOffer(String item_id) {
+	// Untuk accept offer membutuhkan user_id untuk mengetahui siapa yang melakukan transaksi
+	public boolean acceptOffer(String user_id, String item_id) {
 		if (!Item.acceptOffer(item_id)) return false;
 		
 		if (!Offer.updateOfferToAccepted(item_id)) return false;
+		
+		if (!Transaction.createTransaction(IdGenerator.generateId("transactions", "TR"), user_id, item_id)) return false; 
 		
 		return true;
 	}
