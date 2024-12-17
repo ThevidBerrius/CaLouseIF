@@ -47,6 +47,22 @@ public class User {
 	}
 	
 	// function checkAccountValidation tidak dipindahkan ke model karena merupakan logic yang berkaitan dengan controller saja
+	
+	public static boolean isUsernameUnique(String username) {
+		String query = "SELECT * FROM users WHERE username = ? LIMIT 1";
+        Object[] params = { username };
+        ResultSet rs = Connect.getInstance().execQuery(query, params);
+        
+        try {
+            if (rs != null && rs.next()) {
+            	return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return true;
+	}
 
 	public String getUserId() {
 		return userId;

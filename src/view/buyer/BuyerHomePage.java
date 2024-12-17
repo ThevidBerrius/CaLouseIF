@@ -195,7 +195,7 @@ public class BuyerHomePage extends Page {
 			String search = searchField.getText();
 			
 			this.items.clear();
-	    	this.items = itemController.browseItem(search);
+	    	this.items = itemController.browseItem(search, this.userController.getAuthUser().getUserId());
 	    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
 	    	this.itemTable.setItems(itemList);
 		});

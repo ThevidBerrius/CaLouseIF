@@ -63,9 +63,10 @@ public class Item {
         return false;
 	}
 
-	public static ResultSet browseItem(String item_name) {
-		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Approved' && itemOfferStatus NOT LIKE 'Sold' && itemName LIKE ?";
-        Object[] params = { "%" + item_name + "%" };
+	// Saya mengasumsikan saat mencari item membutuhkan user_id
+	public static ResultSet browseItem(String item_name, String user_id) {
+		String query = "SELECT * FROM items WHERE itemStatus LIKE 'Approved' AND itemOfferStatus NOT LIKE 'Sold' AND itemName LIKE ? AND itemId NOT IN (SELECT itemId FROM wishlists WHERE userId LIKE ?)";
+        Object[] params = { "%" + item_name + "%", user_id };
         
         ResultSet rs = Connect.getInstance().execQuery(query, params);
 		
@@ -116,6 +117,7 @@ public class Item {
         Connect.getInstance().execUpdate(query, params);
 	}
 	
+	// Function untuk mengambil data offer terakhir
 	public static ResultSet getLastOffer(String item_id) {
 		String query = "SELECT offerPrice FROM offers WHERE itemId LIKE ? LIMIT 1";
 		Object[] params = { item_id };

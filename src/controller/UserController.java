@@ -35,12 +35,16 @@ public class UserController {
 	
 	public String checkAccountValidation(String username, String password, String phoneNumber, String address, String role) {
 		// Username
-		if(username == null || username.length() < 3) {
+		if (username == null || username.length() < 3) {
 			return "Username must not be empty and length below 3";
-		} 
+		}
+		
+		if (!User.isUsernameUnique(username)) {
+			return "Username must be unique";
+		}
 		
 		// Password
-		if(password == null || password.length() < 8) {
+		if (password == null || password.length() < 8) {
 			return "Password must not be empty and length below 8";
 		} 
 		
@@ -56,7 +60,7 @@ public class UserController {
 		
 		// Phone Number
 		String remainingNumber = (phoneNumber.length() > 3) ? phoneNumber.substring(3) : "";
-		if(phoneNumber.isEmpty() || !phoneNumber.startsWith("+62")) {
+		if (phoneNumber.isEmpty() || !phoneNumber.startsWith("+62")) {
 			return "Phone Number must start by '+62'";
 		} else if (remainingNumber.length() < 9) {
 			return "Phone Number length must be 11";
@@ -67,12 +71,12 @@ public class UserController {
 		}
 		
 		// Address
-		if(address.isEmpty()) {
+		if (address.isEmpty()) {
 			return "Address must not be empty";
 		} 
 		
 		// Role
-		if(role.isEmpty()) {
+		if (role.isEmpty()) {
 			return "Role must be choosen";
 		}
 		

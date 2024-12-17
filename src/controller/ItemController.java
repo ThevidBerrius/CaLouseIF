@@ -62,9 +62,9 @@ public class ItemController {
         return false;
 	}
 	
-	public Vector<Item> browseItem(String item_name) {
+	public Vector<Item> browseItem(String item_name, String user_id) {
 		Vector<Item> items = new Vector<>();
-		ResultSet rs = Item.browseItem(item_name);
+		ResultSet rs = Item.browseItem(item_name, user_id);
 		
 		try {
             while (rs.next()) {

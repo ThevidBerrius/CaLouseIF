@@ -138,6 +138,14 @@ public class AdminHomePage extends Page {
 		homeNav.setOnAction(e -> sceneManager.switchPage("adminhome"));
 		requestedNav.setOnAction(e -> sceneManager.switchPage("adminrequested"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
+		searchBtn.setOnAction(e -> {
+			String search = searchField.getText();
+			
+			this.items.clear();
+	    	this.items = itemController.browseItem(search, "0"); // Karena admin tidak memiliki userId
+	    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
+	    	this.itemTable.setItems(itemList);
+		});
 	}
 
 	@Override

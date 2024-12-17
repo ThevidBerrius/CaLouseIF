@@ -141,6 +141,14 @@ public class SellerHomePage extends Page{
 		itemNav.setOnAction(e -> sceneManager.switchSellerPage("selleritem"));
 		offerNav.setOnAction(e -> sceneManager.switchSellerPage("selleroffer"));
 		logoutNav.setOnAction(e -> userController.logout(sceneManager));
+		searchBtn.setOnAction(e -> {
+			String search = searchField.getText();
+			
+			this.items.clear();
+	    	this.items = itemController.browseItem(search, this.userController.getAuthUser().getUserId());
+	    	ObservableList<Item> itemList = FXCollections.observableArrayList(this.items);
+	    	this.itemTable.setItems(itemList);
+		});
 	}
 
 
