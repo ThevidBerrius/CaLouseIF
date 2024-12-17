@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.ResultSet;
+
 import util.Connect;
 
 public class Offer {
@@ -21,6 +23,16 @@ public class Offer {
         if (Connect.getInstance().execUpdate(query, params)) return true;
         
         return false;
+	}
+	
+	// Function untuk mendapatkan user id dari table offer
+	public static ResultSet getOfferUserId(String item_id) {
+		String query = "SELECT userId FROM offers WHERE itemId LIKE ? LIMIT 1";
+		Object[] params = { item_id };
+		
+		ResultSet rs = Connect.getInstance().execQuery(query, params);
+		
+		return rs;
 	}
 
 	public String getOfferId() {

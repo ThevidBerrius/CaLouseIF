@@ -240,12 +240,24 @@ public class ItemController {
 	}
 	
 	// Untuk accept offer membutuhkan user_id untuk mengetahui siapa yang melakukan transaksi
-	public boolean acceptOffer(String user_id, String item_id) {
+	public boolean acceptOffer(String item_id) {
 		if (!Item.acceptOffer(item_id)) return false;
 		
 		if (!Offer.updateOfferToAccepted(item_id)) return false;
 		
-		if (!Transaction.createTransaction(IdGenerator.generateId("transactions", "TR"), user_id, item_id)) return false; 
+		ResultSet rs = Offer.getOfferUserId(item_id);
+		String offerUserId = "";
+		
+		try {
+			if (rs.next()) {
+				offerUserId = rs.getString("userId");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		if (!Transaction.createTransaction(IdGenerator.generateId("transactions", "TR"), offerUserId, item_id)) return false; 
 		
 		return true;
 	}

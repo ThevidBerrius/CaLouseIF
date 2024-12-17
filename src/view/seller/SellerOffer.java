@@ -131,7 +131,7 @@ public class SellerOffer extends Page {
 	        {
 	            approveBtn.setOnAction(e -> {
 	            	OfferItem offerItem = getTableRow().getItem();
-	                itemController.acceptOffer(userController.getAuthUser().getUserId(), offerItem.getItemId());
+	                itemController.acceptOffer(offerItem.getItemId());
 	                refreshTable();
 	            });
 
